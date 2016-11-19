@@ -1,5 +1,5 @@
 @extends('layout')
-@section('title', '/ Editar Unidad '.$unidad->UNID_ID)
+@section('title', '/ Editar Agencia '.$agencia->AGEN_id)
 @section('scripts')
     <script>
     </script>
@@ -7,77 +7,77 @@
 
 @section('content')
 
-	<h1 class="page-header">Actualizar Unidad</h1>
+	<h1 class="page-header">Actualizar Agencia</h1>
 
 	@include('partials/errors')
 
-	{{ Form::model($unidad, array('action' => array('UnidadController@update', $unidad->UNID_ID), 'method' => 'PUT', 'class' => 'form-horizontal')) }}
+	{{ Form::model($agencia, array('action' => array('AgenciaController@update', $agencia->AGEN_id), 'method' => 'PUT', 'class' => 'form-horizontal')) }}
 
 		<div class="form-group">
-			{{ Form::label('UNID_NOMBRE', 'Nombre') }} 
-			{{ Form::text('UNID_NOMBRE', old('UNID_NOMBRE'), [ 'class' => 'form-control', 'max' => '100', 'required' ]) }}
+			{{ Form::label('AGEN_nombre', 'Nombre') }} 
+			{{ Form::text('AGEN_nombre', old('AGEN_nombre'), [ 'class' => 'form-control', 'max' => '100', 'required' ]) }}
 		</div>
 
 		<div class="form-group">
-			{{ Form::label('UNID_CODIGO', 'Código') }} 
-			{{ Form::text('UNID_CODIGO', old('UNID_CODIGO'), [ 'class' => 'form-control', 'max' => '40', 'required' ]) }}
+			{{ Form::label('AGEN_codigo', 'Código') }} 
+			{{ Form::text('AGEN_codigo', old('AGEN_codigo'), [ 'class' => 'form-control', 'max' => '40', 'required' ]) }}
 		</div>
 
 		<div class="form-group">
-			{{ Form::label('UNID_TELEFONO', 'Teléfono') }} 
-			{{ Form::text('UNID_TELEFONO', old('UNID_TELEFONO'), [ 'class' => 'form-control', 'max' => '30', 'required' ]) }}
+			{{ Form::label('AGEN_TELEFONO', 'Teléfono') }} 
+			{{ Form::text('AGEN_TELEFONO', old('AGEN_TELEFONO'), [ 'class' => 'form-control', 'max' => '30', 'required' ]) }}
 		</div>
 
 		<div class="form-group">
-			{{ Form::label('UNID_EXTTELEFONO', 'Extensión') }} 
-			{{ Form::text('UNID_EXTTELEFONO', old('UNID_EXTTELEFONO'), [ 'class' => 'form-control', 'max' => '30', 'required' ]) }}
+			{{ Form::label('AGEN_EXTTELEFONO', 'Extensión') }} 
+			{{ Form::text('AGEN_EXTTELEFONO', old('AGEN_EXTTELEFONO'), [ 'class' => 'form-control', 'max' => '30', 'required' ]) }}
 		</div>
 		
 		<div class="form-group">
-			{{ Form::label('UNID_EMAIL', 'Email') }} 
-			{{ Form::email('UNID_EMAIL', old('UNID_EMAIL'), [ 'class' => 'form-control', 'max' => '100', 'required' ]) }}
+			{{ Form::label('AGEN_EMAIL', 'Email') }} 
+			{{ Form::email('AGEN_EMAIL', old('AGEN_EMAIL'), [ 'class' => 'form-control', 'max' => '100', 'required' ]) }}
 		</div>
 
 		<div class="form-group">
-			{{ Form::label('UNID_UBICACION', 'Ubicación') }} 
-			{{ Form::text('UNID_UBICACION', old('UNID_UBICACION'), [ 'class' => 'form-control', 'max' => '50', 'required' ]) }}
+			{{ Form::label('AGEN_UBICACION', 'Ubicación') }} 
+			{{ Form::text('AGEN_UBICACION', old('AGEN_UBICACION'), [ 'class' => 'form-control', 'max' => '50', 'required' ]) }}
 		</div>
 
 		<div class="form-group">
-			{{ Form::label('UNID_NIVEL', 'Nivel') }} 
-			{{ Form::text('UNID_NIVEL', old('UNID_NIVEL'), [ 'class' => 'form-control', 'max' => '10', 'required' ]) }}
+			{{ Form::label('AGEN_NIVEL', 'Nivel') }} 
+			{{ Form::text('AGEN_NIVEL', old('AGEN_NIVEL'), [ 'class' => 'form-control', 'max' => '10', 'required' ]) }}
 		</div>
 
 		<div class="input-group col-lg-4">
-			<span class="input-group-addon">Unidad tiene asociado otros programas: </span>
+			<span class="input-group-addon">Agencia tiene asociado otros programas: </span>
 			<span class="input-group-addon">
-				{{ Form::checkbox('UNID_ASOCIAPROGRAMADIRECTA', true,old('UNID_ASOCIAPROGRAMADIRECTA'), array('class' => 'form-control')) }}
+				{{ Form::checkbox('AGEN_ASOCIAPROGRAMADIRECTA', true,old('AGEN_ASOCIAPROGRAMADIRECTA'), array('class' => 'form-control')) }}
 			</span>
 		</div><br>
 
 		<div class="input-group col-lg-4">
-			<span class="input-group-addon">Unidad tiene asociado materias: </span>
+			<span class="input-group-addon">Agencia tiene asociado materias: </span>
 			<span class="input-group-addon">
-				{{ Form::checkbox('UNID_ASOCIAMATERIADIRECTA', true,old('UNID_ASOCIAMATERIADIRECTA'), array('class' => 'form-control')) }}
+				{{ Form::checkbox('AGEN_ASOCIAMATERIADIRECTA', true,old('AGEN_ASOCIAMATERIADIRECTA'), array('class' => 'form-control')) }}
 			</span>
 		</div><br>
 
 		<div class="input-group col-lg-4">
-			<span class="input-group-addon">Unidad es una Regional: </span>
+			<span class="input-group-addon">Agencia es una Regional: </span>
 			<span class="input-group-addon">
-				{{ Form::checkbox('UNID_REGIONAL', true,old('UNID_REGIONAL'), array('class' => 'form-control')) }}
+				{{ Form::checkbox('AGEN_REGIONAL', true,old('AGEN_REGIONAL'), array('class' => 'form-control')) }}
 			</span>
 		</div><br>
 
 		<div class="form-group">
-			{{ Form::label('TIUN_ID', 'Tipo Unidad') }} 
-			{{ Form::select('TIUN_ID', [null => 'Seleccione un tipo...'] + $arrTiposUnidades , old('TIUN_ID'), ['class' => 'form-control', 'required']) }}
+			{{ Form::label('TIUN_id', 'Tipo Agencia') }} 
+			{{ Form::select('TIUN_id', [null => 'Seleccione un tipo...'] + $arrTiposAgencias , old('TIUN_id'), ['class' => 'form-control', 'required']) }}
 		</div>
 
 		<!-- Botones -->
 	    <div id="btn-form" class="text-right">
 	    	{{ Form::button('<i class="fa fa-exclamation" aria-hidden="true"></i> Reset', array('class'=>'btn btn-warning', 'type'=>'reset')) }}
-	        <a class="btn btn-warning" role="button" href="{{ URL::to('unidad/') }}">
+	        <a class="btn btn-warning" role="button" href="{{ URL::to('agencias/') }}">
 	            <i class="fa fa-arrow-left" aria-hidden="true"></i> Regresar
 	        </a>
 			{{ Form::button('<i class="fa fa-floppy-o" aria-hidden="true"></i> Actualizar', array('class'=>'btn btn-primary', 'type'=>'submit')) }}
