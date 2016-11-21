@@ -37,6 +37,9 @@ Route::resource('regionales', 'RegionalController');
 //Agencias
 Route::resource('agencias', 'AgenciaController');
 
+//Certificados
+Route::resource('certificados', 'CertificadoController');
+
 
 
 /*

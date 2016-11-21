@@ -42,7 +42,7 @@ class RegionalController extends Controller
     public function index()
     {
         //Se obtienen todos los registros.
-        $regionales = Regional::all();
+        $regionales = Regional::orderBy('REGI_id')->get();
         //Se carga la vista y se pasan los registros
         return view('regionales/index', compact('regionales'));
     }
@@ -66,12 +66,12 @@ class RegionalController extends Controller
     {
         //Validación de datos
         $this->validate(request(), [
-            'REGI_descripcion' => ['required', 'max:300'],
+            'REGI_nombre' => ['required', 'max:300'],
         ]);
 
         //Permite seleccionar los datos que se desean guardar.
         $regional = new Regional;
-        $regional->REGI_descripcion = Input::get('REGI_descripcion');
+        $regional->REGI_nombre = Input::get('REGI_nombre');
         $regional->REGI_creadopor = auth()->user()->username;
         //Se guarda modelo
         $regional->save();
@@ -124,13 +124,13 @@ class RegionalController extends Controller
     {
         //Validación de datos
         $this->validate(request(), [
-            'REGI_descripcion' => ['required', 'max:300'],
+            'REGI_nombre' => ['required', 'max:300'],
         ]);
 
         // Se obtiene el registro
         $regional = Regional::findOrFail($REGI_id);
 
-        $regional->REGI_descripcion = Input::get('REGI_descripcion');
+        $regional->REGI_nombre = Input::get('REGI_nombre');
         $regional->REGI_modificadopor = auth()->user()->username;
         //Se guarda modelo
         $regional->save();
@@ -168,7 +168,5 @@ class RegionalController extends Controller
             return redirect()->to('regionales');
         }
     }
-
-
 }
 

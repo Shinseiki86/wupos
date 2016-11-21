@@ -19,7 +19,7 @@
 			<th class="col-md-2">ID</th>
 			<th class="col-md-2">Nombre</th>
 			<th class="col-md-2">Código</th>
-			<th class="col-md-2">Agencia</th>
+			<th class="col-md-2">Regional</th>
 			<th class="col-md-2">Acciones</th>
 
 		</tr>
@@ -32,7 +32,7 @@
 			<td>{{ $agencia -> AGEN_id }}</td>
 			<td>{{ $agencia -> AGEN_codigo }}</td>
 			<td>{{ $agencia -> AGEN_nombre }}</td>
-			<td>{{ $agencia -> tipoAgencia -> TIUN_descripcion }}</td>
+			<td>{{ $agencia -> regional -> REGI_nombre }}</td>
 			<td>
 
 				<!-- Botón Ver (show) -->

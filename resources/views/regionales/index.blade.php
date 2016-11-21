@@ -8,7 +8,7 @@
 
 		<div id="btn-create" class="pull-right">
 			<a class='btn btn-primary' role='button' href="{{ URL::to('regionales/create') }}">
-				<i class="fa fa-plus" aria-hidden="true"></i> Nuevo Tipo
+				<i class="fa fa-plus" aria-hidden="true"></i> Nueva Regional
 			</a>
 		</div>
 	</div>
@@ -17,7 +17,7 @@
 	<thead>
 		<tr>
 			<th class="col-md-2">ID</th>
-			<th class="col-md-2">Descripción</th>
+			<th class="col-md-2">Nombre</th>
 			<th class="col-md-2">Acciones</th>
 
 		</tr>
@@ -28,7 +28,7 @@
 		@foreach($regionales as $regional)
 		<tr>
 			<td>{{ $regional -> REGI_id }}</td>
-			<td>{{ $regional -> REGI_descripcion }}</td>
+			<td>{{ $regional -> REGI_nombre }}</td>
 			<td>
 
 				<!-- Botón Ver (show) -->

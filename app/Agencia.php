@@ -19,12 +19,12 @@ class Agencia extends Model
 	protected $dates = ['AGEN_fechaeliminado'];
 
 	protected $fillable = [
+		'AGEN_codigo',
 		'AGEN_nombre',
 		'AGEN_descripcion',
 		'AGEN_activa',
 		'REGI_id',
 	];
-
 	
 	//public static $ENCU_estados = Config::get('enums.estados_encuesta');
 
@@ -33,5 +33,36 @@ class Agencia extends Model
 		$foreingKey = 'REGI_id';
 		return $this->belongsTo(Regional::class, $foreingKey);
 	}
+
+	public function agencias()
+	{
+		$foreingKey = 'REGI_id';
+		return $this->hasMany(Agencia::class, $foreingKey)
+			->orderby($foreingKey);
+	}
+
+    /**
+     * Retorna un array de las agencias existentes. Se utiliza en Form::select
+     *
+     * @param  null
+     * @return Array
+     */
+    public static function getAgencias()
+    {
+        $agencias = self::orderBy('AGEN_id')
+                                ->select('AGEN_id', 'AGEN_nombre')
+                                ->get();
+
+        $arrAgencias = [];
+        foreach ($agencias as $agen) {
+            $arrAgencias = array_add(
+                $arrAgencias,
+                $agen->AGEN_id,
+                $agen->AGEN_nombre
+            );
+        }
+        
+        return $arrAgencias;
+    }
 
 }

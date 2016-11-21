@@ -7,7 +7,7 @@
 
 	<div class="jumbotron text-center">
 		<p>
-			<strong>Tipo :</strong> {{ $regional->REGI_descripcion }} <br>
+			<strong>Tipo :</strong> {{ $regional->REGI_nombre }} <br>
 		</p>
 	</div>
 	<div class="text-right">

@@ -1,0 +1,32 @@
+<?php
+
+namespace Wupos;
+
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
+
+class Certificado extends Model
+{
+	//Nombre de la tabla en la base de datos
+	protected $table = 'CERTIFICADOS';
+    protected $primaryKey = 'CERT_id';
+
+	//Traza: Nombre de campos en la tabla para auditoría de cambios
+	const CREATED_AT = 'CERT_fechacreado';
+	const UPDATED_AT = 'CERT_fechamodificado';
+	use SoftDeletes;
+	const DELETED_AT = 'CERT_fechaeliminado';
+	protected $dates = ['CERT_fechaeliminado'];
+
+	protected $fillable = [
+		'CERT_nombre',
+	];
+
+
+	public function agencia()
+	{
+		$foreingKey = 'AGEN_id';
+		return $this->belongsTo(Agencia::class, $foreingKey);
+	}
+
+}

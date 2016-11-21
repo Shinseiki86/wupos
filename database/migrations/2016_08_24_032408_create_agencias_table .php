@@ -16,8 +16,13 @@ class CreateAgenciasTable extends Migration
 		Schema::create('AGENCIAS', function (Blueprint $table) {
 			$table->increments('AGEN_id')
 				->comment('Valor autonumérico, llave primaria de la tabla AGENCIAS.');
+
+			$table->unSignedInteger('AGEN_codigo')->unique()
+				->comment('Código asignado a la agencia.');
+
 			$table->string('AGEN_nombre', 100)
 				->comment('Nombre de la agencia.');
+
 			$table->string('AGEN_descripcion')->nullable()
 				->comment('Descripción de la agencia.');
 

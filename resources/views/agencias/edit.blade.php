@@ -1,5 +1,5 @@
 @extends('layout')
-@section('title', '/ Editar Agencia '.$agencia->AGEN_id)
+@section('title', '/ Editar Agencia '.$agencia->AGEN_codigo)
 @section('scripts')
     <script>
     </script>
@@ -13,65 +13,67 @@
 
 	{{ Form::model($agencia, array('action' => array('AgenciaController@update', $agencia->AGEN_id), 'method' => 'PUT', 'class' => 'form-horizontal')) }}
 
-		<div class="form-group">
-			{{ Form::label('AGEN_nombre', 'Nombre') }} 
-			{{ Form::text('AGEN_nombre', old('AGEN_nombre'), [ 'class' => 'form-control', 'max' => '100', 'required' ]) }}
+		<div class="form-group{{ $errors->has('AGEN_codigo') ? ' has-error' : '' }}">
+			{{ Form::label('AGEN_codigo', 'Código', ['class'=>'col-md-4 control-label', 'for'=>'AGEN_codigo']) }}
+			<div class="col-md-6">
+				<a href="#" title="No editable" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Código no puede ser editado.">
+				{{ Form::number('AGEN_codigo', old('AGEN_codigo'), [ 'class' => 'form-control', 'min' => '0', 'disabled' ]) }}
+				</a>
+				@if ($errors->has('AGEN_codigo'))
+					<span class="help-block">
+						<strong>{{ $errors->first('AGEN_codigo') }}</strong>
+					</span>
+				@endif
+			</div>
 		</div>
 
-		<div class="form-group">
-			{{ Form::label('AGEN_codigo', 'Código') }} 
-			{{ Form::text('AGEN_codigo', old('AGEN_codigo'), [ 'class' => 'form-control', 'max' => '40', 'required' ]) }}
+		<div class="form-group{{ $errors->has('AGEN_nombre') ? ' has-error' : '' }}">
+			{{ Form::label('AGEN_nombre', 'Nombre', ['class'=>'col-md-4 control-label', 'for'=>'AGEN_nombre']) }}
+			<div class="col-md-6">
+				{{ Form::text('AGEN_nombre', old('AGEN_nombre'), [ 'class' => 'form-control', 'max' => '100', 'required' ]) }}
+				@if ($errors->has('AGEN_nombre'))
+					<span class="help-block">
+						<strong>{{ $errors->first('AGEN_nombre') }}</strong>
+					</span>
+				@endif
+			</div>
 		</div>
 
-		<div class="form-group">
-			{{ Form::label('AGEN_TELEFONO', 'Teléfono') }} 
-			{{ Form::text('AGEN_TELEFONO', old('AGEN_TELEFONO'), [ 'class' => 'form-control', 'max' => '30', 'required' ]) }}
+		<div class="form-group{{ $errors->has('AGEN_descripcion') ? ' has-error' : '' }}">
+			{{ Form::label('AGEN_descripcion', 'Descripción', ['class'=>'col-md-4 control-label', 'for'=>'AGEN_descripcion']) }}
+			<div class="col-md-6">
+				{{ Form::text('AGEN_descripcion', old('AGEN_descripcion'), [ 'class' => 'form-control', 'max' => '255' ]) }}
+				@if ($errors->has('AGEN_descripcion'))
+					<span class="help-block">
+						<strong>{{ $errors->first('AGEN_descripcion') }}</strong>
+					</span>
+				@endif
+			</div>
 		</div>
 
-		<div class="form-group">
-			{{ Form::label('AGEN_EXTTELEFONO', 'Extensión') }} 
-			{{ Form::text('AGEN_EXTTELEFONO', old('AGEN_EXTTELEFONO'), [ 'class' => 'form-control', 'max' => '30', 'required' ]) }}
+		<div class="form-group{{ $errors->has('AGEN_activa') ? ' has-error' : '' }}">
+			{{ Form::label('AGEN_activa', 'Activa?', ['class'=>'col-md-4 control-label', 'for'=>'AGEN_activa']) }}
+			<div class="col-md-6">
+				{{ Form::checkbox('AGEN_activa', old('AGEN_activa'),true, ['class'=>'form-control']) }}
+				@if ($errors->has('AGEN_activa'))
+					<span class="help-block">
+						<strong>{{ $errors->first('AGEN_activa') }}</strong>
+					</span>
+				@endif
+			</div>
 		</div>
-		
-		<div class="form-group">
-			{{ Form::label('AGEN_EMAIL', 'Email') }} 
-			{{ Form::email('AGEN_EMAIL', old('AGEN_EMAIL'), [ 'class' => 'form-control', 'max' => '100', 'required' ]) }}
-		</div>
+			
 
-		<div class="form-group">
-			{{ Form::label('AGEN_UBICACION', 'Ubicación') }} 
-			{{ Form::text('AGEN_UBICACION', old('AGEN_UBICACION'), [ 'class' => 'form-control', 'max' => '50', 'required' ]) }}
-		</div>
-
-		<div class="form-group">
-			{{ Form::label('AGEN_NIVEL', 'Nivel') }} 
-			{{ Form::text('AGEN_NIVEL', old('AGEN_NIVEL'), [ 'class' => 'form-control', 'max' => '10', 'required' ]) }}
-		</div>
-
-		<div class="input-group col-lg-4">
-			<span class="input-group-addon">Agencia tiene asociado otros programas: </span>
-			<span class="input-group-addon">
-				{{ Form::checkbox('AGEN_ASOCIAPROGRAMADIRECTA', true,old('AGEN_ASOCIAPROGRAMADIRECTA'), array('class' => 'form-control')) }}
-			</span>
-		</div><br>
-
-		<div class="input-group col-lg-4">
-			<span class="input-group-addon">Agencia tiene asociado materias: </span>
-			<span class="input-group-addon">
-				{{ Form::checkbox('AGEN_ASOCIAMATERIADIRECTA', true,old('AGEN_ASOCIAMATERIADIRECTA'), array('class' => 'form-control')) }}
-			</span>
-		</div><br>
-
-		<div class="input-group col-lg-4">
-			<span class="input-group-addon">Agencia es una Regional: </span>
-			<span class="input-group-addon">
-				{{ Form::checkbox('AGEN_REGIONAL', true,old('AGEN_REGIONAL'), array('class' => 'form-control')) }}
-			</span>
-		</div><br>
-
-		<div class="form-group">
-			{{ Form::label('TIUN_id', 'Tipo Agencia') }} 
-			{{ Form::select('TIUN_id', [null => 'Seleccione un tipo...'] + $arrTiposAgencias , old('TIUN_id'), ['class' => 'form-control', 'required']) }}
+		<div class="form-group{{ $errors->has('REGI_id') ? ' has-error' : '' }}">
+			{{ Form::label('REGI_id', 'Regional', ['class'=>'col-md-4 control-label', 'for'=>'REGI_id']) }}
+			<div class="col-md-6">
+				{{ Form::select('REGI_id', [null => 'Seleccione una regional...'] + $arrRegionales , old('REGI_id'), ['class' => 'form-control', 'required']) }}
+				@if ($errors->has('REGI_id'))
+					<span class="help-block">
+						<strong>{{ $errors->first('REGI_id') }}</strong>
+					</span>
+				@endif
+			</div>
 		</div>
 
 		<!-- Botones -->

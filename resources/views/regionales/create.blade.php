@@ -10,8 +10,8 @@
 		{{ Form::open(array('url' => 'regionales', 'class' => 'form-horizontal')) }}
 
 	  	<div class="form-group">
-			{{ Form::label('REGI_descripcion', 'Descripción') }} 
-			{{ Form::text('REGI_descripcion', old('REGI_descripcion'), array('class' => 'form-control', 'max' => '300', 'required')) }}
+			{{ Form::label('REGI_nombre', 'Nombre') }} 
+			{{ Form::text('REGI_nombre', old('REGI_nombre'), array('class' => 'form-control', 'max' => '300', 'required')) }}
 		</div>
 
 		<div class="text-right">

@@ -44,12 +44,12 @@
 					@endif
 
 					@if (in_array(Auth::user()->rol->ROLE_rol , ['editor','admin']))<!-- editores y admins -->
-						<li><a href="{{ url('encuestas') }}">
-							<i class="fa fa-check-square" aria-hidden="true"></i> Gestión de Encuestas
+						<li><a href="{{ url('certificados') }}">
+							<i class="fa fa-check-square" aria-hidden="true"></i> Certificados
 						</a></li>
 					@elseif (in_array(Auth::user()->rol->ROLE_rol , ['user']))<!-- usuarios  -->
-						<li><a href="{{ url('encuestas') }}">
-							<i class="fa fa-list" aria-hidden="true"></i> Presentar Encuesta
+						<li><a href="{{ url('certificados') }}">
+							<i class="fa fa-list" aria-hidden="true"></i> Certificados
 						</a></li>
 					@endif
 				@endunless

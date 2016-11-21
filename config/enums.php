@@ -11,5 +11,15 @@ return [
 		['rol' => 'user', 'descripcion' => 'Usuario'],
 	],
 
+	'regionales' => [
+		//['regional' => 'Centro', 'departamento' => 'Cundinamarca'],
+		'Antioquia',
+		'Centro',
+		'Costa',
+		'Eje Cafetero',
+		'Sur Occidente',
+		//'',
+	],
+
 
 ];

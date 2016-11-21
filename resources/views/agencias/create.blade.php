@@ -9,27 +9,65 @@
 	
 	{{ Form::open([ 'url' => 'agencias', 'class' => 'form-horizontal' ]) }}
 
-		<div class="form-group">
-			{{ Form::label('AGEN_nombre', 'Nombre') }} 
-			{{ Form::text('AGEN_nombre', old('AGEN_nombre'), [ 'class' => 'form-control', 'max' => '100', 'required' ]) }}
+		<div class="form-group{{ $errors->has('AGEN_codigo') ? ' has-error' : '' }}">
+			{{ Form::label('AGEN_codigo', 'Código', ['class'=>'col-md-4 control-label', 'for'=>'AGEN_codigo']) }}
+			<div class="col-md-6">
+			{{ Form::number('AGEN_codigo', old('AGEN_codigo'), [ 'class' => 'form-control', 'min' => '0', 'required' ]) }}
+				@if ($errors->has('AGEN_codigo'))
+					<span class="help-block">
+						<strong>{{ $errors->first('AGEN_codigo') }}</strong>
+					</span>
+				@endif
+			</div>
 		</div>
 
-		<div class="form-group">
-			{{ Form::label('AGEN_codigo', 'Código') }} 
-			{{ Form::text('AGEN_codigo', old('AGEN_codigo'), [ 'class' => 'form-control', 'max' => '40', 'required' ]) }}
+		<div class="form-group{{ $errors->has('AGEN_nombre') ? ' has-error' : '' }}">
+			{{ Form::label('AGEN_nombre', 'Nombre', ['class'=>'col-md-4 control-label', 'for'=>'AGEN_nombre']) }}
+			<div class="col-md-6">
+				{{ Form::text('AGEN_nombre', old('AGEN_nombre'), [ 'class' => 'form-control', 'max' => '100', 'required' ]) }}
+				@if ($errors->has('AGEN_nombre'))
+					<span class="help-block">
+						<strong>{{ $errors->first('AGEN_nombre') }}</strong>
+					</span>
+				@endif
+			</div>
 		</div>
 
-		<div class="input-group col-lg-4">
-			<span class="input-group-addon">Activa: </span>
-			<span class="input-group-addon">
-				{{ Form::checkbox('AGEN_activa', true,old('AGEN_activa'), array('class' => 'form-control')) }}
-			</span>
-		</div><br>
+		<div class="form-group{{ $errors->has('AGEN_descripcion') ? ' has-error' : '' }}">
+			{{ Form::label('AGEN_descripcion', 'Descripción', ['class'=>'col-md-4 control-label', 'for'=>'AGEN_descripcion']) }}
+			<div class="col-md-6">
+				{{ Form::text('AGEN_descripcion', old('AGEN_descripcion'), [ 'class' => 'form-control', 'max' => '255' ]) }}
+				@if ($errors->has('AGEN_descripcion'))
+					<span class="help-block">
+						<strong>{{ $errors->first('AGEN_descripcion') }}</strong>
+					</span>
+				@endif
+			</div>
+		</div>
 
+		<div class="form-group{{ $errors->has('AGEN_activa') ? ' has-error' : '' }}">
+			{{ Form::label('AGEN_activa', 'Activa?', ['class'=>'col-md-4 control-label', 'for'=>'AGEN_activa']) }}
+			<div class="col-md-6">
+				{{ Form::checkbox('AGEN_activa', old('AGEN_activa'),true, ['class'=>'form-control']) }}
+				@if ($errors->has('AGEN_activa'))
+					<span class="help-block">
+						<strong>{{ $errors->first('AGEN_activa') }}</strong>
+					</span>
+				@endif
+			</div>
+		</div>
+			
 
-		<div class="form-group">
-			{{ Form::label('TIUN_id', 'Regional') }} 
-			{{ Form::select('TIUN_id', [null => 'Seleccione una regional...'] + $regionales , old('TIUN_id'), ['class' => 'form-control', 'required']) }}
+		<div class="form-group{{ $errors->has('REGI_id') ? ' has-error' : '' }}">
+			{{ Form::label('REGI_id', 'Regional', ['class'=>'col-md-4 control-label', 'for'=>'REGI_id']) }}
+			<div class="col-md-6">
+				{{ Form::select('REGI_id', [null => 'Seleccione una regional...'] + $arrRegionales , old('REGI_id'), ['class' => 'form-control', 'required']) }}
+				@if ($errors->has('REGI_id'))
+					<span class="help-block">
+						<strong>{{ $errors->first('REGI_id') }}</strong>
+					</span>
+				@endif
+			</div>
 		</div>
 
 		<!-- Botones -->

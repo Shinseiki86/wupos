@@ -27,9 +27,32 @@ class Regional extends Model
 	{
 		$foreingKey = 'REGI_id';
 		return $this->hasMany(Agencia::class, $foreingKey)
-			->orderby('REGI_id');
-			//->join('TIPOSPREGUNTAS', 'TIPOSPREGUNTAS.TIPR_id', '=', 'PREGUNTAS.TIPR_id')
+			->orderby($foreingKey);
 	}
 
+
+    /**
+     * Retorna un array de las regionales existentes. Se utiliza en Form::select
+     *
+     * @param  null
+     * @return Array
+     */
+    public static function getRegionales()
+    {
+        $regionales = self::orderBy('REGI_id')
+                                ->select('REGI_id', 'REGI_nombre')
+                                ->get();
+
+        $arrRegionales = [];
+        foreach ($regionales as $reg) {
+            $arrRegionales = array_add(
+                $arrRegionales,
+                $reg->REGI_id,
+                $reg->REGI_nombre
+            );
+        }
+
+        return $arrRegionales;
+    }
 
 }
