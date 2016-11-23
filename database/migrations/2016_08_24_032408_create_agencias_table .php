@@ -23,8 +23,8 @@ class CreateAgenciasTable extends Migration
 			$table->string('AGEN_nombre', 100)
 				->comment('Nombre de la agencia.');
 
-			$table->string('AGEN_descripcion')->nullable()
-				->comment('Descripción de la agencia.');
+			$table->string('AGEN_codigowupos')->unique()
+				->comment('Código WUPOS de la agencia.');
 
 			$table->boolean('AGEN_activa')
 				->comment('Booleano que define si la agencia está activa.');

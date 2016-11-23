@@ -15,7 +15,7 @@
 		});
 		appWupos.controller('CertificadosCtrl', ['$scope', function($scope){
 			$scope.certificados = {!! $certificados !!};
-			$scope.agencias = {!! json_encode($arrAgencias ,JSON_NUMERIC_CHECK) !!};
+			$scope.regionales = {!! json_encode($arrRegionales ,JSON_NUMERIC_CHECK) !!};
 		}]);
 	</script>
 @endsection
@@ -30,26 +30,37 @@
 				<i class="fa fa-filter" aria-hidden="true"></i> Filtrar resultados
 			</a>
 			<div id="filters" class="collapse">
-			  <form>
 				<div class="form-group">
-				  <div class="input-group">
-					<div class="input-group-addon"><i class="fa fa-search">Código</i></div>
-					<input type="text" class="form-control" placeholder="Por código..." ng-model="searchCertificado.CERT_codigo">
-				  </div>
-				  <div class="input-group">
-					<div class="input-group-addon"><i class="fa fa-search"></i></div>
-					<select type="text" class="form-control" ng-model="searchCertificado.AGEN_nombre" >
-						<option value="">Todas</option>
-						<option ng-repeat="agencia in agencias" value="{% agencia.AGEN_id %}">{% agencia.AGEN_nombre %}</option>
-					</select>
-				  </div>
+					<div class="input-group">
+
+						<div class="input-group-addon"><i class="fa fa-search"></i></div>
+
+				 		<div class="input-group">
+							<div class="input-group-addon">Código</div>
+							<input type="text" class="form-control" placeholder="Por código..." ng-model="searchCertificado.CERT_codigo">
+						</div>
+
+				 		<div class="input-group">
+							<div class="input-group-addon">Agencia</div>
+							<input type="text" class="form-control" placeholder="Por código agencia..." ng-model="searchCertificado.AGEN_codigo">
+							<input type="text" class="form-control" placeholder="Por nombre agencia..." ng-model="searchCertificado.AGEN_nombre">
+						</div>
+
+				 		<div class="input-group">
+							<div class="input-group-addon">Regional</div>
+							<select type="text" class="form-control" ng-model="searchCertificado.REGI_nombre" >
+								<option value="">Todas</option>
+								<option ng-repeat="reg in regionales" value="{% reg.REGI_nombre %}">{% reg.REGI_nombre %}</option>
+							</select>
+						</div>
+
+					</div>
 				</div>
-			  </form>
 			</div>
 		</div>
 		
 		<div id="btn-create" class="col-xs-4 col-md-4 text-right">
-			@if(in_array(auth()->user()->rol->ROLE_descripcion , ['admin', 'editor']))
+			@if(in_array(auth()->user()->rol->ROLE_rol , ['admin', 'editor']))
 			<a class='btn btn-primary' role='button' href="{{ URL::to('certificados/create') }}">
 				<i class="fa fa-plus" aria-hidden="true"></i> Nuevo Certificado
 			</a>
@@ -68,7 +79,7 @@
 		</th>
 		<th>
 			<a href="#" ng-click="sortType = 'CERT_codigo'; sortReverse = !sortReverse">
-				Título
+				Código
 				<span ng-show="sortType == 'CERT_codigo' && !sortReverse" class="fa fa-caret-down"></span>
 				<span ng-show="sortType == 'CERT_codigo' && sortReverse" class="fa fa-caret-up"></span>
 			</a>
@@ -81,34 +92,58 @@
 			</a>
 		</th>
 		<th>
+			<a href="#" ng-click="sortType = 'AGEN_codigo'; sortReverse = !sortReverse">
+				Agencia Cod
+				<span ng-show="sortType == 'AGEN_codigo' && !sortReverse" class="fa fa-caret-down"></span>
+				<span ng-show="sortType == 'AGEN_codigo' && sortReverse" class="fa fa-caret-up"></span>
+			</a>
+		</th>
+		<th>
 			<a href="#" ng-click="sortType = 'AGEN_nombre'; sortReverse = !sortReverse">
-				Equipo
+				Agencia Nombre
 				<span ng-show="sortType == 'AGEN_nombre' && !sortReverse" class="fa fa-caret-down"></span>
 				<span ng-show="sortType == 'AGEN_nombre' && sortReverse" class="fa fa-caret-up"></span>
 			</a>
 		</th>
 		<th>
+			<a href="#" ng-click="sortType = 'REGI_nombre'; sortReverse = !sortReverse">
+				Regional
+				<span ng-show="sortType == 'REGI_nombre' && !sortReverse" class="fa fa-caret-down"></span>
+				<span ng-show="sortType == 'REGI_nombre' && sortReverse" class="fa fa-caret-up"></span>
+			</a>
+		</th>
+
+		{{--
+		<th class="hidden-xs">
 			<a href="#" ng-click="sortType = 'CERT_creadopor'; sortReverse = !sortReverse">
-				Autor
+				Creado por
 				<span ng-show="sortType == 'CERT_creadopor' && !sortReverse" class="fa fa-caret-down"></span>
 				<span ng-show="sortType == 'CERT_creadopor' && sortReverse" class="fa fa-caret-up"></span>
 			</a>
 		</th>
 		<th class="hidden-xs">
 			<a href="#" ng-click="sortType = 'CERT_fechacreado'; sortReverse = !sortReverse">
-				Creado
+				Fecha Creado
 				<span ng-show="sortType == 'CERT_fechacreado' && !sortReverse" class="fa fa-caret-down"></span>
 				<span ng-show="sortType == 'CERT_fechacreado' && sortReverse" class="fa fa-caret-up"></span>
 			</a>
 		</th>
 		<th class="hidden-xs">
+			<a href="#" ng-click="sortType = 'CERT_modificadopor'; sortReverse = !sortReverse">
+				Modificado por
+				<span ng-show="sortType == 'CERT_modificadopor' && !sortReverse" class="fa fa-caret-down"></span>
+				<span ng-show="sortType == 'CERT_modificadopor' && sortReverse" class="fa fa-caret-up"></span>
+			</a>
+		</th>
+		<th class="hidden-xs">
 			<a href="#" ng-click="sortType = 'CERT_fechamodificado'; sortReverse = !sortReverse">
-				Modificado
+				Fecha Modificado
 				<span ng-show="sortType == 'CERT_fechamodificado' && !sortReverse" class="fa fa-caret-down"></span>
 				<span ng-show="sortType == 'CERT_fechamodificado' && sortReverse" class="fa fa-caret-up"></span>
 			</a>
 		</th>
-		<th style="width:280px;">
+		--}}
+		<th style="width:140px;">
 			Acciones
 		</th>
 	</thead>
@@ -118,74 +153,60 @@
 			<td>{% certificado.CERT_id %}</td>
 			<td>{% certificado.CERT_codigo %}</td>
 			<td>{% certificado.CERT_equipo %}</td>
+			<td>{% certificado.AGEN_codigo %}</td>
 			<td>{% certificado.AGEN_nombre %}</td>
+			<td>{% certificado.REGI_nombre %}</td>
+			{{--
 			<td class="hidden-xs">{% certificado.CERT_creadopor %}</td>
 			<td class="hidden-xs">{% certificado.CERT_fechacreado %}</td>
 			<td class="hidden-xs">{% certificado.CERT_modificadopor %}</td>
 			<td class="hidden-xs">{% certificado.CERT_fechamodificado %}</td>
+			--}}
 			<td>
-				@if ( in_array(auth()->user()->rol->ROLE_descripcion , ['admin', 'editor']) )
-					<!-- carga botón de Ver -->
-					<a class="btn btn-xs btn-success" href="{% 'certificados/' + certificado.CERT_id %}" role="button">
-						<span class="glyphicon glyphicon-eye-open"></span> Ver
-					</a>
+				<!-- carga botón de Ver -->
+				<a class="btn btn-xs btn-success" href="{% 'certificados/' + certificado.CERT_id %}" role="button">
+					<span class="glyphicon glyphicon-eye-open"></span> Ver
+				</a>
 
-					<!-- carga botón de duplicar  fa-clone -->
-					<a class="btn btn-xs btn-warning" href="{% 'certificados/' + certificado.CERT_id + '/duplicar' %}">
-						<i class="fa fa-files-o" aria-hidden="true"></i> Clonar
-					</a>
+				<!-- carga botón de borrar -->
+				{{ Form::button('<i class="fa fa-trash" aria-hidden="true"></i> Borrar',[
+						'class'=>'btn btn-xs btn-danger',
+						'data-toggle'=>'modal',
+						'data-target'=>'#pregModal{% certificado.CERT_id %}',
+					]) }}
 
-					<!-- carga botón de reporte -->
-					<a class="btn btn-xs btn-info" href="{% 'certificados/' + certificado.CERT_id + '/reportes' %}">
-						<i class="fa fa-line-chart" aria-hidden="true"></i> Reportes
-					</a>
+					<!-- Mensaje Modal. Bloquea la pantalla mientras se procesa la solicitud -->
+					<div class="modal fade" id="pregModal{% certificado.CERT_id %}" role="dialog" tabindex="-1" >
+						<div class="modal-dialog">
+							<!-- Modal content-->
+							<div class="modal-content">
+								<div class="modal-header">
+									<h4 class="modal-title">¿Borrar?</h4>
+								</div>
+								<div class="modal-body">
+									<p>
+										<i class="fa fa-exclamation-triangle"></i> ¿Desea borrar la certificado {% certificado.CERT_codigo %} de {% certificado.AGEN_nombre %}?
+									</p>
+								</div>
+								<div class="modal-footer">
+									<form method="POST" action="{% 'certificados/' + certificado.CERT_id %}" accept-charset="UTF-8" class="pull-right ng-pristine ng-valid">
 
-					<!-- carga botón de borrar -->
-					{{ Form::button('<i class="fa fa-trash" aria-hidden="true"></i> Borrar',[
-							'class'=>'btn btn-xs btn-danger',
-							'data-toggle'=>'modal',
-							'data-target'=>'#pregModal{% certificado.CERT_id %}',
-						]) }}
+										<button type="button" class="btn btn-xs btn-success" data-dismiss="modal">NO</button>
 
-						<!-- Mensaje Modal. Bloquea la pantalla mientras se procesa la solicitud -->
-						<div class="modal fade" id="pregModal{% certificado.CERT_id %}" role="dialog" tabindex="-1" >
-							<div class="modal-dialog">
-								<!-- Modal content-->
-								<div class="modal-content">
-									<div class="modal-header">
-										<h4 class="modal-title">¿Borrar?</h4>
-									</div>
-									<div class="modal-body">
-										<p>
-											<i class="fa fa-exclamation-triangle"></i> ¿Desea borrar la certificado {% certificado.CERT_id %}?
-										</p>
-									</div>
-									<div class="modal-footer">
-										<form method="POST" action="{% 'certificados/' + certificado.CERT_id %}" accept-charset="UTF-8" class="pull-right ng-pristine ng-valid">
-
-											<button type="button" class="btn btn-xs btn-success" data-dismiss="modal">NO</button>
-
-											{{ Form::token() }}
-											{{ Form::hidden('_method', 'DELETE') }}
-											{{ Form::button('<i class="fa fa-trash" aria-hidden="true"></i> SI',[
-												'class'=>'btn btn-xs btn-danger',
-												'type'=>'submit',
-												'data-toggle'=>'modal',
-												'data-backdrop'=>'static',
-												'data-target'=>'#msgModal',
-											]) }}
-										</form>
-									</div>
-						  		</div>
-							</div>
+										{{ Form::token() }}
+										{{ Form::hidden('_method', 'DELETE') }}
+										{{ Form::button('<i class="fa fa-trash" aria-hidden="true"></i> SI',[
+											'class'=>'btn btn-xs btn-danger',
+											'type'=>'submit',
+											'data-toggle'=>'modal',
+											'data-backdrop'=>'static',
+											'data-target'=>'#msgModal',
+										]) }}
+									</form>
+								</div>
+					  		</div>
 						</div>
-
-				@elseif ( in_array(auth()->user()->rol->ROLE_descripcion , ['user','estudiante','docente']) )
-					<!-- carga botón de responder -->
-					<a class="btn btn-xs btn-info" href="{% 'certificados/' + certificado.CERT_id + '/resps' %}">
-						<i class="fa fa-pencil-square-o" aria-hidden="true"></i> Responder
-					</a> 
-				@endif
+					</div>
 			</td>
 		</tr>
 	</tbody>

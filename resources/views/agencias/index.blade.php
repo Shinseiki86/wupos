@@ -17,8 +17,8 @@
 	<thead>
 		<tr>
 			<th class="col-md-2">ID</th>
-			<th class="col-md-2">Nombre</th>
 			<th class="col-md-2">Código</th>
+			<th class="col-md-2">Nombre</th>
 			<th class="col-md-2">Regional</th>
 			<th class="col-md-2">Acciones</th>
 

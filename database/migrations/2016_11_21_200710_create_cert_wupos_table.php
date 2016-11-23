@@ -16,7 +16,7 @@ class CreateCertWuposTable extends Migration
             $table->increments('CERT_id')
                 ->comment('Valor autonumérico, llave primaria de la tabla CERTIFICADOS.');
 
-            $table->unSignedInteger('CERT_codigo')->unique()
+            $table->string('CERT_codigo', 4)->unique()
                 ->comment('Código terminal.');
 
             $table->string('CERT_equipo', 15)->unique()

@@ -25,11 +25,13 @@ Route::get('/help', function(){
 	return View::make('help');
 });
 
+//upload
+Route::get('upload', 'UploadController@index');
+Route::post('upload', 'UploadController@upload');
 
 //Parametrizaciones
 //Route::resource('estadosencuesta', 'EstadoEncuestaController');
 //Route::resource('tipospregunta', 'TipoPreguntaController');
-
 
 //Regionales
 Route::resource('regionales', 'RegionalController');

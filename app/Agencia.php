@@ -21,7 +21,7 @@ class Agencia extends Model
 	protected $fillable = [
 		'AGEN_codigo',
 		'AGEN_nombre',
-		'AGEN_descripcion',
+		'AGEN_codigowupos',
 		'AGEN_activa',
 		'REGI_id',
 	];
@@ -34,10 +34,10 @@ class Agencia extends Model
 		return $this->belongsTo(Regional::class, $foreingKey);
 	}
 
-	public function agencias()
+	public function certificados()
 	{
-		$foreingKey = 'REGI_id';
-		return $this->hasMany(Agencia::class, $foreingKey)
+		$foreingKey = 'AGEN_id';
+		return $this->hasMany(Certificado::class, $foreingKey)
 			->orderby($foreingKey);
 	}
 
@@ -53,16 +53,7 @@ class Agencia extends Model
                                 ->select('AGEN_id', 'AGEN_nombre')
                                 ->get();
 
-        $arrAgencias = [];
-        foreach ($agencias as $agen) {
-            $arrAgencias = array_add(
-                $arrAgencias,
-                $agen->AGEN_id,
-                $agen->AGEN_nombre
-            );
-        }
-        
-        return $arrAgencias;
+        return $agencias;
     }
 
 }

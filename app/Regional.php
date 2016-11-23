@@ -42,17 +42,7 @@ class Regional extends Model
         $regionales = self::orderBy('REGI_id')
                                 ->select('REGI_id', 'REGI_nombre')
                                 ->get();
-
-        $arrRegionales = [];
-        foreach ($regionales as $reg) {
-            $arrRegionales = array_add(
-                $arrRegionales,
-                $reg->REGI_id,
-                $reg->REGI_nombre
-            );
-        }
-
-        return $arrRegionales;
+        return $regionales;
     }
 
 }

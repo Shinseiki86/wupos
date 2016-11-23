@@ -9,6 +9,7 @@ use Illuminate\Routing\Redirector;
 
 use Wupos\Certificado;
 use Wupos\Agencia;
+use Wupos\Regional;
 
 class CertificadoController extends Controller
 {
@@ -45,13 +46,14 @@ class CertificadoController extends Controller
 		//Se obtienen todos los registros.
 		$certificados = Certificado::orderBy('CERT_id')
 						->join('AGENCIAS', 'AGENCIAS.AGEN_id', '=', 'CERTIFICADOS.AGEN_id')
+						->join('REGIONALES', 'REGIONALES.REGI_id', '=', 'AGENCIAS.REGI_id')
 						->get();
 
 		$arrAgencias = Agencia::getAgencias();
-
+		$arrRegionales = Regional::getRegionales();
 
 		//Se carga la vista y se pasan los registros
-		return view('certificados/index', compact('certificados', 'arrAgencias'));
+		return view('certificados/index', compact('certificados', 'arrAgencias', 'arrRegionales'));
 	}
 
 	/**
@@ -63,7 +65,9 @@ class CertificadoController extends Controller
 	{
 
 		$arrAgencias = Agencia::getAgencias();
-		return view('certificados/create', compact('arrAgencias'));
+		$arrRegionales = Regional::getRegionales();
+
+		return view('certificados/create', compact('arrAgencias', 'arrRegionales'));
 	}
 
 	/**

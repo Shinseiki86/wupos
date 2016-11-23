@@ -39,13 +39,13 @@
 			</div>
 		</div>
 
-		<div class="form-group{{ $errors->has('AGEN_descripcion') ? ' has-error' : '' }}">
-			{{ Form::label('AGEN_descripcion', 'Descripción', ['class'=>'col-md-4 control-label', 'for'=>'AGEN_descripcion']) }}
+		<div class="form-group{{ $errors->has('AGEN_codigowupos') ? ' has-error' : '' }}">
+			{{ Form::label('AGEN_codigowupos', 'Descripción', ['class'=>'col-md-4 control-label', 'for'=>'AGEN_codigowupos']) }}
 			<div class="col-md-6">
-				{{ Form::text('AGEN_descripcion', old('AGEN_descripcion'), [ 'class' => 'form-control', 'max' => '255' ]) }}
-				@if ($errors->has('AGEN_descripcion'))
+				{{ Form::text('AGEN_codigowupos', old('AGEN_codigowupos'), [ 'class' => 'form-control', 'max' => '255' ]) }}
+				@if ($errors->has('AGEN_codigowupos'))
 					<span class="help-block">
-						<strong>{{ $errors->first('AGEN_descripcion') }}</strong>
+						<strong>{{ $errors->first('AGEN_codigowupos') }}</strong>
 					</span>
 				@endif
 			</div>

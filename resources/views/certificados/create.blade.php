@@ -36,10 +36,22 @@
 		</div>
 
 
-		<div class="form-group{{ $errors->has('AGEN_id') ? ' has-error' : '' }}">
-			{{ Form::label('AGEN_id', 'Regional', ['class'=>'col-md-4 control-label', 'for'=>'AGEN_id']) }}
+		<div class="form-group{{ $errors->has('REGI_id') ? ' has-error' : '' }}">
+			{{ Form::label('REGI_id', 'Regional', ['class'=>'col-md-4 control-label', 'for'=>'REGI_id']) }}
 			<div class="col-md-6">
-				{{ Form::select('AGEN_id', [null => 'Seleccione una agencia...'] + $arrAgencias , old('AGEN_id'), ['class' => 'form-control', 'required']) }}
+				{{ Form::select('REGI_id', $arrRegionales , old('REGI_id'), ['class'=>'form-control', 'placeholder'=>'Seleccione una regional...', 'required'=>true]) }}
+				@if ($errors->has('REGI_id'))
+					<span class="help-block">
+						<strong>{{ $errors->first('REGI_id') }}</strong>
+					</span>
+				@endif
+			</div>
+		</div>
+
+		<div class="form-group{{ $errors->has('AGEN_id') ? ' has-error' : '' }}">
+			{{ Form::label('AGEN_id', 'Agencia', ['class'=>'col-md-4 control-label', 'for'=>'AGEN_id']) }}
+			<div class="col-md-6">
+				{{ Form::select('AGEN_id', $arrAgencias , old('AGEN_id'), ['class'=>'form-control', 'placeholder'=>'Seleccione una agencia...', 'required'=>true]) }}
 				@if ($errors->has('AGEN_id'))
 					<span class="help-block">
 						<strong>{{ $errors->first('AGEN_id') }}</strong>

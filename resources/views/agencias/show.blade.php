@@ -20,7 +20,7 @@
 				<li class="list-group-item">
 					<div class="row">
 						<div class="col-lg-4"><strong>Descripción:</strong></div>
-						<div class="col-lg-8">{{ $agencia -> AGEN_descripcion }}</div>
+						<div class="col-lg-8">{{ $agencia -> AGEN_codigowupos }}</div>
 					</div>
 				</li>
 
