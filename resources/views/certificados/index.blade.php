@@ -13,9 +13,14 @@
 			$interpolateProvider.startSymbol('{%');
 			$interpolateProvider.endSymbol('%}');
 		});
-		appWupos.controller('CertificadosCtrl', ['$scope', function($scope){
-			$scope.certificados = {!! $certificados !!};
-			$scope.regionales = {!! json_encode($arrRegionales ,JSON_NUMERIC_CHECK) !!};
+		appWupos.controller('CertificadosCtrl', ['$scope', '$timeout', function($scope, $timeout){
+        	$scope.show = true;
+        	$timeout( function(){
+				$scope.certificados = {!! $certificados !!};
+				$scope.regionales = {!! json_encode($arrRegionales ,JSON_NUMERIC_CHECK) !!};
+	        	$scope.show = false;
+        	}, 500);  // artificial wait of 1/2 second
+
 		}]);
 	</script>
 @endsection
@@ -68,7 +73,7 @@
 		</div>
 	</div>
   
-  <table class="table table-bordered table-striped">
+  <table id="tbIndex" class="table table-bordered table-striped">
 	<thead>
 		<th>
 			<a href="#" ng-click="sortType = 'CERT_id'; sortReverse = !sortReverse">
@@ -211,23 +216,11 @@
 		</tr>
 	</tbody>
 	
-		<!--
 	<tfoot>
-		<td colspan="8">
-			<ul class="pagination pull-right">
-				<li ng-class="{% disabled: currentPage == 0 %}">
-					<a href ng-click="prevPage()">« Ant</a>
-				</li>
-				<li ng-repeat="n in range(pagedItems.length)" ng-class="{% active: n == currentPage %}" ng-click="setPage()">
-					<a href ng-bind="{% n + 1 %}">1</a>
-				</li>
-				<li ng-class="{% disabled: currentPage == pagedItems.length - 1 %}">
-					<a href ng-click="nextPage()">Sig »</a>
-				</li>
-			</ul>
+		<td colspan="8" class="text-center">
+			<div ng-show="show"><i class="fa fa-cog fa-spin fa-2x fa-fw"></i> Cargando registros...</div>
 		</td>
 	</tfoot>
-		-->
 </table>
 
 
