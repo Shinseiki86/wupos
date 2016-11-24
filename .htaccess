@@ -1,0 +1,16 @@
+# Don't listing directory
+	#Options -Indexes
+	#Options -MultiViews
+	IndexIgnore *
+	#ErrorDocument 403 /public/index.php
+	
+#Redirect
+	#RewriteEngine on
+	#RewriteCond %{REQUEST_URI} /+[^\.]+$
+	#RewriteRule ^(.+[^/])$ %{REQUEST_URI}/public [R=301,L]
+
+# Follow symbolic links
+	#Options +FollowSymLinks
+
+# Default handler
+	#DirectoryIndex /public/index.php

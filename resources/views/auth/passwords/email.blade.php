@@ -34,7 +34,7 @@
 						<div class="form-group">
 							<div class="col-md-6 col-md-offset-4">
 								<button type="submit" class="btn btn-primary">
-									<i class="fa fa-btn fa-envelope"></i> Enviar enlace al correo
+									<i class="fa fa-btn fa-envelope" aria-hidden="true"></i> Enviar enlace al correo
 								</button>
 							</div>
 						</div>

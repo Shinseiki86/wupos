@@ -20,6 +20,8 @@ class PasswordController extends Controller
 
     use ResetsPasswords;
 
+    protected $subject = "Cambio de contraseña";
+
     /**
      * Create a new password controller instance.
      *

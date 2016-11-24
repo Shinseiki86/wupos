@@ -44,6 +44,11 @@
 					<span class="glyphicon glyphicon-eye-open"></span> Ver
 				</a><!-- Fin Botón Ver (show) -->
 
+				<!-- Botón Ver (show) -->
+				<a class="btn btn-small btn-success btn-xs" href="{{ URL::to('usuarios/'.$usuario->USER_id) }}">
+					<i class="fa fa-btn fa-envelope" aria-hidden="true"></i> Cambiar Contraseña
+				</a><!-- Fin Botón Ver (show) -->
+
 				<!-- Botón Editar (edit) -->
 				<a class="btn btn-small btn-info btn-xs" href="{{ URL::to('usuarios/'.$usuario->USER_id.'/edit') }}">
 					<i class="fa fa-pencil-square-o" aria-hidden="true"></i> Editar
