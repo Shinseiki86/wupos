@@ -17,6 +17,10 @@ class CreateRegionalesTable extends Migration
 		Schema::create('REGIONALES', function (Blueprint $table) {
 			$table->increments('REGI_id')
 				->comment('Valor autonumérico, llave primaria de la tabla REGIONALES.');
+			
+			$table->unSignedInteger('REGI_codigo')->unique()
+				->comment('Código asignado a la regional.');
+
 			$table->string('REGI_nombre', 100)
 				->comment('Nombre de la regional.');
 

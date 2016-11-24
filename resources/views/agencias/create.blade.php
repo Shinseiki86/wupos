@@ -33,13 +33,13 @@
 			</div>
 		</div>
 
-		<div class="form-group{{ $errors->has('AGEN_codigowupos') ? ' has-error' : '' }}">
-			{{ Form::label('AGEN_codigowupos', 'Descripción', ['class'=>'col-md-4 control-label', 'for'=>'AGEN_codigowupos']) }}
+		<div class="form-group{{ $errors->has('AGEN_cuentawu') ? ' has-error' : '' }}">
+			{{ Form::label('AGEN_cuentawu', 'Descripción', ['class'=>'col-md-4 control-label', 'for'=>'AGEN_cuentawu']) }}
 			<div class="col-md-6">
-				{{ Form::text('AGEN_codigowupos', old('AGEN_codigowupos'), [ 'class' => 'form-control', 'max' => '255' ]) }}
-				@if ($errors->has('AGEN_codigowupos'))
+				{{ Form::text('AGEN_cuentawu', old('AGEN_cuentawu'), [ 'class' => 'form-control', 'max' => '255' ]) }}
+				@if ($errors->has('AGEN_cuentawu'))
 					<span class="help-block">
-						<strong>{{ $errors->first('AGEN_codigowupos') }}</strong>
+						<strong>{{ $errors->first('AGEN_cuentawu') }}</strong>
 					</span>
 				@endif
 			</div>

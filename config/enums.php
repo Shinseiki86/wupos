@@ -12,13 +12,13 @@ return [
 	],
 
 	'regionales' => [
-		//['regional' => 'Centro', 'departamento' => 'Cundinamarca'],
-		'Antioquia',
-		'Centro',
-		'Costa',
-		'Eje Cafetero',
-		'Sur Occidente',
-		//'',
+		['nombre' => 'SUROCCIDENTE',	'cod' => 1],
+		['nombre' => 'CENTRO',		'cod' => 2],
+		['nombre' => 'MEDELLIN',		'cod' => 3],
+		['nombre' => 'EJE CAFETERO',	'cod' => 4],
+		['nombre' => 'COSTA',			'cod' => 5],
+		['nombre' => 'SEINCOR',		'cod' => 98],
+		['nombre' => 'DIRECCION GENERAL', 'cod' => 99],
 	],
 
 

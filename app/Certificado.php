@@ -19,9 +19,10 @@ class Certificado extends Model
 	protected $dates = ['CERT_fechaeliminado'];
 
 	protected $fillable = [
-		'CERT_nombre',
+		'CERT_codigo',
+		'CERT_equipo',
+		'AGEN_id',
 	];
-
 
 	public function agencia()
 	{

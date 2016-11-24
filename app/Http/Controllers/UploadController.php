@@ -57,10 +57,12 @@ class UploadController extends Controller
 					$modelo = new $className;
 
 					foreach ($row as $key => $value) {
-						$key = strtoupper(substr($key, 0, 5)) . strtolower(substr($key, 5));
-						$modelo->$key = $value;
+						if(!empty($key)){
+							$key = strtoupper(substr($key, 0, 5)) . strtolower(substr($key, 5));
+							$modelo->$key = $value;
+						}
 					}
-					$creadopor = strtoupper(substr($key, 0, 5)).'creadopor';
+					$creadopor = strtoupper(substr(Input::get('clase'), 0, 4)).'_creadopor';
 					$modelo->$creadopor = auth()->user()->username;
 
 					//Se guarda modelo
@@ -79,6 +81,7 @@ class UploadController extends Controller
 
 			}
 		}
+		echo "Finalizado!";
 		//return back();
 	}
 

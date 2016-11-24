@@ -25,8 +25,10 @@ class ParametrizacionTableSeeder extends Seeder
 		$this->command->info('------Regionales');
 		foreach(Config::get('enums.regionales') as $regional){
 			$newRegional = new Wupos\Regional;
-			//$newRegional->REGI_nombre         = 'Regional '.$regional['nombre'];
-			$newRegional->REGI_nombre = $regional;
+
+			$newRegional->REGI_codigo = $regional['cod'];
+			$newRegional->REGI_nombre = $regional['nombre'];
+
 			$newRegional->REGI_creadopor   = 'SYSTEM';
 			$newRegional->save();
 		}

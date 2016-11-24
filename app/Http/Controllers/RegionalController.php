@@ -66,11 +66,13 @@ class RegionalController extends Controller
     {
         //Validación de datos
         $this->validate(request(), [
+            'REGI_codigo' => ['required', 'numeric'],
             'REGI_nombre' => ['required', 'max:300'],
         ]);
 
         //Permite seleccionar los datos que se desean guardar.
         $regional = new Regional;
+        $regional->REGI_codigo = Input::get('REGI_codigo');
         $regional->REGI_nombre = Input::get('REGI_nombre');
         $regional->REGI_creadopor = auth()->user()->username;
         //Se guarda modelo
@@ -124,12 +126,14 @@ class RegionalController extends Controller
     {
         //Validación de datos
         $this->validate(request(), [
+            'REGI_codigo' => ['required', 'numeric'],
             'REGI_nombre' => ['required', 'max:300'],
         ]);
 
         // Se obtiene el registro
         $regional = Regional::findOrFail($REGI_id);
 
+        $regional->REGI_codigo = Input::get('REGI_codigo');
         $regional->REGI_nombre = Input::get('REGI_nombre');
         $regional->REGI_modificadopor = auth()->user()->username;
         //Se guarda modelo

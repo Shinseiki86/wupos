@@ -17,9 +17,9 @@
 	<thead>
 		<tr>
 			<th class="col-md-2">ID</th>
+			<th class="col-md-2">Código</th>
 			<th class="col-md-2">Nombre</th>
 			<th class="col-md-2">Acciones</th>
-
 		</tr>
 	</thead>
 	<tbody>
@@ -28,9 +28,9 @@
 		@foreach($regionales as $regional)
 		<tr>
 			<td>{{ $regional -> REGI_id }}</td>
+			<td>{{ $regional -> REGI_codigo }}</td>
 			<td>{{ $regional -> REGI_nombre }}</td>
 			<td>
-
 				<!-- Botón Ver (show) -->
 				<a class="btn btn-small btn-success btn-xs" href="{{ URL::to('regionales/'.$regional->REGI_id) }}">
 					<span class="glyphicon glyphicon-eye-open"></span> Ver

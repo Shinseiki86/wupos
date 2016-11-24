@@ -19,6 +19,7 @@ class Regional extends Model
 	protected $dates = ['REGI_fechaeliminado'];
 
 	protected $fillable = [
+		'REGI_codigo',
 		'REGI_nombre',
 	];
 

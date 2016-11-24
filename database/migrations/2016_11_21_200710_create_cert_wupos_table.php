@@ -16,10 +16,10 @@ class CreateCertWuposTable extends Migration
             $table->increments('CERT_id')
                 ->comment('Valor autonumérico, llave primaria de la tabla CERTIFICADOS.');
 
-            $table->string('CERT_codigo', 4)->unique()
+            $table->string('CERT_codigo', 4)->nullable()
                 ->comment('Código terminal.');
 
-            $table->string('CERT_equipo', 15)->unique()
+            $table->string('CERT_equipo', 15)->nullable()
                 ->comment('Nombre del equipo donde se instaló el certificado.');
 
             $table->unSignedInteger('AGEN_id')

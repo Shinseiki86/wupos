@@ -9,26 +9,61 @@
 
 	{{ Form::model($certificado, [ 'action' => ['CertificadoController@update', $certificado->CERT_id], 'method' => 'PUT' ]) }}
 
-		<div class="form-group">
-			{{ Form::label('CERT_titulo', 'Título') }}
-			{{ Form::text('CERT_titulo', old('CERT_titulo'), [ 'class' => 'form-control', 'required' ]) }}
-		</div>
-		
-		<div class="form-group">
-			{{ Form::label('CERT_descripcion', 'Descripción') }}
-			{{ Form::textarea('CERT_descripcion', old('CERT_descripcion'), ['class' => 'form-control', 'size' => '20x3', 'placeholder' => 'Escriba aquí...', 'style' => 'resize: vertical', 'required']) }}
-		</div>
-
-		<div class="form-group ">
-			{{ Form::label('CERT_fechavigencia', 'Vigencia') }}
-			<div class='input-group date' id='dttmpicker'>
-				{{ Form::text('CERT_fechavigencia', old('CERT_fechavigencia'), [ 'class' => 'form-control', 'required']) }}
-				<span class="input-group-addon">
-					<span class="fa fa-calendar"></span>
-				</span>
+		<div class="form-group{{ $errors->has('CERT_codigo') ? ' has-error' : '' }}">
+			{{ Form::label('CERT_codigo', 'Terminal WUPOS', ['class'=>'col-md-4 control-label', 'for'=>'CERT_codigo']) }}
+			<div class="col-md-6">
+			{{ Form::text('CERT_codigo', old('CERT_codigo'), [ 'class' => 'form-control', 'size' => '4', 'required' ]) }}
+				@if ($errors->has('CERT_codigo'))
+					<span class="help-block">
+						<strong>{{ $errors->first('CERT_codigo') }}</strong>
+					</span>
+				@endif
 			</div>
 		</div>
 
+
+		<div class="form-group{{ $errors->has('CERT_equipo') ? ' has-error' : '' }}">
+			{{ Form::label('CERT_equipo', 'Nombre', ['class'=>'col-md-4 control-label', 'for'=>'CERT_equipo']) }}
+			<div class="col-md-6">
+				{{ Form::text('CERT_equipo', old('CERT_equipo'), [ 'class' => 'form-control', 'max' => '15', 'required' ]) }}
+				@if ($errors->has('CERT_equipo'))
+					<span class="help-block">
+						<strong>{{ $errors->first('CERT_equipo') }}</strong>
+					</span>
+				@endif
+			</div>
+		</div>
+
+
+		<div class="form-group{{ $errors->has('REGI_id') ? ' has-error' : '' }}">
+			{{ Form::label('REGI_id', 'Regional', ['class'=>'col-md-4 control-label', 'for'=>'REGI_id']) }}
+			<div class="col-md-6">
+				<select class="form-control" ng-model="selectedRegional" id="REGI_id" name="REGI_id" ng-required="required" required>
+					<option value="" disabled></option>
+					<option value="{% regional.REGI_id %}" ng-repeat="regional in arrRegionales">{% regional.REGI_nombre %}</option>
+				</select>
+				@if ($errors->has('REGI_id'))
+					<span class="help-block">
+						<strong>{{ $errors->first('REGI_id') }}</strong>
+					</span>
+				@endif
+			</div>
+		</div>
+
+		<div class="form-group{{ $errors->has('AGEN_id') ? ' has-error' : '' }}">
+			{{ Form::label('AGEN_id', 'Agencia', ['class'=>'col-md-4 control-label', 'for'=>'AGEN_id']) }}
+			<div class="col-md-6">
+				<select class="form-control" ng-model="selectedAgencia" id="AGEN_id" name="AGEN_id" ng-required="required" required>
+					<option value="" disabled></option>
+					<option ng-show="agencia.REGI_id==selectedRegional" value="{% agencia.AGEN_id %}" ng-repeat="agencia in arrAgencias">{% agencia.AGEN_nombre %}</option>
+				</select>
+				@if ($errors->has('AGEN_id'))
+					<span class="help-block">
+						<strong>{{ $errors->first('AGEN_id') }}</strong>
+					</span>
+				@endif
+			</div>
+		</div>
 
 		<!-- Botones -->
 		<div class="text-right">

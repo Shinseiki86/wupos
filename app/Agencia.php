@@ -21,7 +21,8 @@ class Agencia extends Model
 	protected $fillable = [
 		'AGEN_codigo',
 		'AGEN_nombre',
-		'AGEN_codigowupos',
+		'AGEN_descripcion',
+		'AGEN_cuentawu',
 		'AGEN_activa',
 		'REGI_id',
 	];
@@ -50,7 +51,7 @@ class Agencia extends Model
     public static function getAgencias()
     {
         $agencias = self::orderBy('AGEN_id')
-                                ->select('AGEN_id', 'AGEN_nombre')
+                                ->select('AGEN_id', 'AGEN_nombre', 'REGI_id')
                                 ->get();
 
         return $agencias;

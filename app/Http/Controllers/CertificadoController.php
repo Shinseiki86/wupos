@@ -79,25 +79,24 @@ class CertificadoController extends Controller
 	{
 		//Validación de datos
 		$this->validate(request(), [
-			'CERT_codigo' => ['required', 'unique:CERTIFICADOS'],
-			'CERT_equipo' => ['required', 'max:15'],
-			'REGI_id' => ['required'],
+			'CERT_codigo' => ['required', 'string', 'max:4'],
+			'CERT_equipo' => ['required', 'string', 'max:15'],
+			'AGEN_id' => ['required', 'numeric'],
 		]);
 
 		//Permite seleccionar los datos que se desean guardar.
 		$certificado = new Certificado;
 		$certificado->CERT_codigo = Input::get('CERT_codigo');
-		$certificado->CERT_nombre = Input::get('CERT_nombre');
-		$certificado->CERT_descripcion = Input::get('CERT_descripcion');
-		$certificado->CERT_activa =  (Input::get('CERT_activa')) ? true : false;
-		$certificado->REGI_id = Input::get('REGI_id'); //Relación con Agencia
+		$certificado->CERT_equipo = Input::get('CERT_equipo');
+		//$certificado->CERT_activa =  (Input::get('CERT_activa')) ? true : false;
+		$certificado->AGEN_id = Input::get('AGEN_id'); //Relación con Agencia
 		$certificado->CERT_creadopor = auth()->user()->username;
 
 		//Se guarda modelo
 		$certificado->save();
 
 		// redirecciona al index de controlador
-		Session::flash('message', 'Certificado '.$certificado->CERT_id.' creada exitosamente!');
+		Session::flash('message', 'Certificado '.$certificado->CERT_codigo.' creada exitosamente!');
 		return redirect()->to('certificados');
 	}
 

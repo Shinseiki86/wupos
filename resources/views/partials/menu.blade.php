@@ -39,6 +39,10 @@
 								<li role="separator" class="divider"></li>
 
 								<li><a href="{{ url('/usuarios') }}"><i class="fa fa-btn fa-users"></i> Usuarios Locales</a></li>
+								
+								<li role="separator" class="divider"></li>
+
+								<li><a href="{{ url('/upload') }}"><i class="fa fa-btn fa-table"></i> Cargar XLS a DB</a></li>
 							</ul>
 						</li>
 					@endif

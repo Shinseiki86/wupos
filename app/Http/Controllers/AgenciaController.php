@@ -84,14 +84,16 @@ class AgenciaController extends Controller
 		$this->validate(request(), [
 			'AGEN_codigo' => ['required', 'numeric', 'unique:AGENCIAS'],
 			'AGEN_nombre' => ['required', 'max:100'],
-			'REGI_id' => ['required'],
+			'AGEN_descripcion' => ['max:250'],
+			'REGI_id' => ['required', 'numeric'],
 		]);
 
 		//Permite seleccionar los datos que se desean guardar.
 		$agencia = new Agencia;
 		$agencia->AGEN_codigo = Input::get('AGEN_codigo');
 		$agencia->AGEN_nombre = Input::get('AGEN_nombre');
-		$agencia->AGEN_codigowupos = Input::get('AGEN_codigowupos');
+		$agencia->AGEN_descripcion = Input::get('AGEN_descripcion');
+		$agencia->AGEN_cuentawu = Input::get('AGEN_cuentawu');
 		$agencia->AGEN_activa =  (Input::get('AGEN_activa')) ? true : false;
 		$agencia->REGI_id = Input::get('REGI_id'); //Relación con Regional
 		$agencia->AGEN_creadopor = auth()->user()->username;
@@ -159,6 +161,7 @@ class AgenciaController extends Controller
 		$this->validate(request(), [
 			'AGEN_codigo' => ['required', 'numeric'],
 			'AGEN_nombre' => ['required', 'max:100'],
+			'AGEN_descripcion' => ['max:250'],
 			'REGI_id' => ['required'],
 		]);
 
@@ -166,7 +169,8 @@ class AgenciaController extends Controller
 		$agencia = Agencia::findOrFail($AGEN_id);
 		$agencia->AGEN_codigo = Input::get('AGEN_codigo');
 		$agencia->AGEN_nombre = Input::get('AGEN_nombre');
-		$agencia->AGEN_codigowupos = Input::get('AGEN_codigowupos');
+		$agencia->AGEN_descripcion = Input::get('AGEN_descripcion');
+		$agencia->AGEN_cuentawu = Input::get('AGEN_cuentawu');
 		$agencia->AGEN_activa =  (Input::get('AGEN_activa')) ? true : false;
 		$agencia->REGI_id = Input::get('REGI_id'); //Relación con Regional
 

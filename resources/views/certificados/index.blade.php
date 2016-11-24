@@ -13,6 +13,7 @@
 			$interpolateProvider.startSymbol('{%');
 			$interpolateProvider.endSymbol('%}');
 		});
+		
 		appWupos.controller('CertificadosCtrl', ['$scope', '$timeout', function($scope, $timeout){
         	$scope.show = true;
         	$timeout( function(){
@@ -34,34 +35,6 @@
 			<a class='btn btn-primary' role='button' data-toggle="collapse" data-target="#filters" href="#">
 				<i class="fa fa-filter" aria-hidden="true"></i> Filtrar resultados
 			</a>
-			<div id="filters" class="collapse">
-				<div class="form-group">
-					<div class="input-group">
-
-						<div class="input-group-addon"><i class="fa fa-search"></i></div>
-
-				 		<div class="input-group">
-							<div class="input-group-addon">Código</div>
-							<input type="text" class="form-control" placeholder="Por código..." ng-model="searchCertificado.CERT_codigo">
-						</div>
-
-				 		<div class="input-group">
-							<div class="input-group-addon">Agencia</div>
-							<input type="text" class="form-control" placeholder="Por código agencia..." ng-model="searchCertificado.AGEN_codigo">
-							<input type="text" class="form-control" placeholder="Por nombre agencia..." ng-model="searchCertificado.AGEN_nombre">
-						</div>
-
-				 		<div class="input-group">
-							<div class="input-group-addon">Regional</div>
-							<select type="text" class="form-control" ng-model="searchCertificado.REGI_nombre" >
-								<option value="">Todas</option>
-								<option ng-repeat="reg in regionales" value="{% reg.REGI_nombre %}">{% reg.REGI_nombre %}</option>
-							</select>
-						</div>
-
-					</div>
-				</div>
-			</div>
 		</div>
 		
 		<div id="btn-create" class="col-xs-4 col-md-4 text-right">
@@ -72,31 +45,62 @@
 			@endif
 		</div>
 	</div>
-  
+
+	<div id="filters" class="collapse">
+		{{ Form::open([ 'class' => 'form-horizontal' ]) }}
+			<div class="form-group col-xs-8 col-md-10">
+
+					<div class="input-group-addon"><i class="fa fa-search"></i></div>
+
+			 		<div class="input-group">
+						<div class="input-group-addon">Código</div>
+						<input type="text" class="form-control" placeholder="Por código..." ng-model="searchCertificado.CERT_codigo">
+					</div>
+
+			 		<div class="input-group">
+						<div class="input-group-addon">Agencia</div>
+						<input type="text" class="form-control" placeholder="Por código agencia..." ng-model="searchCertificado.AGEN_codigo">
+						<input type="text" class="form-control" placeholder="Por nombre agencia..." ng-model="searchCertificado.AGEN_nombre">
+					</div>
+
+			 		<div class="input-group">
+						<div class="input-group-addon">Regional</div>
+						<select type="text" class="form-control" ng-model="searchCertificado.REGI_nombre" >
+							<option value="">Todas</option>
+							<option ng-repeat="reg in regionales" value="{% reg.REGI_nombre %}">
+								{% reg.REGI_nombre %}
+							</option>
+						</select>
+					</div>
+
+				</div>
+		{{ Form::close() }}
+	</div>
+
   <table id="tbIndex" class="table table-bordered table-striped">
 	<thead>
-		<th>
+		<th style="width:50px;">
 			<a href="#" ng-click="sortType = 'CERT_id'; sortReverse = !sortReverse">
 				ID
 				<span ng-show="sortType == 'CERT_id' && !sortReverse" class="fa fa-caret-down"></span>
 				<span ng-show="sortType == 'CERT_id' && sortReverse" class="fa fa-caret-up"></span>
 			</a>
 		</th>
-		<th>
+		<th style="width:100px;">
 			<a href="#" ng-click="sortType = 'CERT_codigo'; sortReverse = !sortReverse">
 				Código
 				<span ng-show="sortType == 'CERT_codigo' && !sortReverse" class="fa fa-caret-down"></span>
 				<span ng-show="sortType == 'CERT_codigo' && sortReverse" class="fa fa-caret-up"></span>
 			</a>
 		</th>
-		<th>
+		<th style="width:200px;">
 			<a href="#" ng-click="sortType = 'CERT_equipo'; sortReverse = !sortReverse">
 				Equipo
 				<span ng-show="sortType == 'CERT_equipo' && !sortReverse" class="fa fa-caret-down"></span>
 				<span ng-show="sortType == 'CERT_equipo' && sortReverse" class="fa fa-caret-up"></span>
 			</a>
 		</th>
-		<th>
+		<th style="width:50px;">
 			<a href="#" ng-click="sortType = 'AGEN_codigo'; sortReverse = !sortReverse">
 				Agencia Cod
 				<span ng-show="sortType == 'AGEN_codigo' && !sortReverse" class="fa fa-caret-down"></span>

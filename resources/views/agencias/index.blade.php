@@ -16,12 +16,12 @@
 <table class="table table-striped">
 	<thead>
 		<tr>
-			<th class="col-md-2">ID</th>
-			<th class="col-md-2">Código</th>
-			<th class="col-md-2">Nombre</th>
-			<th class="col-md-2">Regional</th>
-			<th class="col-md-2">Acciones</th>
-
+			<th>ID</th>
+			<th>Código</th>
+			<th>Nombre</th>
+			<th>Regional</th>
+			<th>Cuenta WU</th>
+			<th>Acciones</th>
 		</tr>
 	</thead>
 	<tbody>
@@ -29,12 +29,12 @@
 
 		@foreach($agencias as $agencia)
 		<tr>
-			<td>{{ $agencia -> AGEN_id }}</td>
-			<td>{{ $agencia -> AGEN_codigo }}</td>
+			<td style="width:50px;">{{ $agencia -> AGEN_id }}</td>
+			<td style="width:100px;">{{ $agencia -> AGEN_codigo }}</td>
 			<td>{{ $agencia -> AGEN_nombre }}</td>
 			<td>{{ $agencia -> regional -> REGI_nombre }}</td>
+			<td style="width:100px;">{{ $agencia -> AGEN_cuentawu }}</td>
 			<td>
-
 				<!-- Botón Ver (show) -->
 				<a class="btn btn-small btn-success btn-xs" href="{{ URL::to('agencias/'.$agencia->AGEN_id) }}">
 					<span class="glyphicon glyphicon-eye-open"></span> Ver
