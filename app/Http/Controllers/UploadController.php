@@ -79,11 +79,13 @@ class UploadController extends Controller
 				foreach ($data as $row) {
 
 					$modelo = new $className;
-
+					$count = 0; 
 					foreach ($row as $key => $value) {
 						if(!empty($key)){
 							$key = strtoupper(substr($key, 0, 5)) . strtolower(substr($key, 5));
-							$modelo->$key = $value;
+
+							if(\Schema::hasColumn($modelo->getTable(), $key))
+								$modelo->$key = $value;
 						}
 					}
 					$creadopor = strtoupper(substr(Input::get('clase'), 0, 4)).'_creadopor';
@@ -92,6 +94,7 @@ class UploadController extends Controller
 					//Se guarda modelo
 					try{
 						$modelo->save();
+						$count++;
 					}
 					catch (\Illuminate\Database\QueryException $e){
 		            	echo 'PDOException: ';
@@ -105,7 +108,7 @@ class UploadController extends Controller
 
 			}
 		}
-		echo "Finalizado!";
+		echo "Finalizado!. $count registro(s).";
 		//return back();
 	}
 

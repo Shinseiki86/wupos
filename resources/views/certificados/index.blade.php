@@ -121,6 +121,14 @@
 			</th>
 
 			<th>
+				<a href="#" ng-click="sortType = 'AGEN_cuentawu'; sortReverse = !sortReverse">
+					Cuenta WU
+					<span ng-show="sortType == 'AGEN_cuentawu' && !sortReverse" class="fa fa-caret-down"></span>
+					<span ng-show="sortType == 'AGEN_cuentawu' && sortReverse" class="fa fa-caret-up"></span>
+				</a>
+			</th>
+
+			<th>
 				<a href="#" ng-click="sortType = 'REGI_nombre'; sortReverse = !sortReverse">
 					Regional
 					<span ng-show="sortType == 'REGI_nombre' && !sortReverse" class="fa fa-caret-down"></span>
@@ -173,6 +181,7 @@
 			<td>{% certificado.CERT_equipo %}</td>
 			<td class="hidden-xs">{% certificado.AGEN_codigo %}</td>
 			<td>{% certificado.AGEN_nombre %}</td>
+			<td>{% certificado.AGEN_cuentawu %}</td>
 			<td>{% certificado.REGI_nombre %}</td>
 			<td class="hidden-xs">{% certificado.CERT_creadopor %}</td>
 			{{-- <td class="hidden-xs">{% certificado.CERT_fechacreado %}</td> --}}
