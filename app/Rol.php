@@ -24,9 +24,7 @@ class Rol extends Model
 	//Constantes para referenciar los roles creados por SYSTEM
 	const ADMIN      = 1;
 	const EDITOR     = 2;
-	const ESTUDIANTE = 3;
-	const DOCENTE    = 4;
-	const USER       = 5;
+	const USER       = 3;
 	
 	//public static $ENCU_estados = Config::get('enums.estados_encuesta');
 

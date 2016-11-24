@@ -5,14 +5,38 @@ namespace Wupos\Http\Controllers;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Route;
-use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Routing\Redirector;
+
+use Maatwebsite\Excel\Facades\Excel;
 
 use Wupos\Agencia;
 use Wupos\Regional;
 
 class UploadController extends Controller
 {
+
+	public function __construct(Redirector $redirect=null)
+	{
+		//Requiere que el usuario inicie sesión.
+		$this->middleware('auth');
+		if(isset($redirect)){
+
+			$action = Route::currentRouteAction();
+			$role = isset(auth()->user()->rol->ROLE_rol) ? auth()->user()->rol->ROLE_rol : 'user';
+
+			//Lista de acciones que solo puede realizar los administradores o los editores
+			$arrActionsAdmin = [ 'index', 'upload' ];
+
+			if(in_array(explode("@", $action)[1], $arrActionsAdmin))//Si la acción del controlador se encuentra en la lista de acciones de admin...
+			{
+				if( ! in_array($role , ['admin']))//Si el rol no es admin, se niega el acceso.
+				{
+					Session::flash('error', '¡Usuario no tiene permisos!');
+					abort(403, '¡Usuario no tiene permisos!.');
+				}
+			}
+		}
+	}
 
 	/**
 	 * Muestra formulario para carga de archivo al servidor.

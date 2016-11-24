@@ -77,100 +77,107 @@
 		{{ Form::close() }}
 	</div>
 
-  <table id="tbIndex" class="table table-bordered table-striped">
-	<thead>
-		<th style="width:50px;">
-			<a href="#" ng-click="sortType = 'CERT_id'; sortReverse = !sortReverse">
-				ID
-				<span ng-show="sortType == 'CERT_id' && !sortReverse" class="fa fa-caret-down"></span>
-				<span ng-show="sortType == 'CERT_id' && sortReverse" class="fa fa-caret-up"></span>
-			</a>
-		</th>
-		<th style="width:100px;">
-			<a href="#" ng-click="sortType = 'CERT_codigo'; sortReverse = !sortReverse">
-				Código
-				<span ng-show="sortType == 'CERT_codigo' && !sortReverse" class="fa fa-caret-down"></span>
-				<span ng-show="sortType == 'CERT_codigo' && sortReverse" class="fa fa-caret-up"></span>
-			</a>
-		</th>
-		<th style="width:200px;">
-			<a href="#" ng-click="sortType = 'CERT_equipo'; sortReverse = !sortReverse">
-				Equipo
-				<span ng-show="sortType == 'CERT_equipo' && !sortReverse" class="fa fa-caret-down"></span>
-				<span ng-show="sortType == 'CERT_equipo' && sortReverse" class="fa fa-caret-up"></span>
-			</a>
-		</th>
-		<th style="width:50px;">
-			<a href="#" ng-click="sortType = 'AGEN_codigo'; sortReverse = !sortReverse">
-				Agencia Cod
-				<span ng-show="sortType == 'AGEN_codigo' && !sortReverse" class="fa fa-caret-down"></span>
-				<span ng-show="sortType == 'AGEN_codigo' && sortReverse" class="fa fa-caret-up"></span>
-			</a>
-		</th>
-		<th>
-			<a href="#" ng-click="sortType = 'AGEN_nombre'; sortReverse = !sortReverse">
-				Agencia Nombre
-				<span ng-show="sortType == 'AGEN_nombre' && !sortReverse" class="fa fa-caret-down"></span>
-				<span ng-show="sortType == 'AGEN_nombre' && sortReverse" class="fa fa-caret-up"></span>
-			</a>
-		</th>
-		<th>
-			<a href="#" ng-click="sortType = 'REGI_nombre'; sortReverse = !sortReverse">
-				Regional
-				<span ng-show="sortType == 'REGI_nombre' && !sortReverse" class="fa fa-caret-down"></span>
-				<span ng-show="sortType == 'REGI_nombre' && sortReverse" class="fa fa-caret-up"></span>
-			</a>
-		</th>
+<table id="tbIndex" class="table table-striped table-condensed responsive-utilities">
+	<thead class="info">
+		<tr>
+			{{--<th style="width:50px;">
+				<a href="#" ng-click="sortType = 'CERT_id'; sortReverse = !sortReverse">
+					ID
+					<span ng-show="sortType == 'CERT_id' && !sortReverse" class="fa fa-caret-down"></span>
+					<span ng-show="sortType == 'CERT_id' && sortReverse" class="fa fa-caret-up"></span>
+				</a>
+			</th>--}}
 
-		{{--
-		<th class="hidden-xs">
-			<a href="#" ng-click="sortType = 'CERT_creadopor'; sortReverse = !sortReverse">
-				Creado por
-				<span ng-show="sortType == 'CERT_creadopor' && !sortReverse" class="fa fa-caret-down"></span>
-				<span ng-show="sortType == 'CERT_creadopor' && sortReverse" class="fa fa-caret-up"></span>
-			</a>
-		</th>
-		<th class="hidden-xs">
-			<a href="#" ng-click="sortType = 'CERT_fechacreado'; sortReverse = !sortReverse">
-				Fecha Creado
-				<span ng-show="sortType == 'CERT_fechacreado' && !sortReverse" class="fa fa-caret-down"></span>
-				<span ng-show="sortType == 'CERT_fechacreado' && sortReverse" class="fa fa-caret-up"></span>
-			</a>
-		</th>
-		<th class="hidden-xs">
-			<a href="#" ng-click="sortType = 'CERT_modificadopor'; sortReverse = !sortReverse">
-				Modificado por
-				<span ng-show="sortType == 'CERT_modificadopor' && !sortReverse" class="fa fa-caret-down"></span>
-				<span ng-show="sortType == 'CERT_modificadopor' && sortReverse" class="fa fa-caret-up"></span>
-			</a>
-		</th>
-		<th class="hidden-xs">
-			<a href="#" ng-click="sortType = 'CERT_fechamodificado'; sortReverse = !sortReverse">
-				Fecha Modificado
-				<span ng-show="sortType == 'CERT_fechamodificado' && !sortReverse" class="fa fa-caret-down"></span>
-				<span ng-show="sortType == 'CERT_fechamodificado' && sortReverse" class="fa fa-caret-up"></span>
-			</a>
-		</th>
-		--}}
-		<th>
-			Acciones
-		</th>
+			<th style="width:100px;">
+				<a href="#" ng-click="sortType = 'CERT_codigo'; sortReverse = !sortReverse">
+					Código
+					<span ng-show="sortType == 'CERT_codigo' && !sortReverse" class="fa fa-caret-down"></span>
+					<span ng-show="sortType == 'CERT_codigo' && sortReverse" class="fa fa-caret-up"></span>
+				</a>
+			</th>
+
+			<th style="width:150px;">
+				<a href="#" ng-click="sortType = 'CERT_equipo'; sortReverse = !sortReverse">
+					Equipo
+					<span ng-show="sortType == 'CERT_equipo' && !sortReverse" class="fa fa-caret-down"></span>
+					<span ng-show="sortType == 'CERT_equipo' && sortReverse" class="fa fa-caret-up"></span>
+				</a>
+			</th>
+
+			<th class="hidden-xs" style="width:50px;">
+				<a href="#" ng-click="sortType = 'AGEN_codigo'; sortReverse = !sortReverse">
+					Agencia Cod
+					<span ng-show="sortType == 'AGEN_codigo' && !sortReverse" class="fa fa-caret-down"></span>
+					<span ng-show="sortType == 'AGEN_codigo' && sortReverse" class="fa fa-caret-up"></span>
+				</a>
+			</th>
+
+			<th>
+				<a href="#" ng-click="sortType = 'AGEN_nombre'; sortReverse = !sortReverse">
+					Agencia Nombre
+					<span ng-show="sortType == 'AGEN_nombre' && !sortReverse" class="fa fa-caret-down"></span>
+					<span ng-show="sortType == 'AGEN_nombre' && sortReverse" class="fa fa-caret-up"></span>
+				</a>
+			</th>
+
+			<th>
+				<a href="#" ng-click="sortType = 'REGI_nombre'; sortReverse = !sortReverse">
+					Regional
+					<span ng-show="sortType == 'REGI_nombre' && !sortReverse" class="fa fa-caret-down"></span>
+					<span ng-show="sortType == 'REGI_nombre' && sortReverse" class="fa fa-caret-up"></span>
+				</a>
+			</th>
+
+			<th class="hidden-xs">
+				<a href="#" ng-click="sortType = 'CERT_creadopor'; sortReverse = !sortReverse">
+					Creado por
+					<span ng-show="sortType == 'CERT_creadopor' && !sortReverse" class="fa fa-caret-down"></span>
+					<span ng-show="sortType == 'CERT_creadopor' && sortReverse" class="fa fa-caret-up"></span>
+				</a>
+			</th>
+
+			{{--<th class="hidden-xs">
+				<a href="#" ng-click="sortType = 'CERT_fechacreado'; sortReverse = !sortReverse">
+					Fecha Creado
+					<span ng-show="sortType == 'CERT_fechacreado' && !sortReverse" class="fa fa-caret-down"></span>
+					<span ng-show="sortType == 'CERT_fechacreado' && sortReverse" class="fa fa-caret-up"></span>
+				</a>
+			</th>--}}
+
+			<th class="hidden-xs">
+				<a href="#" ng-click="sortType = 'CERT_modificadopor'; sortReverse = !sortReverse">
+					Modif por
+					<span ng-show="sortType == 'CERT_modificadopor' && !sortReverse" class="fa fa-caret-down"></span>
+					<span ng-show="sortType == 'CERT_modificadopor' && sortReverse" class="fa fa-caret-up"></span>
+				</a>
+			</th>
+
+			{{--<th class="hidden-xs">
+				<a href="#" ng-click="sortType = 'CERT_fechamodificado'; sortReverse = !sortReverse">
+					Fecha Modificado
+					<span ng-show="sortType == 'CERT_fechamodificado' && !sortReverse" class="fa fa-caret-down"></span>
+					<span ng-show="sortType == 'CERT_fechamodificado' && sortReverse" class="fa fa-caret-up"></span>
+				</a>
+			</th>--}}
+
+			<th>
+				Acciones
+			</th>
+		</tr>
 	</thead>
 	
 	<tbody>
 	  <tr ng-repeat="certificado in certificados | orderBy:sortType:sortReverse | filter:searchCertificado">
-			<td>{% certificado.CERT_id %}</td>
+			{{-- <td>{% certificado.CERT_id %}</td> --}}
 			<td>{% certificado.CERT_codigo %}</td>
 			<td>{% certificado.CERT_equipo %}</td>
-			<td>{% certificado.AGEN_codigo %}</td>
+			<td class="hidden-xs">{% certificado.AGEN_codigo %}</td>
 			<td>{% certificado.AGEN_nombre %}</td>
 			<td>{% certificado.REGI_nombre %}</td>
-			{{--
 			<td class="hidden-xs">{% certificado.CERT_creadopor %}</td>
-			<td class="hidden-xs">{% certificado.CERT_fechacreado %}</td>
+			{{-- <td class="hidden-xs">{% certificado.CERT_fechacreado %}</td> --}}
 			<td class="hidden-xs">{% certificado.CERT_modificadopor %}</td>
-			<td class="hidden-xs">{% certificado.CERT_fechamodificado %}</td>
-			--}}
+			{{-- <td class="hidden-xs">{% certificado.CERT_fechamodificado %}</td> --}}
 			<td>
 				<!-- carga botón de Ver -->
 				<a class="btn btn-xs btn-success" href="{% 'certificados/' + certificado.CERT_id %}" role="button">

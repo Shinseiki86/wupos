@@ -23,7 +23,7 @@ class CertificadoController extends Controller
 			$role = isset(auth()->user()->rol->ROLE_rol) ? auth()->user()->rol->ROLE_rol : 'user';
 
 			//Lista de acciones que solo puede realizar los administradores o los editores
-			$arrActionsAdmin = array('create', 'edit', 'store', 'destroy');
+			$arrActionsAdmin = [ 'create', 'edit', 'store', 'update', 'destroy' ];
 
 			if(in_array(explode("@", $action)[1], $arrActionsAdmin))//Si la acción del controlador se encuentra en la lista de acciones de admin...
 			{

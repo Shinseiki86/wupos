@@ -38,45 +38,26 @@ use Illuminate\Database\Seeder;
                 'USER_fechacreado' => \Carbon\Carbon::now()->toDateTimeString(),
             ));
 
-            //Estudiantes
+            //Usuarios
             \DB::table('USERS')->insert( array(
-                'name' => 'Estudiante 1 de prueba',
-                'username' => 'estudiante1',
-                'email' => 'estudiante1@correo.com',
+                'name' => 'Usuario 1 de prueba',
+                'username' => 'usuario1',
+                'email' => 'usuario1@correo.com',
                 'password'  => \Hash::make('123'),
-                'ROLE_id' => Wupos\Rol::where('ROLE_rol','estudiante')->get()->first()->ROLE_id,
+                'ROLE_id' => Wupos\Rol::where('ROLE_rol','user')->get()->first()->ROLE_id,
                 'USER_creadopor' => 'admin',
                 'USER_fechacreado' => \Carbon\Carbon::now()->toDateTimeString(),
             ));
             \DB::table('USERS')->insert( array(
-                'name' => 'Estudiante 2 de prueba',
-                'username' => 'estudiante2',
-                'email' => 'estudiante2@correo.com',
+                'name' => 'Usuario 2 de prueba',
+                'username' => 'usuario2',
+                'email' => 'usuario2@correo.com',
                 'password'  => \Hash::make('123'),
-                'ROLE_id' => Wupos\Rol::where('ROLE_rol','estudiante')->get()->first()->ROLE_id,
+                'ROLE_id' => Wupos\Rol::where('ROLE_rol','user')->get()->first()->ROLE_id,
                 'USER_creadopor' => 'admin',
                 'USER_fechacreado' => \Carbon\Carbon::now()->toDateTimeString(),
             ));
 
-            //Docentes
-            \DB::table('USERS')->insert( array(
-                'name' => 'Docente 1 de prueba',
-                'username' => 'docente1',
-                'email' => 'docente1@correo.com',
-                'password'  => \Hash::make('123'),
-                'ROLE_id' => Wupos\Rol::where('ROLE_rol','docente')->get()->first()->ROLE_id,
-                'USER_creadopor' => 'admin',
-                'USER_fechacreado' => \Carbon\Carbon::now()->toDateTimeString(),
-            ));
-            \DB::table('USERS')->insert( array(
-                'name' => 'Docente 2 de prueba',
-                'username' => 'docente2',
-                'email' => 'docente2@correo.com',
-                'password'  => \Hash::make('123'),
-                'ROLE_id' => Wupos\Rol::where('ROLE_rol','docente')->get()->first()->ROLE_id,
-                'USER_creadopor' => 'admin',
-                'USER_fechacreado' => \Carbon\Carbon::now()->toDateTimeString(),
-            ));
 
             //5 usuarios faker
             //$USERS = factory(Wupos\User::class)->times(5)->create();

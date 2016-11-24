@@ -22,11 +22,11 @@ class AgenciaController extends Controller
 			$role = isset(auth()->user()->rol->ROLE_rol) ? auth()->user()->rol->ROLE_rol : 'user';
 
 			//Lista de acciones que solo puede realizar los administradores o los editores
-			$arrActionsAdmin = array('index', 'create', 'edit', 'store', 'show', 'destroy');
+			$arrActionsAdmin = [ 'index', 'create', 'edit', 'store', 'show', 'destroy' ];
 
 			if(in_array(explode("@", $action)[1], $arrActionsAdmin))//Si la acción del controlador se encuentra en la lista de acciones de admin...
 			{
-				if( ! in_array($role , ['admin','editor']))//Si el rol no es admin o editor, se niega el acceso.
+				if( ! in_array($role , ['admin'])) //Si el rol no es admin, se niega el acceso.
 				{
 					Session::flash('error', '¡Usuario no tiene permisos!');
 					abort(403, '¡Usuario no tiene permisos!.');

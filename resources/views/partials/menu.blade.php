@@ -47,7 +47,7 @@
 						</li>
 					@endif
 
-					@if (in_array(Auth::user()->rol->ROLE_rol , ['editor','admin']))<!-- editores y admins -->
+					@if (in_array(Auth::user()->rol->ROLE_rol , ['editor','admin', 'user']))<!-- usuarios, editores y admins -->
 						<li><a href="{{ url('certificados') }}">
 							<i class="fa fa-check-square" aria-hidden="true"></i> Certificados
 						</a></li>
