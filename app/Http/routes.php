@@ -42,7 +42,8 @@ Route::resource('agencias', 'AgenciaController');
 //Certificados
 Route::resource('certificados', 'CertificadoController');
 
-
+//Exportar a Excel
+Route::get('certificados/export/{ext}','ExportarInfoController@export');
 
 /*
 
@@ -53,13 +54,6 @@ Route::resource('encuestas/{ENCU_id}/pregs/ordenar', 'PreguntaController@ordenar
 //Respuesta
 Route::resource('encuestas/{ENCU_id}/resps', 'RespuestaController');
 Route::get('encuestas/{ENCU_id}/preview', 'RespuestaController@index')->name('preview');
-
-//Exportar a Excel
-Route::get('encuestas/{ENCU_id}/excel','ExportarInfoController@exportXLS');
-//Exportar a CSV
-Route::get('encuestas/{ENCU_id}/csv','ExportarInfoController@exportCSV');
-//Exportar a PDF
-Route::get('encuestas/{ENCU_id}/pdf','ExportarInfoController@exportPDF');
 
 
 //Menu

@@ -1,5 +1,5 @@
 <!-- Menú -->
-<nav role="navigation" class="navbar navbar-default">
+<nav role="navigation" class="navbar {{ !env('APP_DEBUG', false) ? 'navbar-default' : 'navbar-inverse'}}">
 	<div class="container-fluid">
 
 		<!-- Brand y toggle se agrupan para una mejor visualización en dispositivos móviles -->
