@@ -48,7 +48,7 @@
 
 	<div id="filters" class="collapse">
 		{{ Form::open([ 'class' => 'form-horizontal' ]) }}
-			<div class="form-group col-xs-8 col-md-10">
+			<div class="form-group col-xs-11 col-md-10">
 
 					<div class="input-group-addon"><i class="fa fa-search"></i></div>
 

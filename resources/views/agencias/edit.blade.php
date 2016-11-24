@@ -16,9 +16,7 @@
 		<div class="form-group{{ $errors->has('AGEN_codigo') ? ' has-error' : '' }}">
 			{{ Form::label('AGEN_codigo', 'Código', ['class'=>'col-md-4 control-label', 'for'=>'AGEN_codigo']) }}
 			<div class="col-md-6">
-				<a href="#" title="No editable" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Código no puede ser editado.">
-				{{ Form::number('AGEN_codigo', old('AGEN_codigo'), [ 'class' => 'form-control', 'min' => '0', 'disabled' ]) }}
-				</a>
+			{{ Form::number('AGEN_codigo', old('AGEN_codigo'), [ 'class' => 'form-control', 'min' => '0', 'required' ]) }}
 				@if ($errors->has('AGEN_codigo'))
 					<span class="help-block">
 						<strong>{{ $errors->first('AGEN_codigo') }}</strong>
@@ -40,7 +38,7 @@
 		</div>
 
 		<div class="form-group{{ $errors->has('AGEN_cuentawu') ? ' has-error' : '' }}">
-			{{ Form::label('AGEN_cuentawu', 'Descripción', ['class'=>'col-md-4 control-label', 'for'=>'AGEN_cuentawu']) }}
+			{{ Form::label('AGEN_cuentawu', 'Cuenta WU', ['class'=>'col-md-4 control-label', 'for'=>'AGEN_cuentawu']) }}
 			<div class="col-md-6">
 				{{ Form::text('AGEN_cuentawu', old('AGEN_cuentawu'), [ 'class' => 'form-control', 'max' => '255' ]) }}
 				@if ($errors->has('AGEN_cuentawu'))

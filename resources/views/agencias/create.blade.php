@@ -34,7 +34,7 @@
 		</div>
 
 		<div class="form-group{{ $errors->has('AGEN_cuentawu') ? ' has-error' : '' }}">
-			{{ Form::label('AGEN_cuentawu', 'Descripción', ['class'=>'col-md-4 control-label', 'for'=>'AGEN_cuentawu']) }}
+			{{ Form::label('AGEN_cuentawu', 'Cuenta WU', ['class'=>'col-md-4 control-label', 'for'=>'AGEN_cuentawu']) }}
 			<div class="col-md-6">
 				{{ Form::text('AGEN_cuentawu', old('AGEN_cuentawu'), [ 'class' => 'form-control', 'max' => '255' ]) }}
 				@if ($errors->has('AGEN_cuentawu'))

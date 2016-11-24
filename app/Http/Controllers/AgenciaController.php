@@ -57,9 +57,7 @@ class AgenciaController extends Controller
 	public function create()
 	{
 
-		$regionales = Regional::orderBy('REGI_id')
-								->select('REGI_id', 'REGI_nombre')
-								->get();
+		$regionales = Regional::getRegionales();
 
 		$arrRegionales = [];
 		foreach ($regionales as $reg) {
@@ -69,7 +67,7 @@ class AgenciaController extends Controller
 				$reg->REGI_nombre
 			);
 		}
-
+		
 		return view('agencias/create', compact('arrRegionales'));
 	}
 
@@ -134,7 +132,8 @@ class AgenciaController extends Controller
 		// Se obtiene el registro
 		$agencia = Agencia::findOrFail($AGEN_id);
 
-		$regionales = Regional::all();
+		$regionales = Regional::getRegionales();
+
 		$arrRegionales = [];
 		foreach ($regionales as $reg) {
 			$arrRegionales = array_add(
@@ -179,7 +178,7 @@ class AgenciaController extends Controller
 		$agencia->save();
 
 		// redirecciona al index de controlador
-		Session::flash('message', 'Agencia '.$agencia->AGEN_id.' modificada exitosamente!');
+		Session::flash('message', 'Agencia '.$agencia->AGEN_codigo.' modificada exitosamente!');
 		return redirect()->to('agencias');
 	}
 
