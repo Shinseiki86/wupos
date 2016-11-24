@@ -152,7 +152,7 @@
 			</a>
 		</th>
 		--}}
-		<th style="width:140px;">
+		<th>
 			Acciones
 		</th>
 	</thead>
@@ -176,6 +176,13 @@
 				<a class="btn btn-xs btn-success" href="{% 'certificados/' + certificado.CERT_id %}" role="button">
 					<span class="glyphicon glyphicon-eye-open"></span> Ver
 				</a>
+
+
+				<!-- Cargar botón editar -->
+				<a class="btn btn-xs btn-info" href="{% 'certificados/' + certificado.CERT_id + '/edit' %}">
+					<i class="fa fa-pencil-square-o" aria-hidden="true"></i> Editar
+				</a>
+
 
 				<!-- carga botón de borrar -->
 				{{ Form::button('<i class="fa fa-trash" aria-hidden="true"></i> Borrar',[

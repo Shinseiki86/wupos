@@ -23,7 +23,7 @@ class CertificadoController extends Controller
 			$role = isset(auth()->user()->rol->ROLE_rol) ? auth()->user()->rol->ROLE_rol : 'user';
 
 			//Lista de acciones que solo puede realizar los administradores o los editores
-			$arrActionsAdmin = array('index', 'create', 'edit', 'store', 'show', 'destroy');
+			$arrActionsAdmin = array('create', 'edit', 'store', 'destroy');
 
 			if(in_array(explode("@", $action)[1], $arrActionsAdmin))//Si la acción del controlador se encuentra en la lista de acciones de admin...
 			{
@@ -96,7 +96,7 @@ class CertificadoController extends Controller
 		$certificado->save();
 
 		// redirecciona al index de controlador
-		Session::flash('message', 'Certificado '.$certificado->CERT_codigo.' creada exitosamente!');
+		Session::flash('message', 'Certificado '.$certificado->CERT_codigo.' creado exitosamente!');
 		return redirect()->to('certificados');
 	}
 
@@ -113,7 +113,7 @@ class CertificadoController extends Controller
 		$certificado = Certificado::findOrFail($CERT_id);
 
 		// Muestra la vista y pasa el registro
-		return view('certificados/show', compact('agencia'));
+		return view('certificados/show', compact('certificado'));
 	}
 
 
@@ -128,18 +128,11 @@ class CertificadoController extends Controller
 		// Se obtiene el registro
 		$certificado = Certificado::findOrFail($CERT_id);
 
-		$regionales = Agencia::all();
-		$arrAgencias = [];
-		foreach ($regionales as $reg) {
-			$arrAgencias = array_add(
-				$arrAgencias,
-				$reg->REGI_id,
-				$reg->REGI_nombre
-			);
-		}
+		$arrAgencias = Agencia::getAgencias();
+		$arrRegionales = Regional::getRegionales();
 
 		// Muestra el formulario de edición y pasa el registro a editar
-		return view('certificados/edit', compact('agencia', 'arrAgencias'));
+		return view('certificados/edit', compact('certificado', 'arrAgencias', 'arrRegionales'));
 	}
 
 
@@ -153,25 +146,25 @@ class CertificadoController extends Controller
 	{
 		//Validación de datos
 		$this->validate(request(), [
-			'CERT_codigo' => ['required', 'numeric'],
-			'CERT_nombre' => ['required', 'max:100'],
-			'REGI_id' => ['required'],
+			'CERT_codigo' => ['required', 'string', 'max:4'],
+			'CERT_equipo' => ['required', 'string', 'max:15'],
+			'AGEN_id' => ['required', 'numeric'],
 		]);
 
 		// Se obtiene el registro
 		$certificado = Certificado::findOrFail($CERT_id);
+
 		$certificado->CERT_codigo = Input::get('CERT_codigo');
-		$certificado->CERT_nombre = Input::get('CERT_nombre');
-		$certificado->CERT_descripcion = Input::get('CERT_descripcion');
-		$certificado->CERT_activa =  (Input::get('CERT_activa')) ? true : false;
-		$certificado->REGI_id = Input::get('REGI_id'); //Relación con Agencia
+		$certificado->CERT_equipo = Input::get('CERT_equipo');
+		//$certificado->CERT_activa =  (Input::get('CERT_activa')) ? true : false;
+		$certificado->AGEN_id = Input::get('AGEN_id'); //Relación con Agencia
 
 		$certificado->CERT_modificadopor = auth()->user()->username;
 		//Se guarda modelo
 		$certificado->save();
 
 		// redirecciona al index de controlador
-		Session::flash('message', 'Certificado '.$certificado->CERT_id.' modificada exitosamente!');
+		Session::flash('message', 'Certificado '.$certificado->CERT_codigo.' modificado exitosamente!');
 		return redirect()->to('certificados');
 	}
 
@@ -192,7 +185,7 @@ class CertificadoController extends Controller
 
 		// redirecciona al index de controlador
 		if($showMsg){
-			Session::flash('message', 'Certificado '.$certificado->CERT_id.' eliminada exitosamente!');
+			Session::flash('message', 'Certificado '.$certificado->CERT_codigo.' eliminado exitosamente!');
 			return redirect()->to('certificados');
 		}
 	}

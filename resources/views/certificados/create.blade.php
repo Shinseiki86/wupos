@@ -33,7 +33,6 @@
 
 	{{ Form::open( [ 'url' => 'certificados' ] ) }}
 
-
 		<div class="form-group{{ $errors->has('CERT_codigo') ? ' has-error' : '' }}">
 			{{ Form::label('CERT_codigo', 'Terminal WUPOS', ['class'=>'col-md-4 control-label', 'for'=>'CERT_codigo']) }}
 			<div class="col-md-6">

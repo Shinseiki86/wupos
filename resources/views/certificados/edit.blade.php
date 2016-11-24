@@ -1,18 +1,40 @@
 @extends('layout')
 @section('title', '/ Certificado / Editar '. $certificado->CERT_codigo )
 
+@section('head')
+    {!! Html::script('assets/js/angular/angular.min.js') !!}
+@endsection
+
+@section('scripts')
+<script>
+	var appWupos = angular.module('appWupos', [], function($interpolateProvider) {
+		$interpolateProvider.startSymbol('{%');
+		$interpolateProvider.endSymbol('%}');
+	});
+
+	appWupos.controller('CertificadosCtrl', ['$scope', function($scope){
+    	$scope.arrRegionales = {!! $arrRegionales !!};
+    	$scope.selectedRegional = '{{ $certificado->agencia->REGI_id }}';
+    	$scope.arrAgencias = {!! $arrAgencias !!};
+    	$scope.selectedAgencia = '{{ $certificado->AGEN_id }}';
+
+	}]);
+
+</script>
+@endsection
 
 @section('content')
 	<h1 class="page-header">Editar Certificado {{ $certificado->CERT_codigo }}</h1>
 
 	@include('partials/errors')
 
+<div class="" ng-app="appWupos" ng-controller="CertificadosCtrl">
 	{{ Form::model($certificado, [ 'action' => ['CertificadoController@update', $certificado->CERT_id], 'method' => 'PUT' ]) }}
 
 		<div class="form-group{{ $errors->has('CERT_codigo') ? ' has-error' : '' }}">
 			{{ Form::label('CERT_codigo', 'Terminal WUPOS', ['class'=>'col-md-4 control-label', 'for'=>'CERT_codigo']) }}
 			<div class="col-md-6">
-			{{ Form::text('CERT_codigo', old('CERT_codigo'), [ 'class' => 'form-control', 'size' => '4', 'required' ]) }}
+			{{ Form::text('CERT_codigo', old('CERT_codigo'), [ 'class'=>'form-control', 'maxlength'=>'4', 'required' ]) }}
 				@if ($errors->has('CERT_codigo'))
 					<span class="help-block">
 						<strong>{{ $errors->first('CERT_codigo') }}</strong>
@@ -23,9 +45,9 @@
 
 
 		<div class="form-group{{ $errors->has('CERT_equipo') ? ' has-error' : '' }}">
-			{{ Form::label('CERT_equipo', 'Nombre', ['class'=>'col-md-4 control-label', 'for'=>'CERT_equipo']) }}
+			{{ Form::label('CERT_equipo', 'Hostname', ['class'=>'col-md-4 control-label', 'for'=>'CERT_equipo']) }}
 			<div class="col-md-6">
-				{{ Form::text('CERT_equipo', old('CERT_equipo'), [ 'class' => 'form-control', 'max' => '15', 'required' ]) }}
+				{{ Form::text('CERT_equipo', old('CERT_equipo'), [ 'class'=>'form-control', 'maxlength'=>'15', 'required' ]) }}
 				@if ($errors->has('CERT_equipo'))
 					<span class="help-block">
 						<strong>{{ $errors->first('CERT_equipo') }}</strong>
@@ -67,12 +89,12 @@
 
 		<!-- Botones -->
 		<div class="text-right">
-			<a class="btn btn-primary" role="button" href="{{ URL::to('certificados/'. $certificado->CERT_id ) }}">
+			<a class="btn btn-primary" role="button" href="{{ URL::to('certificados') }}">
 				<i class="fa fa-arrow-left" aria-hidden="true"></i> Regresar
 			</a>
 			{{ Form::button('<i class="fa fa-floppy-o" aria-hidden="true"></i> Actualizar', [ 'class'=>'btn btn-primary', 'type'=>'submit' ]) }}
 		</div>
 
 	{{ Form::close() }}
-
+</div>
 @endsection
