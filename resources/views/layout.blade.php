@@ -1,12 +1,13 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<title>Wupos @yield('title')</title>
+		{!! Html::meta( null, 'IE=edge', [ 'http-equiv'=>'X-UA-Compatible' ] ) !!}
+		{!! Html::meta( null, 'text/html; charset=utf-8', [ 'http-equiv'=>'Content-Type' ] ) !!}
+		{!! Html::meta( 'viewport', 'width=device-width, initial-scale=1') !!}
+
 		{!! Html::favicon('favicon.ico') !!}
 
-		<!-- Estilos -->
 		{!! Html::style('assets/js/jquery-ui/jquery-ui.min.css') !!}
 		{!! Html::style('assets/css/bootstrap.min.css') !!}
 		{!! Html::style('assets/css/font-awesome.min.css') !!}
