@@ -1,21 +1,24 @@
 @extends('layout')
 @section('title', '/ Certificados')
 
-
 @section('head')
 @endsection
 
 @section('scripts')
     {!! Html::script('assets/js/angular/angular.min.js') !!}
-    {!! Html::script('assets/js/angular/angular-animate.js') !!}
-	<script>
-		var appWupos = angular.module('appWupos', [], function($interpolateProvider) {
+	{!! Html::script('assets/js/angular/dirPagination.js') !!}
+	<script type="text/javascript">
+		var appWupos = angular.module('appWupos', ['angularUtils.directives.dirPagination'], function($interpolateProvider) {
 			$interpolateProvider.startSymbol('{%');
 			$interpolateProvider.endSymbol('%}');
 		});
 		
 		appWupos.controller('CertificadosCtrl', ['$scope', '$timeout', function($scope, $timeout){
+			//Mostrar mensaje de carga
         	$scope.show = true;
+			//paginación
+			$scope.currentPage = 1;
+			$scope.pageSize = 5;
         	$timeout( function(){
 				$scope.certificados = {!! $certificados !!};
 				$scope.regionales = {!! json_encode($arrRegionales ,JSON_NUMERIC_CHECK) !!};
@@ -212,8 +215,8 @@
 		</tr>
 	</thead>
 	
-	<tbody>
-	  <tr ng-repeat="certificado in certificados | orderBy:sortType:sortReverse | filter:searchCertificado">
+	<tbody <div ng-show="!show">
+	  <tr dir-paginate="certificado in certificados | orderBy:sortType:sortReverse | filter:searchCertificado | itemsPerPage: pageSize" current-page="currentPage">
 			{{-- <td>{% certificado.CERT_id %}</td> --}}
 			<td>{% certificado.CERT_codigo %}</td>
 			<td>{% certificado.CERT_equipo %}</td>
@@ -284,6 +287,7 @@
 	<tfoot>
 		<td colspan="8" class="text-center">
 			<div ng-show="show"><i class="fa fa-cog fa-spin fa-2x fa-fw"></i> Cargando registros...</div>
+			<dir-pagination-controls></dir-pagination-controls>
 		</td>
 	</tfoot>
 </table>
@@ -314,3 +318,4 @@
 </div>
 @endsection
 
+	

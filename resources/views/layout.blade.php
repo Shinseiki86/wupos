@@ -25,6 +25,7 @@
 		<!-- Fonts -->
 		{{-- <link href='//fonts.googleapis.com/css?family=Roboto:400,300' rel='stylesheet' type='text/css'> --}}
 	</head>
+
 	<body>
 
 		@include('partials/menu')
@@ -38,4 +39,12 @@
 		</div>
 
 	</body>
+	
+	<foot>
+		{{--<div role="navigation" class="navbar {{ !env('APP_DEBUG', false) ? 'navbar-default' : 'navbar-inverse'}}">--}}
+			<div class="text-right" style="color: #606060;">
+				<small>powered by <i>Shinseiki86</i></small>
+			</div>
+		{{--</div>--}}
+	</foot>
 </html>
