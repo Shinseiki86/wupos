@@ -7,6 +7,10 @@
 		{!! Html::meta( 'viewport', 'width=device-width, initial-scale=1') !!}
 
 		{!! Html::favicon('favicon.ico') !!}
+		
+		{{-- Automatic page load progress bar --}}
+		{!! Html::script('assets/js/pace/pace.min.js') !!}
+		{!! Html::style('assets/js/pace/pace-theme-flash.css') !!}
 
 		{!! Html::style('assets/js/jquery-ui/jquery-ui.min.css') !!}
 		{!! Html::style('assets/css/bootstrap.min.css') !!}
