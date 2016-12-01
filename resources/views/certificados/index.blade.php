@@ -103,6 +103,11 @@
 					</div>
 
 			 		<div class="input-group">
+						<div class="input-group-addon">Cuenta WU</div>
+						<input type="text" class="form-control" placeholder="Por Cuenta WUPOS..." ng-model="searchCertificado.AGEN_cuentawu">
+					</div>
+
+			 		<div class="input-group">
 						<div class="input-group-addon">Regional</div>
 						<select type="text" class="form-control" ng-model="searchCertificado.REGI_nombre" >
 							<option value="">Todas</option>
