@@ -46,8 +46,8 @@
 	
 	<foot>
 		{{--<div role="navigation" class="navbar {{ !env('APP_DEBUG', false) ? 'navbar-default' : 'navbar-inverse'}}">--}}
-			<div class="text-right" style="color: #606060;">
-				<small>powered by <i>Shinseiki86</i></small>
+			<div class="text-right" style="color: #606060;padding-right:20px;">
+				<small>Powered by <i>Shinseiki86</i></small>
 			</div>
 		{{--</div>--}}
 	</foot>

@@ -33,16 +33,29 @@
 
 <div class="container_tb_certificados" ng-app="appWupos" ng-controller="CertificadosCtrl">
 	<h1 class="page-header">Certificados</h1>
+
 	<div class="row well well-sm">
-		<div id="frm-find" class="col-xs-6 col-md-8">
+
+		<!-- Filtrar datos en vista -->
+		<div id="frm-find" class="col-xs-3 col-md-9 col-lg-9">
 			<a class='btn btn-primary' role='button' data-toggle="collapse" data-target="#filters" href="#">
-				<i class="fa fa-filter" aria-hidden="true"></i> Filtrar resultados
+				<i class="fa fa-filter" aria-hidden="true"></i> 
+				<span class="hidden-xs">Filtrar resultados</span>
+				<span class="sr-only">Filtrar</span>
 			</a>
 		</div>
-		
 
-		<!-- botones -->
-		<div id="btn-create" class="col-xs-4 col-md-4 text-right">
+		<!-- Botones -->
+		<div id="btns-top" class="col-xs-9 col-md-3 col-lg-3 text-right">
+
+			<!-- botón de crear nuevo reg -->
+			@if(in_array(auth()->user()->rol->ROLE_rol , ['admin']))
+			<a class='btn btn-primary' role='button' href="{{ URL::to('certificados/create') }}">
+				<i class="fa fa-plus" aria-hidden="true"></i> Nuevo Certificado
+				<span class="sr-only">Nuevo</span>
+			</a>
+			@endif
+
 			<!-- botón de exportar -->
 			{{ Form::open( [ 'url'=>'certificados/export/xls', 'method'=>'GET', 'class' => 'pull-right' ]) }}
 				{{ Form::button('<i class="fa fa-download" aria-hidden="true"></i> Exportar',[
@@ -52,14 +65,6 @@
 						//'data-target'=>'#pregModalExport',
 				]) }}
 			{{ Form::close() }}
-
-			<!-- botón de crear nuevo reg -->
-			@if(in_array(auth()->user()->rol->ROLE_rol , ['admin']))
-			<a class='btn btn-primary' role='button' href="{{ URL::to('certificados/create') }}">
-				<i class="fa fa-plus" aria-hidden="true"></i> Nuevo Certificado
-			</a>
-			@endif
-
 		</div>
 	</div>
 
@@ -83,19 +88,12 @@
 	</div>
 </div>
 
-
-
-
-
-	<div id="filters" class="collapse">
-		{{ Form::open([ 'class' => 'form-horizontal' ]) }}
-			<div class="form-group col-xs-11 col-md-10">
-
-					<div class="input-group-addon"><i class="fa fa-search"></i></div>
+	<div id="filters" class="collapse col-md-8">
+			<div class="form-group col-xs-12 col-md-12">
 
 			 		<div class="input-group">
-						<div class="input-group-addon">Código</div>
-						<input type="text" class="form-control" placeholder="Por código..." ng-model="searchCertificado.CERT_codigo">
+						<div class="input-group-addon">Certificado</div>
+						<input type="text" class="form-control" placeholder="Por certificado..." ng-model="searchCertificado.CERT_codigo">
 					</div>
 
 			 		<div class="input-group">
@@ -114,30 +112,26 @@
 						</select>
 					</div>
 
-				</div>
-		{{ Form::close() }}
+			</div>
 	</div>
 
 <table id="tbIndex" class="table table-striped table-condensed responsive-utilities">
-	<thead class="info">
+	<thead>
 		<tr>
-			{{--<th style="width:50px;">
-				<a href="#" ng-click="sortType = 'CERT_id'; sortReverse = !sortReverse">
-					ID
-					<span ng-show="sortType == 'CERT_id' && !sortReverse" class="fa fa-caret-down"></span>
-					<span ng-show="sortType == 'CERT_id' && sortReverse" class="fa fa-caret-up"></span>
-				</a>
-			</th>--}}
-
-			<th style="width:100px;">
+			<td colspan="9" class="text-right" ng-show="!show">
+				@include('partials/paginate')
+			</td>
+		</tr>
+		<tr class="active">
+			<th class="col-xs-1 col-sm-1 col-md-1 col-lg-1">
 				<a href="#" ng-click="sortType = 'CERT_codigo'; sortReverse = !sortReverse">
-					Código
+					Cod Cert
 					<span ng-show="sortType == 'CERT_codigo' && !sortReverse" class="fa fa-caret-down"></span>
 					<span ng-show="sortType == 'CERT_codigo' && sortReverse" class="fa fa-caret-up"></span>
 				</a>
 			</th>
 
-			<th style="width:150px;">
+			<th class="col-xs-1 col-sm-1 col-md-1 col-lg-1">
 				<a href="#" ng-click="sortType = 'CERT_equipo'; sortReverse = !sortReverse">
 					Equipo
 					<span ng-show="sortType == 'CERT_equipo' && !sortReverse" class="fa fa-caret-down"></span>
@@ -145,23 +139,23 @@
 				</a>
 			</th>
 
-			<th class="hidden-xs" style="width:50px;">
+			<th class="col-xs-1 col-sm-1 col-md-1 col-lg-1">
 				<a href="#" ng-click="sortType = 'AGEN_codigo'; sortReverse = !sortReverse">
-					Agencia Cod
+					Cod Agen
 					<span ng-show="sortType == 'AGEN_codigo' && !sortReverse" class="fa fa-caret-down"></span>
 					<span ng-show="sortType == 'AGEN_codigo' && sortReverse" class="fa fa-caret-up"></span>
 				</a>
 			</th>
 
-			<th>
+			<th class="hidden-xs col-sm-2 col-md-2 col-lg-2">
 				<a href="#" ng-click="sortType = 'AGEN_nombre'; sortReverse = !sortReverse">
-					Agencia Nombre
+					Agencia
 					<span ng-show="sortType == 'AGEN_nombre' && !sortReverse" class="fa fa-caret-down"></span>
 					<span ng-show="sortType == 'AGEN_nombre' && sortReverse" class="fa fa-caret-up"></span>
 				</a>
 			</th>
 
-			<th>
+			<th class="col-xs-1 col-sm-1 col-md-1 col-lg-1">
 				<a href="#" ng-click="sortType = 'AGEN_cuentawu'; sortReverse = !sortReverse">
 					Cuenta WU
 					<span ng-show="sortType == 'AGEN_cuentawu' && !sortReverse" class="fa fa-caret-down"></span>
@@ -169,7 +163,7 @@
 				</a>
 			</th>
 
-			<th>
+			<th class="hidden-xs col-sm-2 col-md-2 col-lg-2">
 				<a href="#" ng-click="sortType = 'REGI_nombre'; sortReverse = !sortReverse">
 					Regional
 					<span ng-show="sortType == 'REGI_nombre' && !sortReverse" class="fa fa-caret-down"></span>
@@ -177,7 +171,7 @@
 				</a>
 			</th>
 
-			<th class="hidden-xs">
+			<th class="hidden-xs col-sm-1 col-md-1 col-lg-1">
 				<a href="#" ng-click="sortType = 'CERT_creadopor'; sortReverse = !sortReverse">
 					Creado por
 					<span ng-show="sortType == 'CERT_creadopor' && !sortReverse" class="fa fa-caret-down"></span>
@@ -185,15 +179,7 @@
 				</a>
 			</th>
 
-			{{--<th class="hidden-xs">
-				<a href="#" ng-click="sortType = 'CERT_fechacreado'; sortReverse = !sortReverse">
-					Fecha Creado
-					<span ng-show="sortType == 'CERT_fechacreado' && !sortReverse" class="fa fa-caret-down"></span>
-					<span ng-show="sortType == 'CERT_fechacreado' && sortReverse" class="fa fa-caret-up"></span>
-				</a>
-			</th>--}}
-
-			<th class="hidden-xs">
+			<th class="hidden-xs col-sm-1 col-md-1 col-lg-1">
 				<a href="#" ng-click="sortType = 'CERT_modificadopor'; sortReverse = !sortReverse">
 					Modif por
 					<span ng-show="sortType == 'CERT_modificadopor' && !sortReverse" class="fa fa-caret-down"></span>
@@ -201,15 +187,7 @@
 				</a>
 			</th>
 
-			{{--<th class="hidden-xs">
-				<a href="#" ng-click="sortType = 'CERT_fechamodificado'; sortReverse = !sortReverse">
-					Fecha Modificado
-					<span ng-show="sortType == 'CERT_fechamodificado' && !sortReverse" class="fa fa-caret-down"></span>
-					<span ng-show="sortType == 'CERT_fechamodificado' && sortReverse" class="fa fa-caret-up"></span>
-				</a>
-			</th>--}}
-
-			<th>
+			<th class="col-xs-1 col-sm-1 col-md-3 col-lg-3">
 				Acciones
 			</th>
 		</tr>
@@ -220,29 +198,27 @@
 			{{-- <td>{% certificado.CERT_id %}</td> --}}
 			<td>{% certificado.CERT_codigo %}</td>
 			<td>{% certificado.CERT_equipo %}</td>
-			<td class="hidden-xs">{% certificado.AGEN_codigo %}</td>
-			<td>{% certificado.AGEN_nombre %}</td>
+			<td>{% certificado.AGEN_codigo %}</td>
+			<td class="hidden-xs">{% certificado.AGEN_nombre %}</td>
 			<td>{% certificado.AGEN_cuentawu %}</td>
-			<td>{% certificado.REGI_nombre %}</td>
+			<td class="hidden-xs">{% certificado.REGI_nombre %}</td>
 			<td class="hidden-xs">{% certificado.CERT_creadopor %}</td>
-			{{-- <td class="hidden-xs">{% certificado.CERT_fechacreado %}</td> --}}
 			<td class="hidden-xs">{% certificado.CERT_modificadopor %}</td>
-			{{-- <td class="hidden-xs">{% certificado.CERT_fechamodificado %}</td> --}}
 			<td>
 				<!-- carga botón de Ver -->
 				<a class="btn btn-xs btn-success" href="{% 'certificados/' + certificado.CERT_id %}" role="button">
-					<span class="glyphicon glyphicon-eye-open"></span> Ver
+					<span class="glyphicon glyphicon-eye-open"></span> <span class="hidden-xs">Ver</span>
 				</a>
 
 
 				<!-- Cargar botón editar -->
 				<a class="btn btn-xs btn-info" href="{% 'certificados/' + certificado.CERT_id + '/edit' %}">
-					<i class="fa fa-pencil-square-o" aria-hidden="true"></i> Editar
+					<i class="fa fa-pencil-square-o" aria-hidden="true"></i> <span class="hidden-xs">Editar</span>
 				</a>
 
 
 				<!-- carga botón de borrar -->
-				{{ Form::button('<i class="fa fa-trash" aria-hidden="true"></i> Borrar',[
+				{{ Form::button('<i class="fa fa-trash" aria-hidden="true"></i> <span class="hidden-xs">Borrar</span>',[
 						'class'=>'btn btn-xs btn-danger',
 						'data-toggle'=>'modal',
 						'data-target'=>'#pregModal{% certificado.CERT_id %}',
@@ -285,9 +261,11 @@
 	</tbody>
 	
 	<tfoot>
-		<td colspan="8" class="text-center">
-			<div ng-show="show"><i class="fa fa-cog fa-spin fa-2x fa-fw"></i> Cargando registros...</div>
-			<dir-pagination-controls></dir-pagination-controls>
+		<td colspan="9" class="text-center" ng-show="show"
+			<i class="fa fa-cog fa-spin fa-2x fa-fw"></i> Cargando registros...
+		</td>
+		<td colspan="9" class="text-right" ng-show="!show">
+			@include('partials/paginate')
 		</td>
 	</tfoot>
 </table>
