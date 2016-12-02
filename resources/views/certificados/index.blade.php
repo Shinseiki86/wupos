@@ -96,7 +96,7 @@
 			@endif
 
 			<!-- botón de exportar -->
-			{{ Form::open( [ 'url'=>'certificados/export/xls', 'method'=>'GET', 'class' => 'pull-right' ]) }}
+			{{ Form::open( [ 'url'=>'certificados/export/xlsx', 'method'=>'GET', 'class' => 'pull-right' ]) }}
 				{{ Form::button('<i class="fa fa-download" aria-hidden="true"></i> Exportar',[
 						'class'=>'btn btn-success',
 						'type'=>'submit',
@@ -263,12 +263,10 @@
 					<span class="glyphicon glyphicon-eye-open"></span> <span class="hidden-xs">Ver</span>
 				</a>
 
-
 				<!-- Cargar botón editar -->
 				<a class="btn btn-xs btn-info" href="{% 'certificados/' + certificado.CERT_id + '/edit' %}">
 					<i class="fa fa-pencil-square-o" aria-hidden="true"></i> <span class="hidden-xs">Editar</span>
 				</a>
-
 
 				<!-- carga botón de borrar -->
 				{{ Form::button('<i class="fa fa-trash" aria-hidden="true"></i> <span class="hidden-xs">Borrar</span>',[
