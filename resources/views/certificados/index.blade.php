@@ -162,7 +162,7 @@
 <table id="tbIndex" class="table table-striped table-condensed responsive-utilities">
 	<thead>
 		<tr>
-			<td colspan="9" class="text-right" ng-show="!show">
+			<td colspan="10" class="text-right" ng-show="!show">
 				@include('partials/paginate')
 			</td>
 		</tr>
@@ -314,10 +314,10 @@
 	</tbody>
 	
 	<tfoot>
-		<td colspan="9" class="text-center" ng-show="show"
+		<td colspan="10" class="text-center" ng-show="show"
 			<i class="fa fa-cog fa-spin fa-2x fa-fw"></i> Cargando registros...
 		</td>
-		<td colspan="9" class="text-right" ng-show="!show">
+		<td colspan="10" class="text-right" ng-show="!show">
 			@include('partials/paginate')
 		</td>
 	</tfoot>
