@@ -20,9 +20,44 @@
 		appWupos.controller('CertificadosCtrl', ['$scope', '$timeout', function($scope, $timeout){
 			//Mostrar mensaje de carga
         	$scope.show = true;
+
 			//paginación
 			$scope.currentPage = 1;
 			$scope.pageSize = 5;
+
+			//Ordenamiento
+			$scope.sortType = 'CERT_fechamodificado';
+			$scope.sortReverse = true;
+
+			//Formato de fecha
+			$scope.formatDate = function(strDate){
+			  var date = new Date(strDate);
+
+			  //Horas
+			  var hours = date.getHours();
+			  hours = hours % 12;
+			  hours = hours ? hours : 12; // the hour '0' should be '12'
+			  hours = hours < 10 ? '0'+hours : hours;
+
+			  //Minutos
+			  var minutes = date.getMinutes();
+			  minutes = minutes < 10 ? '0'+minutes : minutes;
+
+			  //AMPM
+			  var ampm = hours >= 12 ? 'PM' : 'AM';
+
+			  //strTime
+			  var strTime = hours + ':' + minutes + ' ' + ampm;
+
+			  //Fecha
+			  var day  = date.getDate() < 10 ? '0'+date.getDate() : date.getDate();
+			  var month  = date.getMonth()+1;
+			  var month  = month < 10 ? '0'+month : month;
+			  var year  = date.getFullYear();
+
+			  return day + "/" + month + "/" + year + " " + strTime;
+			}
+
         	$timeout( function(){
 				$scope.certificados = {!! $certificados !!};
 				$scope.regionales = {!! json_encode($arrRegionales ,JSON_NUMERIC_CHECK) !!};
@@ -132,7 +167,7 @@
 			</td>
 		</tr>
 		<tr class="active">
-			<th class="col-xs-1 col-sm-1 col-md-1 col-lg-1">
+			<th class="col-xs-1 col-sm-1 col-md-1 col-lg-1" style="width:40px;">
 				<a href="#" ng-click="sortType = 'CERT_codigo'; sortReverse = !sortReverse">
 					Cod Cert
 					<span ng-show="sortType == 'CERT_codigo' && !sortReverse" class="fa fa-caret-down"></span>
@@ -148,7 +183,7 @@
 				</a>
 			</th>
 
-			<th class="col-xs-1 col-sm-1 col-md-1 col-lg-1">
+			<th class="col-xs-1 col-sm-1 col-md-1 col-lg-1" style="width:40px;">
 				<a href="#" ng-click="sortType = 'AGEN_codigo'; sortReverse = !sortReverse">
 					Cod Agen
 					<span ng-show="sortType == 'AGEN_codigo' && !sortReverse" class="fa fa-caret-down"></span>
@@ -196,6 +231,14 @@
 				</a>
 			</th>
 
+			<th class="hidden-xs col-sm-1 col-md-1 col-lg-1">
+				<a href="#" ng-click="sortType = 'CERT_fechamodificado'; sortReverse = !sortReverse">
+					Modif por
+					<span ng-show="sortType == 'CERT_fechamodificado' && !sortReverse" class="fa fa-caret-down"></span>
+					<span ng-show="sortType == 'CERT_fechamodificado' && sortReverse" class="fa fa-caret-up"></span>
+				</a>
+			</th>
+
 			<th class="col-xs-1 col-sm-1 col-md-3 col-lg-3">
 				Acciones
 			</th>
@@ -213,6 +256,7 @@
 			<td class="hidden-xs">{% certificado.REGI_nombre %}</td>
 			<td class="hidden-xs">{% certificado.CERT_creadopor %}</td>
 			<td class="hidden-xs">{% certificado.CERT_modificadopor %}</td>
+			<td class="hidden-xs">{% formatDate(certificado.CERT_fechamodificado) %}</td>
 			<td>
 				<!-- carga botón de Ver -->
 				<a class="btn btn-xs btn-success" href="{% 'certificados/' + certificado.CERT_id %}" role="button">
