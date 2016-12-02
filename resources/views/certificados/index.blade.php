@@ -233,7 +233,7 @@
 
 			<th class="hidden-xs col-sm-1 col-md-1 col-lg-1">
 				<a href="#" ng-click="sortType = 'CERT_fechamodificado'; sortReverse = !sortReverse">
-					Modif por
+					Fch Modif
 					<span ng-show="sortType == 'CERT_fechamodificado' && !sortReverse" class="fa fa-caret-down"></span>
 					<span ng-show="sortType == 'CERT_fechamodificado' && sortReverse" class="fa fa-caret-up"></span>
 				</a>
@@ -246,7 +246,7 @@
 	</thead>
 	
 	<tbody <div ng-show="!show">
-	  <tr dir-paginate="certificado in certificados | orderBy:sortType:sortReverse | filter:searchCertificado | itemsPerPage: pageSize" current-page="currentPage">
+	  <tr dir-paginate="certificado in certificados | orderBy:sortType:sortReverse | filter:searchCertificado | itemsPerPage: pageSize" current-page="currentPage" class="{% certificado.AGEN_activa ? '' : 'danger' %}">
 			{{-- <td>{% certificado.CERT_id %}</td> --}}
 			<td>{% certificado.CERT_codigo %}</td>
 			<td>{% certificado.CERT_equipo %}</td>
