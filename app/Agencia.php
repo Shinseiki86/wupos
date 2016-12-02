@@ -51,8 +51,9 @@ class Agencia extends Model
     public static function getAgencias()
     {
         $agencias = self::orderBy('AGEN_id')
-                                ->select('AGEN_id', 'AGEN_nombre', 'REGI_id')
-                                ->get();
+        				->where('AGEN_activa', true)
+                        ->select('AGEN_id', 'AGEN_nombre', 'REGI_id')
+                        ->get();
 
         return $agencias;
     }

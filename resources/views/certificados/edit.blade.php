@@ -60,9 +60,9 @@
 		<div class="form-group{{ $errors->has('REGI_id') ? ' has-error' : '' }}">
 			{{ Form::label('REGI_id', 'Regional', ['class'=>'col-md-4 control-label', 'for'=>'REGI_id']) }}
 			<div class="col-md-6">
-				<select class="form-control" ng-model="selectedRegional" id="REGI_id" name="REGI_id" ng-required="required" required>
-					<option value="" disabled></option>
-					<option value="{% regional.REGI_id %}" ng-repeat="regional in arrRegionales">{% regional.REGI_nombre %}</option>
+				<select class="form-control" ng-model="filterRegi.REGI_id" id="REGI_id" name="REGI_id" ng-required="required" required>
+					<option value=""></option>
+					<option ng-seleted="regional.REGI_id==selectedRegional" value="{% regional.REGI_id %}" ng-repeat="regional in arrRegionales"> {% regional.REGI_nombre %}</option>
 				</select>
 				@if ($errors->has('REGI_id'))
 					<span class="help-block">
@@ -76,8 +76,8 @@
 			{{ Form::label('AGEN_id', 'Agencia', ['class'=>'col-md-4 control-label', 'for'=>'AGEN_id']) }}
 			<div class="col-md-6">
 				<select class="form-control" ng-model="selectedAgencia" id="AGEN_id" name="AGEN_id" ng-required="required" required>
-					<option value="" disabled></option>
-					<option ng-show="agencia.REGI_id==selectedRegional" value="{% agencia.AGEN_id %}" ng-repeat="agencia in arrAgencias">{% agencia.AGEN_nombre %}</option>
+					<option value="" disabled>Seleccione una agencia</option>
+					<option value="{% agencia.AGEN_id %}" ng-repeat="agencia in arrAgencias | filter:filterRegi | orderBy:'AGEN_nombre'">{% agencia.AGEN_nombre %}</option>
 				</select>
 				@if ($errors->has('AGEN_id'))
 					<span class="help-block">
@@ -86,6 +86,7 @@
 				@endif
 			</div>
 		</div>
+
 
 		<!-- Botones -->
 		<div class="text-right">

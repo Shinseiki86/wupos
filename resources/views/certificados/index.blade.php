@@ -12,7 +12,11 @@
 			$interpolateProvider.startSymbol('{%');
 			$interpolateProvider.endSymbol('%}');
 		});
-		
+
+		//appWupos.config(['$compileProvider', function ($compileProvider) {
+		//	$compileProvider.debugInfoEnabled(false);
+		//}]);
+
 		appWupos.controller('CertificadosCtrl', ['$scope', '$timeout', function($scope, $timeout){
 			//Mostrar mensaje de carga
         	$scope.show = true;

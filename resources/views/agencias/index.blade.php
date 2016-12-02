@@ -28,7 +28,7 @@
 
 
 		@foreach($agencias as $agencia)
-		<tr>
+		<tr class="{{ $agencia->AGEN_activa ? '' : 'danger' }}">
 			<td style="width:50px;">{{ $agencia -> AGEN_id }}</td>
 			<td style="width:100px;">{{ $agencia -> AGEN_codigo }}</td>
 			<td>{{ $agencia -> AGEN_nombre }}</td>

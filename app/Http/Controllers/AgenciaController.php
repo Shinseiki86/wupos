@@ -91,7 +91,7 @@ class AgenciaController extends Controller
 		$agencia->AGEN_codigo = Input::get('AGEN_codigo');
 		$agencia->AGEN_nombre = Input::get('AGEN_nombre');
 		$agencia->AGEN_descripcion = Input::get('AGEN_descripcion');
-		$agencia->AGEN_cuentawu = Input::get('AGEN_cuentawu');
+		$agencia->AGEN_cuentawu = empty(Input::get('AGEN_cuentawu')) ? null : Input::get('AGEN_cuentawu');
 		$agencia->AGEN_activa =  (Input::get('AGEN_activa')) ? true : false;
 		$agencia->REGI_id = Input::get('REGI_id'); //Relación con Regional
 		$agencia->AGEN_creadopor = auth()->user()->username;
@@ -169,7 +169,7 @@ class AgenciaController extends Controller
 		$agencia->AGEN_codigo = Input::get('AGEN_codigo');
 		$agencia->AGEN_nombre = Input::get('AGEN_nombre');
 		$agencia->AGEN_descripcion = Input::get('AGEN_descripcion');
-		$agencia->AGEN_cuentawu = Input::get('AGEN_cuentawu');
+		$agencia->AGEN_cuentawu = empty(Input::get('AGEN_cuentawu')) ? null : Input::get('AGEN_cuentawu');
 		$agencia->AGEN_activa =  (Input::get('AGEN_activa')) ? true : false;
 		$agencia->REGI_id = Input::get('REGI_id'); //Relación con Regional
 
