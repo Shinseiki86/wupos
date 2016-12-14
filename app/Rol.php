@@ -16,7 +16,7 @@ class Rol extends Model
 	const UPDATED_AT = 'ROLE_fechamodificado';
 	use SoftDeletes;
 	const DELETED_AT = 'ROLE_fechaeliminado';
-	protected $dates = ['ROLE_fechaeliminado'];
+	protected $dates = ['ROLE_fechacreado', 'ROLE_fechamodificado', 'ROLE_fechaeliminado'];
 
 	protected $fillable = ['ROLE_rol','ROLE_descripcion','ROLE_creadopor'];
 

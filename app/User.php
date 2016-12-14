@@ -17,7 +17,7 @@ class User extends Authenticatable
 	const UPDATED_AT = 'USER_fechamodificado';
 	use SoftDeletes;
 	const DELETED_AT = 'USER_fechaeliminado';
-	protected $dates = ['USER_fechaeliminado'];
+	protected $dates = ['USER_fechacreado', 'USER_fechamodificado', 'USER_fechaeliminado'];
 
 
 	/**
