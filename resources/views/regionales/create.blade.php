@@ -15,7 +15,7 @@
 		</div>
 
 		<div class="text-right">
-			{{ Form::button('<i class="fa fa-exclamation" aria-hidden="true"></i> Reset', array('class'=>'btn btn-warning', 'type'=>'reset')) }}
+			{{ Form::button('<i class="fa fa-undo" aria-hidden="true"></i> Reset', array('class'=>'btn btn-warning', 'type'=>'reset')) }}
 			<a class="btn btn-warning" role="button" href="{{ URL::to('regionales') }}">
 				<i class="fa fa-arrow-left" aria-hidden="true"></i> Regresar
 			</a>
