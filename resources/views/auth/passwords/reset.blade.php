@@ -8,6 +8,9 @@
 				<div class="panel-heading">Cambiar Contraseña</div>
 
 				<div class="panel-body">
+
+					@include('partials/errors')
+
 					<form class="form-horizontal" role="form" method="POST" action="{{ url('/password/reset') }}">
 						{{ csrf_field() }}
 
@@ -17,7 +20,7 @@
 							<label for="email" class="col-md-4 control-label">E-Mail</label>
 
 							<div class="col-md-6">
-								<input id="email" type="email" class="form-control" name="email" value="{{ $email or old('email') }}">
+								<input id="email" type="email" class="form-control" name="email" value="{{ $email or old('email') }}" readonly>
 
 								@if ($errors->has('email'))
 									<span class="help-block">

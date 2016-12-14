@@ -1,6 +1,11 @@
 <!DOCTYPE html>
 <html>
 	<head>
+		<?php
+			header("Cache-Control: no-store, must-revalidate, max-age=0");
+			header("Pragma: no-cache");
+			header("Expires: Sat, 26 Jul 1997 05:00:00 GMT");
+		?>
 		<title>Wupos @yield('title')</title>
 		{!! Html::meta( null, 'IE=edge', [ 'http-equiv'=>'X-UA-Compatible' ] ) !!}
 		{!! Html::meta( null, 'text/html; charset=utf-8', [ 'http-equiv'=>'Content-Type' ] ) !!}
@@ -18,6 +23,14 @@
 		{!! Html::style('assets/css/bootstrap-theme.min.css') !!}
 		{!! Html::style('assets/css/style.css') !!}
 		
+		<style>
+			.page-header{
+				margin-top:10px;
+			}
+			.jumbotron{
+				padding:10px 20px !important;
+			}
+		</style>
 		@yield('head')
 		
 		<!-- Scripts -->
@@ -34,7 +47,7 @@
 
 		@include('partials/menu')
 
-		<div class="container" style="padding-left:10px;padding-right:10px;">
+		<div class="container" style="margin-top:60px;padding-left:10px;padding-right:10px;">
 
 			@include('partials/messages')
 
@@ -44,7 +57,7 @@
 
 	</body>
 	
-	<foot>
+	<foot class="footer navbar-fixed-bottom">
 		{{--<div role="navigation" class="navbar {{ !env('APP_DEBUG', false) ? 'navbar-default' : 'navbar-inverse'}}">--}}
 			<div class="text-right" style="color: #606060;padding-right:20px;">
 				<small>Powered by <i>Shinseiki86</i></small>

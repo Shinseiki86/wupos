@@ -35,7 +35,7 @@ class AuthController extends Controller
 	 *
 	 * @var string
 	 */
-	protected $redirectTo = 'usuarios';
+	protected $redirectTo = '/';
 
 	/**
 	 * Create a new authentication controller instance.
@@ -144,7 +144,7 @@ class AuthController extends Controller
         $user = $this->create($request->all());
 
 		Session::flash('message', 'Usuario '.$user->username.' creado exitosamente!');
-        return redirect($this->redirectPath());
+        return redirect('usuarios');
     }
 
 	/**
@@ -254,7 +254,7 @@ class AuthController extends Controller
 
         // redirecciona al index de controlador
         Session::flash('message', 'Usuario '.$usuario->username.' modificado exitosamente!');
-        return redirect($this->redirectPath());
+        return redirect('usuarios');
     }
 
     /**
@@ -278,6 +278,6 @@ class AuthController extends Controller
 			Session::flash('warning', '¡Usuario '.$usuario->username.' borrado!');
 		}
 
-	    return redirect($this->redirectPath());
+	    return redirect('usuarios');
 	}
 }
