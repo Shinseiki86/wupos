@@ -77,7 +77,11 @@
 			<div class="col-md-6">
 				<select class="form-control" ng-model="selectedAgencia" id="AGEN_id" name="AGEN_id" ng-required="required" required>
 					<option value="" disabled>Seleccione una agencia</option>
-					<option value="{% agencia.AGEN_id %}" ng-repeat="agencia in arrAgencias | filter:filterRegi | orderBy:'AGEN_nombre'">{% agencia.AGEN_nombre %}</option>
+					<option
+						value="{% agencia.AGEN_id %}"
+						ng-repeat="agencia in arrAgencias | filter:filterRegi | orderBy:'AGEN_nombre'">
+						{% agencia.AGEN_id + ' - ' + agencia.AGEN_nombre %}
+					</option>
 				</select>
 				@if ($errors->has('AGEN_id'))
 					<span class="help-block">
