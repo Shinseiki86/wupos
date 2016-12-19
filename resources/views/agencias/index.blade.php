@@ -16,7 +16,7 @@
 <table class="table table-striped">
 	<thead>
 		<tr>
-			<th>ID</th>
+			{{--<th>ID</th>--}}
 			<th>Código</th>
 			<th>Nombre</th>
 			<th>Regional</th>
@@ -29,7 +29,7 @@
 
 		@foreach($agencias as $agencia)
 		<tr class="{{ $agencia->AGEN_activa ? '' : 'danger' }}">
-			<td style="width:50px;">{{ $agencia -> AGEN_id }}</td>
+			{{--<td style="width:50px;">{{ $agencia -> AGEN_id }}</td>--}}
 			<td style="width:100px;">{{ $agencia -> AGEN_codigo }}</td>
 			<td>{{ $agencia -> AGEN_nombre }}</td>
 			<td>{{ $agencia -> regional -> REGI_nombre }}</td>
