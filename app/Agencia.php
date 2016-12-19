@@ -52,7 +52,7 @@ class Agencia extends Model
     {
         $agencias = self::orderBy('AGEN_id')
         				->where('AGEN_activa', true)
-                        ->select('AGEN_id', 'AGEN_nombre', 'REGI_id')
+                        ->select('AGEN_id', 'AGEN_codigo', 'AGEN_nombre', 'REGI_id')
                         ->get();
 
         return $agencias;
