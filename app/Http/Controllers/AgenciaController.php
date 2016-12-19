@@ -100,7 +100,7 @@ class AgenciaController extends Controller
 		$agencia->save();
 
 		// redirecciona al index de controlador
-		Session::flash('message', 'Agencia '.$agencia->AGEN_id.' creada exitosamente!');
+		Session::flash('message', 'Agencia '.$agencia->AGEN_codigo.' creada exitosamente!');
 		return redirect()->to('agencias');
 	}
 
@@ -199,7 +199,7 @@ class AgenciaController extends Controller
 
 		// redirecciona al index de controlador
 		if($showMsg){
-			Session::flash('message', 'Agencia '.$agencia->AGEN_id.' eliminada exitosamente!');
+			Session::flash('message', 'Agencia '.$agencia->AGEN_codigo.' eliminada exitosamente!');
 			return redirect()->to('agencias');
 		}
 	}
