@@ -198,15 +198,15 @@
 		<tbody <div ng-show="!show">
 		  <tr dir-paginate="certificado in certificados | orderBy:sortType:sortReverse | filter:searchCertificado | itemsPerPage: pageSize" current-page="currentPage" class="{% certificado.AGEN_activa ? '' : 'danger' %}">
 				{{-- <td>{% certificado.CERT_id %}</td> --}}
-				<td>{% certificado.CERT_codigo %}</td>
-				<td>{% certificado.CERT_equipo %}</td>
-				<td>{% certificado.AGEN_codigo %}</td>
-				<td class="hidden-xs">{% certificado.AGEN_nombre %}</td>
-				<td>{% certificado.AGEN_cuentawu %}</td>
-				<td class="hidden-xs">{% certificado.REGI_nombre %}</td>
-				<td class="hidden-xs">{% certificado.CERT_creadopor %}</td>
-				<td class="hidden-xs">{% certificado.CERT_modificadopor %}</td>
-				<td class="hidden-xs">{% formatDate(certificado.CERT_fechamodificado) %}</td>
+				<td ng-bind="certificado.CERT_codigo"></td>
+				<td ng-bind="certificado.CERT_equipo"></td>
+				<td ng-bind="certificado.AGEN_codigo"></td>
+				<td class="hidden-xs" ng-bind="certificado.AGEN_nombre"></td>
+				<td ng-bind="certificado.AGEN_cuentawu"></td>
+				<td class="hidden-xs" ng-bind="certificado.REGI_nombre"></td>
+				<td class="hidden-xs" ng-bind="certificado.CERT_creadopor"></td>
+				<td class="hidden-xs" ng-bind="certificado.CERT_modificadopor"></td>
+				<td class="hidden-xs" ng-bind="formatDate(certificado.CERT_fechamodificado)"></td>
 				<td>
 					<!-- carga botón de Ver -->
 					<a class="btn btn-xs btn-success" href="{% 'certificados/' + certificado.CERT_id %}" role="button">
@@ -262,11 +262,13 @@
 		</tbody>
 		
 		<tfoot>
-			<td colspan="10" class="text-center" ng-show="show">
-				<i class="fa fa-cog fa-spin fa-2x fa-fw"></i> Cargando registros...
-			</td>
-			<td colspan="10" class="text-right" ng-show="!show">
-				@include('partials/paginate')
+			<td colspan="10">
+				<div class="text-center" ng-show="show">
+					<i class="fa fa-cog fa-spin fa-2x fa-fw" style="vertical-align: middle;"></i> Cargando registros...
+				</div>
+				<div class="text-right" ng-show="!show">
+					@include('partials/paginate')
+				</div>
 			</td>
 		</tfoot>
 	</table>
