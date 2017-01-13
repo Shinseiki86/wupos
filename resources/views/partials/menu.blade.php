@@ -51,9 +51,8 @@
 						<li><a href="{{ url('certificados') }}">
 							<i class="fa fa-check-square" aria-hidden="true"></i> Certificados
 						</a></li>
-					@elseif (in_array(Auth::user()->rol->ROLE_rol , ['user']))<!-- usuarios  -->
-						<li><a href="{{ url('certificados') }}">
-							<i class="fa fa-list" aria-hidden="true"></i> Certificados
+						<li><a href="{{ url('operadores') }}">
+							<i class="fa fa-user-secret" aria-hidden="true"></i> Operadores
 						</a></li>
 					@endif
 				@endunless

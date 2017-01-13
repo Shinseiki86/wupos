@@ -34,7 +34,7 @@
 		@yield('head')
 		
 		<!-- Scripts -->
-		{!! Html::script('assets/js/jquery-1.11.2.min.js') !!}
+		{!! Html::script('assets/js/jquery/jquery-1.11.2.min.js') !!}
 		{!! Html::script('assets/js/jquery-ui/jquery-ui.min.js') !!}
 		{!! Html::script('assets/js/bootstrap.min.js') !!}
 		@yield('scripts')

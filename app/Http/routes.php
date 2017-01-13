@@ -44,6 +44,9 @@ Route::resource('agencias', 'AgenciaController');
 //Certificados
 Route::resource('certificados', 'CertificadoController');
 
+//Operadores
+Route::resource('operadores', 'OperadorController');
+
 //Exportar a Excel
 Route::get('certificados/export/{ext}','ExportarInfoController@export');
 

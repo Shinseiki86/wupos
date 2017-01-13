@@ -33,6 +33,7 @@ class ParametrizacionTableSeeder extends Seeder
 			$newRegional->save();
 		}
 		
+		
 		$this->command->info('---FIN ParametrizacionTableSeeder');
 	}
 }

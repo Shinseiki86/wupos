@@ -19,5 +19,12 @@ return [
 		['nombre' => 'DIRECCION GENERAL', 'cod' => 99],
 	],
 
+	'estados_operadores' => [
+		'Pendiente Crear',
+		'Creado',
+		'Pendiente Eliminar',
+		'Eliminado',
+	],
+
 
 ];
