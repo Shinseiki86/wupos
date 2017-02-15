@@ -1,5 +1,4 @@
 @section('head')
-	@parent
 	<style>
 		/* Define el tamaño de los input-group-addon para que sean todos iguales */
 		.input-group-addon {
@@ -7,6 +6,7 @@
 			text-align:left;
 		}
 	</style>
+@parent
 @endsection
 
 <div id="filters" class="collapse">

@@ -65,37 +65,53 @@
 
 		}]);
 	</script>
+@parent
 @endsection
 
 @section('content')
 
 <div class="container_tb_certificados" ng-app="appWupos" ng-controller="CertificadosCtrl">
-	<h1 class="page-header">Certificados</h1>
+	<h1 class="page-header">Certificados {{$papelera ? 'Eliminados' : ''}}</h1>
 
 	<div class="row well well-sm">
 
 		<!-- Filtrar datos en vista -->
-		<div id="frm-find" class="col-xs-3 col-md-9 col-lg-9">
+		<div id="frm-find" class="col-xs-12 col-sm-6">
 			<a class='btn btn-primary' role='button' data-toggle="collapse" data-target="#filters" href="#">
 				<i class="fa fa-filter" aria-hidden="true"></i> 
-				<span class="hidden-xs">Filtrar resultados</span>
-				<span class="sr-only">Filtrar</span>
+				Filtrar <span class="hidden-xs">resultados</span>
 			</a>
 		</div>
 
 		<!-- Botones -->
-		<div id="btns-top" class="col-xs-9 col-md-3 col-lg-3 text-right">
-
+		<div id="btns-top" class="col-xs-12 col-sm-6 text-right">
 			<!-- botón de crear nuevo reg -->
-			@if(in_array(auth()->user()->rol->ROLE_rol , ['admin']))
+			@if(in_array(auth()->user()->rol->ROLE_rol , ['admin']) && !$papelera)
 			<a class='btn btn-primary' role='button' href="{{ URL::to('certificados/create') }}">
-				<i class="fa fa-plus" aria-hidden="true"></i> Nuevo Certificado
-				<span class="sr-only">Nuevo</span>
+				<i class="fa fa-plus" aria-hidden="true"></i>
+				Nuevo <span class="hidden-xs">Certificado</span>
 			</a>
+			<a class='btn btn-warning' role='button' href="{{ URL::to('certificados-borrados') }}">
+				<i class="fa fa-trash-o" aria-hidden="true"></i> 
+				Papelera
+			</a>
+			@elseif($papelera)
+				<!-- botón de vaciar papelera -->
+				{{ Form::button('<i class="fa fa-trash" aria-hidden="true"></i> Vaciar <span class="hidden-xs">Papelera</span>',[
+						'class'=>'btn btn-danger',
+						'data-toggle'=>'modal',
+						'data-id'=>'{% papelera %}',
+						'data-descripcion'=>'registros en la papelera',
+						'data-action'=>'certificados-borrados/vaciarPapelera',
+						'data-target'=>'#pregModalDelete',
+					])
+				}}
 			@endif
+
 
 			<!-- botón de exportar -->
 			{{ Form::open( [ 'url'=>'certificados/export/xlsx', 'method'=>'GET', 'class' => 'pull-right' ]) }}
+				{{ Form::hidden('_papelera', ''.$papelera) }}
 				{{ Form::button('<i class="fa fa-download" aria-hidden="true"></i> Exportar',[
 						'class'=>'btn btn-success',
 						'type'=>'submit',
@@ -208,55 +224,34 @@
 				<td class="hidden-xs" ng-bind="certificado.CERT_modificadopor"></td>
 				<td class="hidden-xs" ng-bind="formatDate(certificado.CERT_fechamodificado)"></td>
 				<td>
-					<!-- carga botón de Ver -->
+					<!-- carga botón de Ver 
 					<a class="btn btn-xs btn-success" href="{% 'certificados/' + certificado.CERT_id %}" role="button">
 						<span class="glyphicon glyphicon-eye-open"></span> <span class="hidden-xs">Ver</span>
-					</a>
+					</a>-->
 
+					@if(!$papelera)
 					<!-- Cargar botón editar -->
 					<a class="btn btn-xs btn-info" href="{% 'certificados/' + certificado.CERT_id + '/edit' %}">
 						<i class="fa fa-pencil-square-o" aria-hidden="true"></i> <span class="hidden-xs">Editar</span>
 					</a>
+					@else
+					<!-- Cargar botón editar -->
+					<a class="btn btn-xs btn-warning" href="{% 'certificados/' + certificado.CERT_id + '/restore' %}">
+						<i class="fa fa-undo" aria-hidden="true"></i> <span class="hidden-xs">Restaurar</span>
+					</a>
+					@endif
 
 					<!-- carga botón de borrar -->
 					{{ Form::button('<i class="fa fa-trash" aria-hidden="true"></i> <span class="hidden-xs">Borrar</span>',[
 							'class'=>'btn btn-xs btn-danger',
 							'data-toggle'=>'modal',
-							'data-target'=>'#pregModal{% certificado.CERT_id %}',
-						]) }}
+							'data-id'=>'{% certificado.CERT_id %}',
+							'data-descripcion'=>'{% certificado.CERT_codigo %}',
+							'data-action'=>'{% "certificados/" + certificado.CERT_id %}',
+							'data-target'=>'#pregModalDelete',
+						])
+					}}
 
-						<!-- Mensaje Modal. Bloquea la pantalla mientras se procesa la solicitud -->
-						<div class="modal fade" id="pregModal{% certificado.CERT_id %}" role="dialog" tabindex="-1" >
-							<div class="modal-dialog">
-								<!-- Modal content-->
-								<div class="modal-content">
-									<div class="modal-header">
-										<h4 class="modal-title">¿Borrar?</h4>
-									</div>
-									<div class="modal-body">
-										<p>
-											<i class="fa fa-exclamation-triangle"></i> ¿Desea borrar la certificado {% certificado.CERT_codigo %} de {% certificado.AGEN_nombre %}?
-										</p>
-									</div>
-									<div class="modal-footer">
-										<form method="POST" action="{% 'certificados/' + certificado.CERT_id %}" accept-charset="UTF-8" class="pull-right ng-pristine ng-valid">
-
-											<button type="button" class="btn btn-xs btn-success" data-dismiss="modal">NO</button>
-
-											{{ Form::token() }}
-											{{ Form::hidden('_method', 'DELETE') }}
-											{{ Form::button('<i class="fa fa-trash" aria-hidden="true"></i> SI',[
-												'class'=>'btn btn-xs btn-danger',
-												'type'=>'submit',
-												'data-toggle'=>'modal',
-												'data-backdrop'=>'static',
-												'data-target'=>'#msgModal',
-											]) }}
-										</form>
-									</div>
-						  		</div>
-							</div>
-						</div>
 				</td>
 			</tr>
 		</tbody>
@@ -272,31 +267,9 @@
 			</td>
 		</tfoot>
 	</table>
-
-
-	  <!-- Mensaje Modal. Bloquea la pantalla mientras se procesa la solicitud -->
-	  <div class="modal fade" id="msgModal" role="dialog">
-		<div class="modal-dialog">
-		
-		  <!-- Modal content-->
-		  <div class="modal-content">
-			<div class="modal-header">
-			  <h4 class="modal-title">Borrando...</h4>
-			</div>
-			<div class="modal-body">
-				<p>
-					<i class="fa fa-cog fa-spin fa-3x fa-fw"></i> Borrando certificado...
-				</p>
-			</div>
-			<div class="modal-footer">
-			</div>
-		  </div>
-		  
-		</div>
-	  </div>
-  
-
 </div><!-- End ng-controller -->
+
+@include('partials/modalDelete') <!-- incluye el modal del Delete -->	
 @endsection
 
 	

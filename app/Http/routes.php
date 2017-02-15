@@ -43,13 +43,15 @@ Route::resource('agencias', 'AgenciaController');
 
 //Certificados
 Route::resource('certificados', 'CertificadoController');
-Route::resource('certificados-borrados', 'CertificadoController@indexOnlyTrashed');
+Route::get('certificados/{CERT_id}/restore', 'CertificadoController@restore');
+Route::get('certificados-borrados', 'CertificadoController@indexOnlyTrashed');
+Route::delete('certificados-borrados/vaciarPapelera', 'CertificadoController@vaciarPapelera');
 
 //Operadores
 Route::resource('operadores', 'OperadorController');
 
 //Exportar a Excel
-Route::get('certificados/export/{ext}','ExportarInfoController@export');
+Route::get('certificados/export/{ext}','ExportarInfoController@exportCertificados');
 
 /*
 

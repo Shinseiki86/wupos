@@ -53,7 +53,8 @@ class CertificadoController extends Controller
 		$arrRegionales = Regional::getRegionales();
 
 		//Se carga la vista y se pasan los registros
-		return view('certificados/index', compact('certificados', 'arrAgencias', 'arrRegionales'));
+		return view('certificados/index', compact('certificados', 'arrAgencias', 'arrRegionales'))
+				->with('papelera', $papelera = false);
 	}
 
 	/**
@@ -74,7 +75,8 @@ class CertificadoController extends Controller
 		$arrRegionales = Regional::getRegionales();
 
 		//Se carga la vista y se pasan los registros
-		return view('certificados/index', compact('certificados', 'arrAgencias', 'arrRegionales'));
+		return view('certificados/index', compact('certificados', 'arrAgencias', 'arrRegionales'))
+				->with('papelera', $papelera = true);
 	}
 
 	/**
@@ -197,17 +199,62 @@ class CertificadoController extends Controller
 	 */
 	public function destroy($CERT_id, $showMsg=True)
 	{
-		$certificado = Certificado::findOrFail($CERT_id);
+		$certificado = Certificado::withTrashed()->findOrFail($CERT_id);
 
-		// delete
-		$certificado->CERT_eliminadopor = auth()->user()->username;
-		$certificado->save();
-		$certificado->delete();
+		$modoBorrado = Input::get('_modoBorrado');
+		
+		if($modoBorrado === 'softDelete'){
+			$certificado->CERT_eliminadopor = auth()->user()->username;
+			$certificado->save();
+			$certificado->delete();
+		}
+		elseif($modoBorrado === 'forceDelete'){
+			$certificado->forceDelete();
+		}
 
 		// redirecciona al index de controlador
 		if($showMsg){
 			Session::flash('message', 'Certificado '.$certificado->CERT_codigo.' eliminado exitosamente!');
-			return redirect()->to('certificados');
+			return redirect()->back();
+		}
+	}
+
+	/**
+	 * Elimina todos los registros borrados de la base de datos.
+	 *
+	 * @param  int  $CERT_id
+	 * @return Response
+	 */
+	public function vaciarPapelera($showMsg=True)
+	{
+		$certificados = Certificado::onlyTrashed();
+		$count = $certificados->get()->count();
+		$certificados->forceDelete();
+
+		// redirecciona al index de controlador
+		if($showMsg){
+			Session::flash('message', '¡'.$count.' certificado(s) eliminados exitosamente!');
+			return redirect()->back();
+		}
+	}
+
+
+	/**
+	 * Restaura un registro eliminado de la base de datos.
+	 *
+	 * @param  int  $CERT_id
+	 * @return Response
+	 */
+	public function restore($CERT_id, $showMsg=True)
+	{
+		$certificado = Certificado::onlyTrashed()->findOrFail($CERT_id);
+		$certificado->restore();
+		//$certificado->history()->restore();
+
+		// redirecciona al index de controlador
+		if($showMsg){
+			Session::flash('message', 'Certificado '.$certificado->CERT_codigo.' restaurado exitosamente!');
+			return redirect()->back();
 		}
 	}
 
