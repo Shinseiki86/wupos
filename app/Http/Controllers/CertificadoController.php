@@ -57,6 +57,27 @@ class CertificadoController extends Controller
 	}
 
 	/**
+	 * Muestra una lista de los registros eliminados.
+	 *
+	 * @return Response
+	 */
+	public function indexOnlyTrashed()
+	{
+		//Se obtienen todos los registros.
+		$certificados = Certificado::onlyTrashed()
+						->orderBy('CERT_id')
+						->join('AGENCIAS', 'AGENCIAS.AGEN_id', '=', 'CERTIFICADOS.AGEN_id')
+						->join('REGIONALES', 'REGIONALES.REGI_id', '=', 'AGENCIAS.REGI_id')
+						->get();
+
+		$arrAgencias = Agencia::getAgencias();
+		$arrRegionales = Regional::getRegionales();
+
+		//Se carga la vista y se pasan los registros
+		return view('certificados/index', compact('certificados', 'arrAgencias', 'arrRegionales'));
+	}
+
+	/**
 	 * Muestra el formulario para crear un nuevo registro.
 	 *
 	 * @return Response

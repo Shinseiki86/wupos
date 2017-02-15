@@ -43,6 +43,7 @@ Route::resource('agencias', 'AgenciaController');
 
 //Certificados
 Route::resource('certificados', 'CertificadoController');
+Route::resource('certificados-borrados', 'CertificadoController@indexOnlyTrashed');
 
 //Operadores
 Route::resource('operadores', 'OperadorController');
