@@ -3,10 +3,10 @@
 		<div class="input-group">
 			<span class="input-group-addon">Registros por pág</span>
 			<select class="form-control" ng-model="pageSize">
-			  <option value="5" selected>5</option>
-			  <option value="10">10</option>
-			  <option value="25">25</option>
-			  <option value="100">100</option>
+			  <option value="5" ng-selected="pageSize==5">5</option>
+			  <option value="10" ng-selected="pageSize==10">10</option>
+			  <option value="25" ng-selected="pageSize==25">25</option>
+			  <option value="100" ng-selected="pageSize==100">100</option>
 			</select>
 		</div>
 	</div>

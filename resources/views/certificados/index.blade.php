@@ -6,6 +6,7 @@
     {!! Html::script('assets/js/angular/angular.min.js') !!}
 	{!! Html::script('assets/js/angular/ui-bootstrap-tpls-2.3.1.min.js') !!}
 	{!! Html::script('assets/js/angular/dirPagination.js') !!}
+	{!! Html::script('assets/js/momentjs/moment-with-locales.min.js') !!}
 	<script type="text/javascript">
 		var appWupos = angular.module('appWupos', ['angularUtils.directives.dirPagination','ui.bootstrap'], function($interpolateProvider) {
 			$interpolateProvider.startSymbol('{%');
@@ -22,7 +23,7 @@
 
 			//paginación
 			$scope.currentPage = 1;
-			$scope.pageSize = 5;
+			$scope.pageSize = 25;
 
 			//Ordenamiento
 			$scope.sortType = 'CERT_fechamodificado';
@@ -30,31 +31,8 @@
 
 			//Formato de fecha
 			$scope.formatDate = function(strDate){
-			  var date = new Date(strDate);
-
-			  //Horas
-			  var hours = date.getHours();
-			  hours = hours % 12;
-			  hours = hours ? hours : 12; // the hour '0' should be '12'
-			  hours = hours < 10 ? '0'+hours : hours;
-
-			  //Minutos
-			  var minutes = date.getMinutes();
-			  minutes = minutes < 10 ? '0'+minutes : minutes;
-
-			  //AMPM
-			  var ampm = hours >= 12 ? 'PM' : 'AM';
-
-			  //strTime
-			  var strTime = hours + ':' + minutes + ' ' + ampm;
-
-			  //Fecha
-			  var day  = date.getDate() < 10 ? '0'+date.getDate() : date.getDate();
-			  var month  = date.getMonth()+1;
-			  var month  = month < 10 ? '0'+month : month;
-			  var year  = date.getFullYear();
-
-			  return day + "/" + month + "/" + year + " " + strTime;
+				var strDateFormatted = moment(strDate).format('DD/MM/YYYY hh:mm A');
+				return strDateFormatted;
 			}
 
         	$timeout( function(){
@@ -76,20 +54,38 @@
 	<div class="row well well-sm">
 
 		<!-- Filtrar datos en vista -->
-		<div id="frm-find" class="col-xs-12 col-sm-6">
-			<a class='btn btn-primary' role='button' data-toggle="collapse" data-target="#filters" href="#">
+		<div id="frm-find" class="col-xs-12 col-sm-2 col-md-2">
+			<a class='btn btn-primary' role='button' data-toggle="collapse" data-target="#filters" href="#" ng-click="searchCertificado = null">
 				<i class="fa fa-filter" aria-hidden="true"></i> 
-				Filtrar <span class="hidden-xs">resultados</span>
+				Filtrar <span class="hidden-xs hidden-sm">resultados</span>
 			</a>
+		</div>
+		<div class="col-xs-12 col-sm-8 col-md-6">
+			<form>
+				<div class="input-group has-feedback">
+					<div class="input-group-addon control-label">Filtrar</div>
+					<input type="text"
+						class="form-control"
+						placeholder="En todos los campos..."
+						ng-model="searchCertificado"
+					>
+					<span ng-if="searchCertificado"
+						ng-click="searchCertificado = null"
+						class="glyphicon glyphicon-remove-circle form-control-feedback"
+						style="cursor: pointer; pointer-events: all;"
+						uib-tooltip="Borrar"
+					></span>
+				</div>
+			</form>
 		</div>
 
 		<!-- Botones -->
-		<div id="btns-top" class="col-xs-12 col-sm-6 text-right">
+		<div id="btns-top" class="col-xs-12 col-sm-2 col-md-4 text-right">
 			<!-- botón de crear nuevo reg -->
 			@if(in_array(auth()->user()->rol->ROLE_rol , ['admin']) && !$papelera)
 			<a class='btn btn-primary' role='button' href="{{ URL::to('certificados/create') }}">
 				<i class="fa fa-plus" aria-hidden="true"></i>
-				Nuevo <span class="hidden-xs">Certificado</span>
+				Nuevo <span class="hidden-xs hidden-sm">Certificado</span>
 			</a>
 			<a class='btn btn-warning' role='button' href="{{ URL::to('certificados-borrados') }}">
 				<i class="fa fa-trash-o" aria-hidden="true"></i> 
