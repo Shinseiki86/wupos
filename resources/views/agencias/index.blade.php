@@ -88,6 +88,5 @@
 </table>
 
 
-
-
+	@include('partials/datatable') <!-- Script para tablas -->	
 @endsection

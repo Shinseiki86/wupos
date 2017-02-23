@@ -44,10 +44,10 @@
 					<span class="glyphicon glyphicon-eye-open"></span> Ver
 				</a><!-- Fin Botón Ver (show) -->
 
-				<!-- Botón Contraseña (sendResetLinkEmail) -->
+				<!-- Botón Contraseña (sendResetLinkEmail) 
 				<a class="btn btn-warning btn-xs" href="{{ URL::to('password/email/'.$usuario->USER_id) }}">
 					<i class="fa fa-btn fa-envelope" aria-hidden="true"></i> Contraseña
-				</a><!-- Fin Botón Contraseña (sendResetLinkEmail) -->
+				</a>--><!-- Fin Botón Contraseña (sendResetLinkEmail) -->
 
 				<!-- Botón Contraseña (showResetForm) -->
 				<a class="btn btn-warning btn-xs" href="{{ URL::to('password/reset?USER_id='.$usuario->USER_id) }}">
@@ -99,6 +99,5 @@
 </table>
 
 
-
-
+	@include('partials/datatable') <!-- Script para tablas -->	
 @endsection
