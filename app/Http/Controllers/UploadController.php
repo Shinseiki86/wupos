@@ -14,12 +14,11 @@ use Wupos\Regional;
 
 class UploadController extends Controller
 {
-
-	public function __construct(Redirector $redirect=null)
+	public function __construct(Redirector $redirect)
 	{
 		//Requiere que el usuario inicie sesión.
 		$this->middleware('auth');
-		if(isset($redirect)){
+		if(!auth()->guest() && isset($redirect)){
 
 			$action = Route::currentRouteAction();
 			$role = isset(auth()->user()->rol->ROLE_rol) ? auth()->user()->rol->ROLE_rol : 'user';
@@ -76,8 +75,7 @@ class UploadController extends Controller
 			})->get();
 
 			if(!empty($data) && $data->count()){
-				foreach ($data as $row) {
-
+				foreach ($data[0] as $row) {
 					$modelo = new $className;
 					$count = 0; 
 					foreach ($row as $key => $value) {

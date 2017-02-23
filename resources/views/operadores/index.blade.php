@@ -2,27 +2,12 @@
 @section('title', '/ Operadores')
 
 
-@section('scripts')
-@endsection
-
 @section('content')
 
-<div class="container_tb_operadores" ng-app="appWupos" ng-controller="OperadoresCtrl">
 	<h1 class="page-header">Operadores</h1>
 
-	<div class="row well well-sm">
-
-		<!-- Filtrar datos en vista -->
-		<div id="frm-find" class="col-xs-3 col-md-9 col-lg-9">
-			<a class='btn btn-primary' role='button' data-toggle="collapse" data-target="#filters" href="#">
-				<i class="fa fa-filter" aria-hidden="true"></i> 
-				<span class="hidden-xs">Filtrar resultados</span>
-				<span class="sr-only">Filtrar</span>
-			</a>
-		</div>
-
+	<div class="well well-sm text-right">
 		<!-- Botones -->
-		<div id="btns-top" class="col-xs-9 col-md-3 col-lg-3 text-right">
 
 			<!-- botón de crear nuevo reg -->
 			@if(in_array(auth()->user()->rol->ROLE_rol , ['admin']))
@@ -41,11 +26,7 @@
 						//'data-target'=>'#pregModalExport',
 				]) }}
 			{{ Form::close() }}
-		</div>
 	</div>
-
-	@include('operadores/index-modalExport')
-	@include('operadores/index-collapseFormFilters')
 
 	<table id="tbIndex" class="table table-striped table-condensed responsive-utilities">
 		<thead>
@@ -65,25 +46,24 @@
 		</thead>
 		
 		<tbody>
-		  
-		@foreach($operadores as $operador)
-		<tr>
-			<td>{{ $operador -> OPER_codigo }}</td>
-			<td>{{ $operador -> OPER_cedula }}</td>
-			<td>{{ $operador -> OPER_nombre }}</td>
-			<td>{{ $operador -> OPER_apellido }}</td>
-			<td>{{ $operador -> estado -> ESOP_descripcion }}</td>
-			<td>{{ $operador -> regional -> REGI_nombre }}</td>
-			<td>{{ $operador -> OPER_creadopor }}</td>
-			<td>{{ $operador -> OPER_modificadopor }}</td>
+			@foreach($operadores as $operador)
+			<tr>
+				<td>{{ str_pad($operador -> OPER_codigo, 3, '0', STR_PAD_LEFT) }}</td>
+				<td>{{ $operador -> OPER_cedula }}</td>
+				<td>{{ $operador -> OPER_nombre }}</td>
+				<td>{{ $operador -> OPER_apellido }}</td>
+				<td>{{ $operador -> estado -> ESOP_descripcion }}</td>
+				<td>{{ $operador -> regional -> REGI_nombre }}</td>
+				<td>{{ $operador -> OPER_creadopor }}</td>
+				<td>{{ $operador -> OPER_modificadopor }}</td>
 				<td>
 					<!-- carga botón de Ver -->
-					<a class="btn btn-xs btn-success" href="{% 'operadores/' + operador.CERT_id %}" role="button">
+					<a class="btn btn-xs btn-success" href="{{ 'operadores/'. $operador->CERT_id }}" role="button">
 						<span class="glyphicon glyphicon-eye-open"></span> <span class="hidden-xs">Ver</span>
 					</a>
 
 					<!-- Cargar botón editar -->
-					<a class="btn btn-xs btn-info" href="{% 'operadores/' + operador.CERT_id + '/edit' %}">
+					<a class="btn btn-xs btn-info" href="{{ 'operadores/'. $operador->CERT_id . '/edit' }}">
 						<i class="fa fa-pencil-square-o" aria-hidden="true"></i> <span class="hidden-xs">Editar</span>
 					</a>
 
@@ -91,39 +71,36 @@
 					{{ Form::button('<i class="fa fa-trash" aria-hidden="true"></i> <span class="hidden-xs">Borrar</span>',[
 							'class'=>'btn btn-xs btn-danger',
 							'data-toggle'=>'modal',
-							'data-target'=>'#pregModal{% operador.CERT_id %}',
+							'data-target'=>'#pregModal'.$operador->CERT_id,
 						]) }}
 
 				</td>
 			</tr>
-		@endforeach
+			@endforeach
 		</tbody>
 	</table>
-	@include('operadores/index-scriptDataTable')
 
-	  <!-- Mensaje Modal. Bloquea la pantalla mientras se procesa la solicitud -->
-	  <div class="modal fade" id="msgModal" role="dialog">
+	<!-- Mensaje Modal. Bloquea la pantalla mientras se procesa la solicitud -->
+	<div class="modal fade" id="msgModal" role="dialog">
 		<div class="modal-dialog">
-		
-		  <!-- Modal content-->
-		  <div class="modal-content">
-			<div class="modal-header">
-			  <h4 class="modal-title">Borrando...</h4>
+			<!-- Modal content-->
+			<div class="modal-content">
+				<div class="modal-header">
+					<h4 class="modal-title">Borrando...</h4>
+				</div>
+				<div class="modal-body">
+					<p>
+						<i class="fa fa-cog fa-spin fa-3x fa-fw"></i> Borrando operador...
+					</p>
+				</div>
+				<div class="modal-footer">
+				</div>
 			</div>
-			<div class="modal-body">
-				<p>
-					<i class="fa fa-cog fa-spin fa-3x fa-fw"></i> Borrando operador...
-				</p>
-			</div>
-			<div class="modal-footer">
-			</div>
-		  </div>
-		  
 		</div>
-	  </div>
-  
+	</div>
 
-</div><!-- End ng-controller -->
+	@include('operadores/index-modalExport')
+	@include('partials/datatable') <!-- Script para tablas -->
 @endsection
 
 	
