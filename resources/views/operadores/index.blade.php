@@ -70,36 +70,21 @@
 					<!-- carga botón de borrar -->
 					{{ Form::button('<i class="fa fa-trash" aria-hidden="true"></i> <span class="hidden-xs">Borrar</span>',[
 							'class'=>'btn btn-xs btn-danger',
-							'data-toggle'=>'modal',
-							'data-target'=>'#pregModal'.$operador->OPER_id,
-						]) }}
-
+							'data-toggle'=> 'modal',
+							'data-id'=> $operador->OPER_id,
+							'data-descripcion'=> 'cédula '.$operador->OPER_cedula,
+							'data-action'=> 'operadores/'.$operador->OPER_id,
+							'data-target'=> '#pregModalDelete',
+						])
+					}}
 				</td>
 			</tr>
 			@endforeach
 		</tbody>
 	</table>
 
-	<!-- Mensaje Modal. Bloquea la pantalla mientras se procesa la solicitud -->
-	<div class="modal fade" id="msgModal" role="dialog">
-		<div class="modal-dialog">
-			<!-- Modal content-->
-			<div class="modal-content">
-				<div class="modal-header">
-					<h4 class="modal-title">Borrando...</h4>
-				</div>
-				<div class="modal-body">
-					<p>
-						<i class="fa fa-cog fa-spin fa-3x fa-fw"></i> Borrando operador...
-					</p>
-				</div>
-				<div class="modal-footer">
-				</div>
-			</div>
-		</div>
-	</div>
-
 	@include('operadores/index-modalExport')
+	@include('partials/modalDelete') <!-- incluye el modal del Delete -->
 	@include('partials/datatable') <!-- Script para tablas -->
 @endsection
 

@@ -103,7 +103,7 @@ class OperadorController extends Controller
 
 
 		// redirecciona al index de controlador
-		Session::flash('alert-info', 'Operador '.$operador->OPER_codigo.' creado exitosamente!');
+		Session::flash('alert-success', 'Operador '.$operador->OPER_codigo.' creado exitosamente!');
 		return redirect()->to('operadores');
 	}
 
@@ -179,7 +179,7 @@ class OperadorController extends Controller
 		$operador->save();
 
 		// redirecciona al index de controlador
-		Session::flash('alert-info', 'Operador '.$operador->OPER_codigo.' modificado exitosamente!');
+		Session::flash('alert-success', 'Operador '.$operador->OPER_codigo.' modificado exitosamente!');
 		return redirect()->to('operadores');
 	}
 
@@ -200,7 +200,7 @@ class OperadorController extends Controller
 
 		// redirecciona al index de controlador
 		if($showMsg){
-			Session::flash('alert-info', 'Operador '.$operador->OPER_codigo.' eliminado exitosamente!');
+			Session::flash('alert-success', 'Operador '.$operador->OPER_codigo.' eliminado exitosamente!');
 			return redirect()->to('operadores');
 		}
 	}

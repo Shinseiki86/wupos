@@ -78,7 +78,7 @@
 					</button>
 					{{ Form::token() }}
 					{{ Form::hidden('_method', 'DELETE') }}
-					{{ Form::hidden('_modoBorrado', $papelera ? 'forceDelete' : 'softDelete') }}
+					{{ Form::hidden('_modoBorrado', (isset($papelera) && $papelera) ? 'forceDelete' : 'softDelete') }}
 					{{ Form::button('<i class="fa fa-trash" aria-hidden="true"></i> SI ',[
 						'class'=>'btn btn-xs btn-danger',
 						'type'=>'submit',
