@@ -7,5 +7,4 @@
         	@endforeach
         </ul>
     </div>
-    {{ dump($errors) }}
 @endif

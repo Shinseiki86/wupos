@@ -27,7 +27,7 @@ class RegionalController extends Controller
             {
                 if( ! in_array($role , ['admin']))//Si el rol no es admin, se niega el acceso.
                 {
-                    Session::flash('error', '¡Usuario no tiene permisos!');
+                    Session::flash('alert-danger', '¡Usuario no tiene permisos!');
                     abort(403, '¡Usuario no tiene permisos!.');
                 }
             }
@@ -79,7 +79,7 @@ class RegionalController extends Controller
         $regional->save();
 
         // redirecciona al index de controlador
-        Session::flash('message', 'Regional '.$regional->REGI_id.' creada exitosamente!');
+        Session::flash('alert-info', 'Regional '.$regional->REGI_id.' creada exitosamente!');
         return redirect()->to('regionales');
     }
 
@@ -140,7 +140,7 @@ class RegionalController extends Controller
         $regional->save();
 
         // redirecciona al index de controlador
-        Session::flash('message', 'Regional '.$regional->REGI_id.' modificada exitosamente!');
+        Session::flash('alert-info', 'Regional '.$regional->REGI_id.' modificada exitosamente!');
         return redirect()->to('regionales');
     }
 
@@ -168,7 +168,7 @@ class RegionalController extends Controller
 
         // redirecciona al index de controlador
         if($showMsg){
-            Session::flash('message', 'Regional '.$regional->REGI_id.' eliminada exitosamente!');
+            Session::flash('alert-info', 'Regional '.$regional->REGI_id.' eliminada exitosamente!');
             return redirect()->to('regionales');
         }
     }

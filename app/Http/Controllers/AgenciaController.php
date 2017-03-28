@@ -28,7 +28,7 @@ class AgenciaController extends Controller
 			{
 				if( ! in_array($role , ['admin'])) //Si el rol no es admin, se niega el acceso.
 				{
-					Session::flash('error', '¡Usuario no tiene permisos!');
+					Session::flash('alert-danger', '¡Usuario no tiene permisos!');
 					abort(403, '¡Usuario no tiene permisos!.');
 				}
 			}
@@ -100,7 +100,7 @@ class AgenciaController extends Controller
 		$agencia->save();
 
 		// redirecciona al index de controlador
-		Session::flash('message', 'Agencia '.$agencia->AGEN_codigo.' creada exitosamente!');
+		Session::flash('alert-info', 'Agencia '.$agencia->AGEN_codigo.' creada exitosamente!');
 		return redirect()->to('agencias');
 	}
 
@@ -178,7 +178,7 @@ class AgenciaController extends Controller
 		$agencia->save();
 
 		// redirecciona al index de controlador
-		Session::flash('message', 'Agencia '.$agencia->AGEN_codigo.' modificada exitosamente!');
+		Session::flash('alert-info', 'Agencia '.$agencia->AGEN_codigo.' modificada exitosamente!');
 		return redirect()->to('agencias');
 	}
 
@@ -199,7 +199,7 @@ class AgenciaController extends Controller
 
 		// redirecciona al index de controlador
 		if($showMsg){
-			Session::flash('message', 'Agencia '.$agencia->AGEN_codigo.' eliminada exitosamente!');
+			Session::flash('alert-info', 'Agencia '.$agencia->AGEN_codigo.' eliminada exitosamente!');
 			return redirect()->to('agencias');
 		}
 	}

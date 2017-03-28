@@ -21,6 +21,7 @@
 	}]);
 
 </script>
+@parent
 @endsection
 
 @section('content')

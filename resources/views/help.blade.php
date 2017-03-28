@@ -16,9 +16,11 @@
 		.success { color: #4F8A10; background-color: #DFF2BF; }
 		.fail { color: #D8000C; background-color: #FFBABA; }
 	</style>
+@parent
 @endsection
 
 @section('scripts')
+@parent
 @endsection
 
 @section('content')

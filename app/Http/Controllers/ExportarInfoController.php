@@ -60,7 +60,7 @@ class ExportarInfoController extends Controller {
 	        });
     	})->export($ext);
 
-		Session::flash('message', '¡Datos exportados exitosamente!');
+		Session::flash('alert-info', '¡Datos exportados exitosamente!');
     	return redirect()->refresh()->with('error_code', 1)->send();
 	}
 

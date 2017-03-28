@@ -15,8 +15,8 @@
 Route::auth();
 Route::resource('usuarios', 'Auth\AuthController');
 Route::resource('roles', 'Auth\RolController');
-Route::get('password/email/{USER_id}', 'Auth\PasswordController@sendEmail');
-Route::get('password/reset/{USER_id}', 'Auth\PasswordController@showResetForm');
+Route::get('password/email/{USER_id}', 'Auth\PasswordController@sendEmail')->where('USER_id', '[0-9]+');
+Route::get('password/reset/{USER_id}', 'Auth\PasswordController@showResetForm')->where('USER_id', '[0-9]+');
 
 //Inicio
 Route::get('/home', 'HomeController@index');

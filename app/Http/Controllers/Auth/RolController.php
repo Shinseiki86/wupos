@@ -29,7 +29,7 @@ class RolController extends Controller
 			{
 				if( ! in_array($role , ['admin']))//Si el rol no es admin, se niega el acceso.
 				{
-					Session::flash('error', '¡Usuario no tiene permisos!');
+					Session::flash('alert-danger', '¡Usuario no tiene permisos!');
 					abort(403, '¡Usuario no tiene permisos!.');
 				}
 			}
@@ -81,7 +81,7 @@ class RolController extends Controller
 		$rol->save();
 
 		// redirecciona al index de controlador
-		Session::flash('message', 'Rol '.$rol->ROLE_descripcion.' creado exitosamente!');
+		Session::flash('alert-info', 'Rol '.$rol->ROLE_descripcion.' creado exitosamente!');
 		return redirect()->to('roles');
 	}
 
@@ -126,7 +126,7 @@ class RolController extends Controller
 		$rol->save();
 
 		// redirecciona al index de controlador
-		Session::flash('message', 'Rol '.$rol->ROLE_descripcion.' modificado exitosamente!');
+		Session::flash('alert-info', 'Rol '.$rol->ROLE_descripcion.' modificado exitosamente!');
 		return redirect()->to('roles');
 	}
 
@@ -142,7 +142,7 @@ class RolController extends Controller
 
 		//Si la encuesta fue creada por SYSTEM, no se puede borrar.
 		if($rol->ROLE_creadopor == 'SYSTEM'){
-			Session::flash('error', 'Rol '.$rol->ROLE_descripcion.' no se puede borrar!');
+			Session::flash('alert-danger', 'Rol '.$rol->ROLE_descripcion.' no se puede borrar!');
 			return redirect()->to('roles');
 	    } else {
 
@@ -152,7 +152,7 @@ class RolController extends Controller
 
 			// redirecciona al index de controlador
 			if($showMsg){
-				Session::flash('message', 'Rol '.$rol->ROLE_descripcion.' eliminado exitosamente!');
+				Session::flash('alert-info', 'Rol '.$rol->ROLE_descripcion.' eliminado exitosamente!');
 				return redirect()->to('roles');
 			}
 		}

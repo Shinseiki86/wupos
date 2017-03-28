@@ -22,23 +22,50 @@
 		{!! Html::style('assets/css/font-awesome.min.css') !!}
 		{!! Html::style('assets/css/bootstrap-theme.min.css') !!}
 		{!! Html::style('assets/css/style.css') !!}
-		
-		<style>
-			.page-header{
-				margin-top:10px;
+
+		<style type="text/css">
+			.page-header{margin-top:10px;}
+			.jumbotron{padding:10px 20px !important;}
+			.form-check-input {width: 20px; height: 20px;}
+			.form-check-label {height: 36px; /*font-size: large;*/}
+			.modal {text-align: center;}
+
+			/*Modal centrado en pantallas xs.*/
+			@media screen and (min-width: 768px) { 
+			  .modal:before {
+				display: inline-block;
+				vertical-align: middle;
+				content: " ";
+				height: 100%;
+			  }
 			}
-			.jumbotron{
-				padding:10px 20px !important;
+			.modal-dialog {
+			  display: inline-block;
+			  text-align: left;
+			  vertical-align: middle;
+			}
+
+			.fa-2x, .fa-3x{
+				vertical-align: middle;
+			}
+
+			/*Alerta flotante a la derecha.*/
+			.alertas {
+			    position: absolute;
+			    max-height: 500px;
+			    max-width: 600px;
+			    bottom : 20px;
+			    right: 20px;
+			    z-index: 999;
+			}
+			.alertas>.alert{
+				width: 300px;
+				margin-bottom: 5px;
 			}
 		</style>
+
 		@yield('head')
 		
-		<!-- Scripts -->
-		{!! Html::script('assets/js/jquery/jquery-1.11.2.min.js') !!}
-		{!! Html::script('assets/js/jquery-ui/jquery-ui.min.js') !!}
-		{!! Html::script('assets/js/bootstrap.min.js') !!}
-		@yield('scripts')
-
 		<!-- Fonts -->
 		{{-- <link href='//fonts.googleapis.com/css?family=Roboto:400,300' rel='stylesheet' type='text/css'> --}}
 	</head>
@@ -55,13 +82,16 @@
 			@yield('content')
 		</div>
 
+		<!-- Scripts -->
+		{!! Html::script('assets/js/jquery/jquery-1.11.2.min.js') !!}
+		{!! Html::script('assets/js/jquery-ui/jquery-ui.min.js') !!}
+		{!! Html::script('assets/js/bootstrap.min.js') !!}
+		@yield('scripts')
 	</body>
 	
-	<foot class="footer navbar-fixed-bottom">
-		{{--<div role="navigation" class="navbar {{ !env('APP_DEBUG', false) ? 'navbar-default' : 'navbar-inverse'}}">--}}
+	<footer class="footer navbar-fixed-bottom">
 			<div class="text-right" style="color: #606060;padding-right:20px;">
 				<small>Powered by <i>Shinseiki86</i></small>
 			</div>
-		{{--</div>--}}
-	</foot>
+	</footer>
 </html>

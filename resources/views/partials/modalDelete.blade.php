@@ -55,8 +55,8 @@
 <!-- Mensaje Modal para confirmar borrado de registro-->
 <div class="modal fade" id="pregModalDelete" role="dialog" tabindex="-1" >
 	<div class="modal-dialog">
-		<div class="modal-content">
-			<div class="modal-header">
+		<div class="modal-content panel-danger">
+			<div class="modal-header panel-heading" style="border-top-left-radius: inherit; border-top-right-radius: inherit;">
 				<h4 class="modal-title">¿Borrar registro <span class="id"></span>?</h4>
 			</div>
 

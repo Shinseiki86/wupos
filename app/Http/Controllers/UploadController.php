@@ -30,7 +30,7 @@ class UploadController extends Controller
 			{
 				if( ! in_array($role , ['admin']))//Si el rol no es admin, se niega el acceso.
 				{
-					Session::flash('error', '¡Usuario no tiene permisos!');
+					Session::flash('alert-danger', '¡Usuario no tiene permisos!');
 					abort(403, '¡Usuario no tiene permisos!.');
 				}
 			}

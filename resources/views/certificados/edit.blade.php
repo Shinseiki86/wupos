@@ -3,6 +3,7 @@
 
 @section('head')
     {!! Html::script('assets/js/angular/angular.min.js') !!}
+@parent
 @endsection
 
 @section('scripts')
@@ -21,6 +22,7 @@
 	}]);
 
 </script>
+@parent
 @endsection
 
 @section('content')

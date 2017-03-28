@@ -29,7 +29,7 @@ class OperadorController extends Controller
 			{
 				if( ! in_array($role , ['admin','editor']))//Si el rol no es admin o editor, se niega el acceso.
 				{
-					Session::flash('error', '¡Usuario no tiene permisos!');
+					Session::flash('alert-danger', '¡Usuario no tiene permisos!');
 					abort(403, '¡Usuario no tiene permisos!.');
 				}
 			}
@@ -84,7 +84,7 @@ class OperadorController extends Controller
 	{
 		//Validación de datos
 		$this->validate(request(), [
-			'OPER_codigo' => ['required', 'numeric', 'max:3'],
+			'OPER_codigo' => ['required', 'numeric', 'digits_between:1,3'],
 			'OPER_cedula' => ['required', 'numeric', 'digits_between:1,15'],
 			'OPER_nombre' => ['required', 'string', 'max:100'],
 			'OPER_apellido' => ['required', 'string', 'max:100'],
@@ -103,7 +103,7 @@ class OperadorController extends Controller
 
 
 		// redirecciona al index de controlador
-		Session::flash('message', 'Operador '.$operador->OPER_codigo.' creado exitosamente!');
+		Session::flash('alert-info', 'Operador '.$operador->OPER_codigo.' creado exitosamente!');
 		return redirect()->to('operadores');
 	}
 
@@ -156,7 +156,7 @@ class OperadorController extends Controller
 	{
 		//Validación de datos
 		$this->validate(request(), [
-			'OPER_codigo' => ['required', 'numeric', 'max:3'],
+			'OPER_codigo' => ['required', 'numeric', 'digits_between:1,3'],
 			'OPER_cedula' => ['required', 'numeric', 'digits_between:1,15'],
 			'OPER_nombre' => ['required', 'string', 'max:100'],
 			'OPER_apellido' => ['required', 'string', 'max:100'],
@@ -179,7 +179,7 @@ class OperadorController extends Controller
 		$operador->save();
 
 		// redirecciona al index de controlador
-		Session::flash('message', 'Operador '.$operador->OPER_codigo.' modificado exitosamente!');
+		Session::flash('alert-info', 'Operador '.$operador->OPER_codigo.' modificado exitosamente!');
 		return redirect()->to('operadores');
 	}
 
@@ -200,7 +200,7 @@ class OperadorController extends Controller
 
 		// redirecciona al index de controlador
 		if($showMsg){
-			Session::flash('message', 'Operador '.$operador->OPER_codigo.' eliminado exitosamente!');
+			Session::flash('alert-info', 'Operador '.$operador->OPER_codigo.' eliminado exitosamente!');
 			return redirect()->to('operadores');
 		}
 	}

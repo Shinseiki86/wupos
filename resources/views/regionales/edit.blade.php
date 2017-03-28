@@ -3,6 +3,7 @@
 @section('scripts')
     <script>
     </script>
+@parent
 @endsection
 
 @section('content')
