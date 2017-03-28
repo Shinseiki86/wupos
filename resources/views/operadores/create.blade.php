@@ -1,22 +1,12 @@
 @extends('layout')
 @section('title', '/ Operador / Crear')
 
-@section('head')
-    {!! Html::script('assets/js/angular/angular.min.js') !!}
-@endsection
-
-@section('scripts')
-<script>
-</script>
-@endsection
-
 @section('content')
 
 	<h1 class="page-header">Nuevo Operador</h1>
 
 	@include('partials/errors')
 
-<div class="">
 
 	{{ Form::open( [ 'url' => 'operadores' ] ) }}
 
@@ -106,5 +96,5 @@
 		</div>
 
 	{{ Form::close() }}
-</div>
+	
 @endsection

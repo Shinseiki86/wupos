@@ -2,8 +2,8 @@
 <div class="modal fade" id="pregModalExport" role="dialog" tabindex="-1" >
 	<div class="modal-dialog">
 		<!-- Modal content-->
-		<div class="modal-content">
-			<div class="modal-header">
+		<div class="modal-content panel-info">
+			<div class="modal-header panel-heading" style="border-top-left-radius: inherit; border-top-right-radius: inherit;">
 				<h4 class="modal-title">Exportar</h4>
 			</div>
 			<div class="modal-body text-center">

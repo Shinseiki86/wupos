@@ -58,12 +58,12 @@
 				<td>{{ $operador -> OPER_modificadopor }}</td>
 				<td>
 					<!-- carga botón de Ver -->
-					<a class="btn btn-xs btn-success" href="{{ 'operadores/'. $operador->CERT_id }}" role="button">
+					<a class="btn btn-xs btn-success" href="{{ 'operadores/'. $operador->OPER_id }}" role="button">
 						<span class="glyphicon glyphicon-eye-open"></span> <span class="hidden-xs">Ver</span>
 					</a>
 
 					<!-- Cargar botón editar -->
-					<a class="btn btn-xs btn-info" href="{{ 'operadores/'. $operador->CERT_id . '/edit' }}">
+					<a class="btn btn-xs btn-info" href="{{ 'operadores/'. $operador->OPER_id . '/edit' }}">
 						<i class="fa fa-pencil-square-o" aria-hidden="true"></i> <span class="hidden-xs">Editar</span>
 					</a>
 
@@ -71,7 +71,7 @@
 					{{ Form::button('<i class="fa fa-trash" aria-hidden="true"></i> <span class="hidden-xs">Borrar</span>',[
 							'class'=>'btn btn-xs btn-danger',
 							'data-toggle'=>'modal',
-							'data-target'=>'#pregModal'.$operador->CERT_id,
+							'data-target'=>'#pregModal'.$operador->OPER_id,
 						]) }}
 
 				</td>
