@@ -10,22 +10,18 @@
 		</div>
 	@endif
 	@if (Session::has('alert-success'))
-		@foreach(Session::get('alert-success') as $msg)
 		<div class="alert alert-success">
 			<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
 			<strong><i class="fa fa-exclamation-triangle fa-2x fa-pull-left" aria-hidden="true"></i></strong>
-			{{ $msg }}
+			{{ Session::get('alert-success') }}
 		</div>
-		@endforeach
 	@endif
 	@if (Session::has('alert-warning'))
-		@foreach(Session::get('alert-warning') as $msg)
 		<div class="alert alert-warning">
 			<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
 			<strong><i class="fa fa-exclamation-triangle fa-2x fa-pull-left" aria-hidden="true"></i></strong>
-			{{ $msg }}
+			{{ Session::get('alert-warning') }}
 		</div>
-		@endforeach
 	@endif
 	@if (Session::has('alert-danger'))
 		<div class="alert alert-danger">

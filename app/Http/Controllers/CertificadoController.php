@@ -119,7 +119,7 @@ class CertificadoController extends Controller
 		$certificado->save();
 
 		// redirecciona al index de controlador
-		Session::flash('alert-info', 'Certificado '.$certificado->CERT_codigo.' creado exitosamente!');
+		Session::flash('alert-success', 'Certificado '.$certificado->CERT_codigo.' creado exitosamente!');
 		return redirect()->to('certificados');
 	}
 
@@ -187,7 +187,7 @@ class CertificadoController extends Controller
 		$certificado->save();
 
 		// redirecciona al index de controlador
-		Session::flash('alert-info', 'Certificado '.$certificado->CERT_codigo.' modificado exitosamente!');
+		Session::flash('alert-success', 'Certificado '.$certificado->CERT_codigo.' modificado exitosamente!');
 		return redirect()->to('certificados');
 	}
 
@@ -214,7 +214,7 @@ class CertificadoController extends Controller
 
 		// redirecciona al index de controlador
 		if($showMsg){
-			Session::flash('alert-info', 'Certificado '.$certificado->CERT_codigo.' eliminado exitosamente!');
+			Session::flash('alert-success', 'Certificado '.$certificado->CERT_codigo.' eliminado exitosamente!');
 			return redirect()->back();
 		}
 	}
@@ -233,7 +233,7 @@ class CertificadoController extends Controller
 
 		// redirecciona al index de controlador
 		if($showMsg){
-			Session::flash('alert-info', '¡'.$count.' certificado(s) eliminados exitosamente!');
+			Session::flash('alert-success', '¡'.$count.' certificado(s) eliminados exitosamente!');
 			return redirect()->back();
 		}
 	}
@@ -253,7 +253,7 @@ class CertificadoController extends Controller
 
 		// redirecciona al index de controlador
 		if($showMsg){
-			Session::flash('alert-info', 'Certificado '.$certificado->CERT_codigo.' restaurado exitosamente!');
+			Session::flash('alert-success', 'Certificado '.$certificado->CERT_codigo.' restaurado exitosamente!');
 			return redirect()->back();
 		}
 	}
