@@ -46,15 +46,14 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $e)
     {        
-        //dump($request);
-        //dd($e);
         //Si la ruta no existe, mostar view 404.
         if (!env('APP_DEBUG', false)){
             if($e instanceof \ReflectionException OR
                 $e instanceof \Symfony\Component\HttpKernel\Exception\NotFoundHttpException){
                 return response(view('errors.404'), 404);
             } else {
-                //
+                $errorMsg = $e->getMessage();
+                return response(view('errors.500', compact($errorMsg)), 500);
             }
         }
 

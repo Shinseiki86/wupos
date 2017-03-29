@@ -3,28 +3,28 @@
 <!-- ALERTAS -->
 <div class="alertas">
 	@if (Session::has('alert-info'))
-		<div class="alert alert-info">
+		<div class="alert alert-info alert-flash">
 			<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
 			<strong><i class="fa fa-info-circle fa-2x fa-pull-left" aria-hidden="true"></i></strong>
 			{{ Session::get('alert-info') }}
 		</div>
 	@endif
 	@if (Session::has('alert-success'))
-		<div class="alert alert-success">
+		<div class="alert alert-success alert-flash">
 			<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
 			<strong><i class="fa fa-exclamation-triangle fa-2x fa-pull-left" aria-hidden="true"></i></strong>
 			{{ Session::get('alert-success') }}
 		</div>
 	@endif
 	@if (Session::has('alert-warning'))
-		<div class="alert alert-warning">
+		<div class="alert alert-warning alert-flash">
 			<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
 			<strong><i class="fa fa-exclamation-triangle fa-2x fa-pull-left" aria-hidden="true"></i></strong>
 			{{ Session::get('alert-warning') }}
 		</div>
 	@endif
 	@if (Session::has('alert-danger'))
-		<div class="alert alert-danger">
+		<div class="alert alert-danger alert-flash">
 			<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
 			<strong><i class="fa fa-exclamation-triangle fa-2x fa-pull-left" aria-hidden="true"></i></strong>
 			{{ Session::get('alert-danger') }}
@@ -66,8 +66,8 @@
 
 		//Se cierra la alerta a los 5 segundos.
 		setTimeout(function () {
-        	$(".alert").slideUp(500, function(){
-			    $(this).alert('close');
+			$('.alert-flash').slideUp(500, function(){
+				$(this).alert('close');
 			});
 		}, 5000);
 

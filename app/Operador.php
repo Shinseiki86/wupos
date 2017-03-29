@@ -2,10 +2,9 @@
 
 namespace Wupos;
 
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
+use Wupos\ModelWithSoftDeletes;
 
-class Operador extends Model
+class Operador extends ModelWithSoftDeletes
 {
     //Nombre de la tabla en la base de datos
     protected $table = 'OPERADORES';
@@ -14,7 +13,6 @@ class Operador extends Model
     //Traza: Nombre de campos en la tabla para auditoría de cambios
     const CREATED_AT = 'OPER_fechacreado';
     const UPDATED_AT = 'OPER_fechamodificado';
-    use SoftDeletes;
     const DELETED_AT = 'OPER_fechaeliminado';
     protected $dates = ['OPER_fechaeliminado'];
 
@@ -27,6 +25,7 @@ class Operador extends Model
         'ESOP_id',
         'OPER_creadopor',
         'OPER_modificadopor',
+        'OPER_eliminadopor',
     ];
 
     public function regional()

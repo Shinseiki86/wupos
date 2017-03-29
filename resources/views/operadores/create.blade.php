@@ -10,7 +10,7 @@
 
 	{{ Form::open( [ 'url' => 'operadores' ] ) }}
 
-		<div class="form-group{{ $errors->has('OPER_codigo') ? ' has-error' : '' }}">
+		{{--<div class="form-group{{ $errors->has('OPER_codigo') ? ' has-error' : '' }}">
 			{{ Form::label('OPER_codigo', 'Código Operador', ['class'=>'col-md-4 control-label', 'for'=>'OPER_codigo']) }}
 			<div class="col-md-6">
 			{{ Form::number('OPER_codigo', old('OPER_codigo'), [ 'class'=>'form-control', 'maxlength'=>'3', 'required' ]) }}
@@ -20,7 +20,7 @@
 					</span>
 				@endif
 			</div>
-		</div>
+		</div>--}}
 
 		<div class="form-group{{ $errors->has('OPER_cedula') ? ' has-error' : '' }}">
 			{{ Form::label('OPER_cedula', 'Cédula', ['class'=>'col-md-4 control-label', 'for'=>'OPER_cedula']) }}

@@ -44,19 +44,41 @@ class OperadorController extends Controller
 	public function index()
 	{
 		//Se obtienen todos los registros.
-		$operadores = Operador::orderBy('OPER_id')
+		$operadores = Operador::orderBy('OPER_codigo')
 						->join('REGIONALES', 'REGIONALES.REGI_id', '=', 'OPERADORES.REGI_id')
 						->get();
 
 		//Se crea un array con los estados disponibles
 		$arrRegionales = model_to_array(Regional::class, 'REGI_nombre');
-
 		//Se crea un array con los estados disponibles
 		$arrEstados = model_to_array(EstadoOperador::class, 'ESOP_descripcion');
 
 		//Se carga la vista y se pasan los registros
-		return view('operadores/index', compact('operadores', 'arrRegionales', 'arrEstados'));
+		return view('operadores/index', compact('operadores', 'arrRegionales', 'arrEstados'))
+				->with('papelera', $papelera = false);
 	}
+
+	/**
+	 * Muestra una lista de los registros eliminados.
+	 *
+	 * @return Response
+	 */
+	public function indexOnlyTrashed()
+	{
+		//Se obtienen todos los registros.
+		$operadores = Operador::onlyTrashed()
+						->orderBy('OPER_codigo')
+						->join('REGIONALES', 'REGIONALES.REGI_id', '=', 'OPERADORES.REGI_id')
+						->get();
+
+		$arrRegionales = Regional::getRegionales();
+		$arrEstados = model_to_array(EstadoOperador::class, 'ESOP_descripcion');
+
+		//Se carga la vista y se pasan los registros
+		return view('operadores/index', compact('operadores', 'arrRegionales', 'arrEstados'))
+				->with('papelera', $papelera = true);
+	}
+
 
 	/**
 	 * Muestra el formulario para crear un nuevo registro.
@@ -84,8 +106,8 @@ class OperadorController extends Controller
 	{
 		//Validación de datos
 		$this->validate(request(), [
-			'OPER_codigo' => ['required', 'numeric', 'digits_between:1,3'],
-			'OPER_cedula' => ['required', 'numeric', 'digits_between:1,15'],
+			//'OPER_codigo' => ['required', 'numeric', 'digits_between:1,3', 'unique:OPERADORES'],
+			'OPER_cedula' => ['required', 'numeric', 'digits_between:1,15', 'unique:OPERADORES'],
 			'OPER_nombre' => ['required', 'string', 'max:100'],
 			'OPER_apellido' => ['required', 'string', 'max:100'],
 			'REGI_id' => ['required', 'numeric'],
@@ -96,6 +118,7 @@ class OperadorController extends Controller
 		//Permite seleccionar los datos que se desean guardar.
 		$operador = Operador::create(
 			array_merge(
+				['OPER_codigo' => $this->getCodigoOperadorDisp()],
 				request()->except(['_token']) ,
 				['OPER_creadopor' => auth()->user()->username]
 			)
@@ -156,7 +179,7 @@ class OperadorController extends Controller
 	{
 		//Validación de datos
 		$this->validate(request(), [
-			'OPER_codigo' => ['required', 'numeric', 'digits_between:1,3'],
+			//'OPER_codigo' => ['required', 'numeric', 'digits_between:1,3'],
 			'OPER_cedula' => ['required', 'numeric', 'digits_between:1,15'],
 			'OPER_nombre' => ['required', 'string', 'max:100'],
 			'OPER_apellido' => ['required', 'string', 'max:100'],
@@ -191,17 +214,66 @@ class OperadorController extends Controller
 	 */
 	public function destroy($OPER_id, $showMsg=True)
 	{
-		$operador = Operador::findOrFail($OPER_id);
+		$operador = Operador::withTrashed()->findOrFail($OPER_id);
 
-		// delete
-		$operador->OPER_eliminadopor = auth()->user()->username;
-		$operador->save();
-		$operador->delete();
+		$modoBorrado = Input::get('_modoBorrado');
+		
+		if($modoBorrado === 'softDelete')
+			$operador->delete();
+		elseif($modoBorrado === 'forceDelete')
+			$operador->forceDelete();
 
 		// redirecciona al index de controlador
 		if($showMsg){
 			Session::flash('alert-success', 'Operador '.$operador->OPER_codigo.' eliminado exitosamente!');
-			return redirect()->to('operadores');
+			return redirect()->back();
+		}
+	}
+
+	protected function getCodigoOperadorDisp(){
+		$allCodigos = range(1, 999);
+		$asingCodigos = array_column(Operador::withTrashed()->orderBy('OPER_codigo')->get()->toArray(), 'OPER_codigo');
+		$codigoLibre = array_first(array_diff($allCodigos, $asingCodigos));
+
+		return $codigoLibre;
+	}
+
+
+	/**
+	 * Elimina todos los registros borrados de la base de datos.
+	 *
+	 * @return Response
+	 */
+	public function vaciarPapelera($showMsg=True)
+	{
+		$operadores = Operador::onlyTrashed();
+		$count = $operadores->get()->count();
+		$operadores->forceDelete();
+
+		// redirecciona al index de controlador
+		if($showMsg){
+			Session::flash('alert-success', '¡'.$count.' operadores(s) eliminados exitosamente!');
+			return redirect()->back();
+		}
+	}
+
+
+	/**
+	 * Restaura un registro eliminado de la base de datos.
+	 *
+	 * @param  int  $OPER_id
+	 * @return Response
+	 */
+	public function restore($OPER_id, $showMsg=True)
+	{
+		$operador = Operador::onlyTrashed()->findOrFail($OPER_id);
+		$operador->restore();
+		//$certificado->history()->restore();
+
+		// redirecciona al index de controlador
+		if($showMsg){
+			Session::flash('alert-success', 'Operador '.$operador->OPER_codigo.' restaurado exitosamente!');
+			return redirect()->back();
 		}
 	}
 

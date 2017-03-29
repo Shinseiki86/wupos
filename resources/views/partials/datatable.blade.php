@@ -68,6 +68,9 @@
 	        $.fn.dataTable.tables( {visible: true, api: true} ).columns.adjust().draw();
 	    });
 	    
+		$('.table').find('tbody').removeClass('hide');
+		$('.table').find('tfoot').addClass('hide');
+	    
 	  });
     </script>
 @parent

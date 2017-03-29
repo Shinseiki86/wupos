@@ -49,6 +49,9 @@ Route::delete('certificados-borrados/vaciarPapelera', 'CertificadoController@vac
 
 //Operadores
 Route::resource('operadores', 'OperadorController');
+Route::get('operadores/{CERT_id}/restore', 'OperadorController@restore');
+Route::get('operadores-borrados', 'OperadorController@indexOnlyTrashed');
+Route::delete('operadores-borrados/vaciarPapelera', 'OperadorController@vaciarPapelera');
 
 //Exportar a Excel
 Route::get('certificados/export/{ext}','ExportarInfoController@exportCertificados');

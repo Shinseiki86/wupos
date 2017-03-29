@@ -104,15 +104,12 @@
 				}}
 			@endif
 
-
 			<!-- botón de exportar -->
 			{{ Form::open( [ 'url'=>'certificados/export/xlsx', 'method'=>'GET', 'class' => 'pull-right' ]) }}
 				{{ Form::hidden('_papelera', ''.$papelera) }}
 				{{ Form::button('<i class="fa fa-download" aria-hidden="true"></i> Exportar',[
 						'class'=>'btn btn-success',
 						'type'=>'submit',
-						//'data-toggle'=>'modal',
-						//'data-target'=>'#pregModalExport',
 				]) }}
 			{{ Form::close() }}
 		</div>
@@ -226,18 +223,18 @@
 					</a>-->
 
 					@if(!$papelera)
-					<!-- Cargar botón editar -->
+					<!-- Cargar botón Editar -->
 					<a class="btn btn-xs btn-info" href="{% 'certificados/' + certificado.CERT_id + '/edit' %}">
 						<i class="fa fa-pencil-square-o" aria-hidden="true"></i> <span class="hidden-xs">Editar</span>
 					</a>
 					@else
-					<!-- Cargar botón editar -->
+					<!-- Cargar botón Restaurar -->
 					<a class="btn btn-xs btn-warning" href="{% 'certificados/' + certificado.CERT_id + '/restore' %}">
 						<i class="fa fa-undo" aria-hidden="true"></i> <span class="hidden-xs">Restaurar</span>
 					</a>
 					@endif
 
-					<!-- carga botón de borrar -->
+					<!-- carga botón de Borrar -->
 					{{ Form::button('<i class="fa fa-trash" aria-hidden="true"></i> <span class="hidden-xs">Borrar</span>',[
 							'class'=>'btn btn-xs btn-danger',
 							'data-toggle'=>'modal',

@@ -140,6 +140,13 @@ return [
         'time'                  => 'hora',
         'subject'               => 'asunto',
         'message'               => 'mensaje',
+
+        'OPER_codigo'           => 'código operador',
+        'OPER_cedula'           => 'cédula',
+        'OPER_nombre'           => 'nombre',
+        'OPER_apellido'         => 'apellido',
+        'REGI_id'               => 'regional',
+        'ESOP_id'               => 'estado del operador',
     ],
 
 ];
