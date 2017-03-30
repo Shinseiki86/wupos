@@ -73,7 +73,8 @@
 		<div class="form-group{{ $errors->has('ESOP_id') ? ' has-error' : '' }}">
 			{{ Form::label('ESOP_id', 'Estado', ['class'=>'col-md-4 control-label', 'for'=>'ESOP_id']) }}
 			<div class="col-md-6">
-				{{ Form::select('ESOP_id', $arrEstados , old('ESOP_id') or '1', ['class' => 'form-control', 'required']) }}
+
+				{{ Form::select('ESOP_id', $arrEstados , old('ESOP_id'), ['class' => 'form-control', 'required']) }}
 
 				@if ($errors->has('ESOP_id'))
 					<span class="help-block">

@@ -19,7 +19,7 @@ class CreateOperadoresTable extends Migration
             $table->integer('OPER_codigo', false, true)
                 ->comment('ID del Operador (3A).');
 
-            $table->integer('OPER_cedula', false, true)->unique()
+            $table->integer('OPER_cedula', false, true)->unique()->nullable()
                 ->comment('Cédula del Operador.');
 
             $table->string('OPER_nombre', 100)

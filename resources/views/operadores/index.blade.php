@@ -11,6 +11,11 @@
 				return strDateFormatted;
 			}
 
+			//.css('background-color', 'orange');
+			$('.estado_{{\Wupos\EstadoOperador::PEND_CREAR}}').addClass('warning');
+			$('.estado_{{\Wupos\EstadoOperador::CREADO}}').addClass('success');
+			$('.estado_{{\Wupos\EstadoOperador::PEND_ELIMINAR}}').addClass('danger');
+
 			//Se da formato a la fecha publicación.
 			//var fechaStr = formatDate(fechaPublicacion.text().trim());
 			//fechaPublicacion.html(fechaStr);
@@ -77,7 +82,7 @@
 		
 		<tbody class="hide">
 			@foreach($operadores as $operador)
-			<tr>
+			<tr class="estado_{{ $operador -> ESOP_id}}">
 				<td>{{ str_pad($operador -> OPER_codigo, 3, '0', STR_PAD_LEFT) }}</td>
 				<td>{{ $operador -> OPER_cedula }}</td>
 				<td>{{ $operador -> OPER_nombre }}</td>

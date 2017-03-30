@@ -22,6 +22,12 @@ class EstadoOperador extends Model
         'ESOP_descripcion',
     ];
 
+    //Constantes para referenciar los estados
+    const PEND_CREAR    = 1;
+    const CREADO        = 2;
+    const PEND_ELIMINAR = 3;
+    const ELIMINADO     = 4;
+
     public function operadores()
     {
         $foreingKey = 'REGI_id';

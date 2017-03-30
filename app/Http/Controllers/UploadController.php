@@ -106,7 +106,7 @@ class UploadController extends Controller
 
 			}
 		}
-		echo "Finalizado!. $count registro(s).";
+		echo 'Finalizado! '.$count.'registro(s).';
 		//return back();
 	}
 
