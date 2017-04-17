@@ -141,12 +141,15 @@ return [
         'subject'               => 'asunto',
         'message'               => 'mensaje',
 
-        'OPER_codigo'           => 'código operador',
-        'OPER_cedula'           => 'cédula',
-        'OPER_nombre'           => 'nombre',
-        'OPER_apellido'         => 'apellido',
-        'REGI_id'               => 'regional',
-        'ESOP_id'               => 'estado del operador',
+        'OPER_codigo'           => 'Código operador',
+        'OPER_cedula'           => 'Cédula',
+        'OPER_nombre'           => 'Nombre',
+        'OPER_apellido'         => 'Apellido',
+        'REGI_id'               => 'Regional',
+        'ESOP_id'               => 'Estado del operador',
+        'AGEN_cod'              => 'Código de agencia',
+        'AGEN_nombre'           => 'Nombre de agencia',
+        'AGEN_cuentawu'         => 'Cuenta Wupos',
     ],
 
 ];

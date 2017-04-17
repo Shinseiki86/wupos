@@ -190,16 +190,13 @@ class OperadorController extends Controller
 		// Se obtiene el registro
 		$operador = Operador::findOrFail($OPER_id);
 
-		//Se asignan valores del request al modelo encontrado
-		$operador->fill(
+		//Se guardan los valores del request al modelo encontrado
+		$operador->update(
 			array_merge(
 				request()->except(['_token']) ,
 				['OPER_modificadopor' => auth()->user()->username]
 			)
 		);
-
-		//Se guarda modelo
-		$operador->save();
 
 		// redirecciona al index de controlador
 		Session::flash('alert-success', 'Operador '.$operador->OPER_codigo.' modificado exitosamente!');

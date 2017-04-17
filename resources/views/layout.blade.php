@@ -19,8 +19,8 @@
 
 		{!! Html::style('assets/js/jquery-ui/jquery-ui.min.css') !!}
 		{!! Html::style('assets/css/bootstrap.min.css') !!}
-		{!! Html::style('assets/css/font-awesome.min.css') !!}
 		{!! Html::style('assets/css/bootstrap-theme.min.css') !!}
+		{!! Html::style('assets/css/font-awesome.min.css') !!}
 		{!! Html::style('assets/css/style.css') !!}
 
 		<style type="text/css">
@@ -85,7 +85,7 @@
 		<!-- Scripts -->
 		{!! Html::script('assets/js/jquery/jquery-1.11.2.min.js') !!}
 		{!! Html::script('assets/js/jquery-ui/jquery-ui.min.js') !!}
-		{!! Html::script('assets/js/bootstrap.min.js') !!}
+		{!! Html::script('assets/js/bootstrap/bootstrap.min.js') !!}
 		@yield('scripts')
 	</body>
 	

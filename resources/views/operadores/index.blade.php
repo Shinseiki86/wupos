@@ -19,6 +19,9 @@
 			//Se da formato a la fecha publicación.
 			//var fechaStr = formatDate(fechaPublicacion.text().trim());
 			//fechaPublicacion.html(fechaStr);
+
+
+			$('div.toolbar').html('{{ Form::button('<i class="fa fa-download" aria-hidden="true"></i> Exportar Seleccionados',['class'=>'btn btn-success','type'=>'submit', ]) }}');
 		});
 	</script>
 @parent
@@ -27,8 +30,26 @@
 @section('content')
 	<h1 class="page-header">Operadores {{$papelera ? 'Eliminados' : ''}}</h1>
 
-	<div class="well well-sm text-right">
+	<div class="row well well-sm">
+		<!-- Filtrar datos en vista -->
+		<div id="frm-find" class="col-xs-12 col-sm-2 col-md-2">
+			<a class='btn btn-primary' role='button' data-toggle="collapse" data-target="#filters" href="#" >
+				<i class="fa fa-filter" aria-hidden="true"></i> 
+				Filtrar <span class="hidden-xs hidden-sm">resultados</span>
+			</a>
+		</div>
+		<div class="col-xs-12 col-sm-8 col-md-6">
+			<form>
+				<div class="input-group has-feedback">
+					<div class="input-group-addon control-label">Filtrar</div>
+					{{ Form::text('searchOperador', null, ['class'=>'form-control', 'placeholder'=>'En todos los campos...']) }}
+					<span name="btnClear" class="hide glyphicon glyphicon-remove-circle form-control-feedback"></span>
+				</div>
+			</form>
+		</div>
+
 		<!-- Botones -->
+		<div id="btns-top" class="col-xs-12 col-sm-2 col-md-4 text-right">
 
 			<!-- botón de crear nuevo reg -->
 			@if(in_array(auth()->user()->rol->ROLE_rol , ['admin']) && !$papelera)
@@ -61,17 +82,21 @@
 						'type'=>'submit',
 				]) }}
 			{{ Form::close() }}
+		</div>
 	</div>
+	@include('operadores/index-modalExport')
+	@include('operadores/index-collapseFormFilters')
 
 	<table id="tbIndex" class="table table-striped table-condensed responsive-utilities">
 		<thead>
 			<tr class="active">
-				<th>Código</th>
-				<th>Cédula</th>
-				<th>Nombre</th>
-				<th>Apellido</th>
-				<th>Estado</th>
-				<th>Regional</th>
+				<th class="check"></th>
+				<th class="codigo">Código</th>
+				<th class="cedula">Cédula</th>
+				<th class="nombres">Nombre</th>
+				<th class="apellidos">Apellido</th>
+				<th class="estado">Estado</th>
+				<th class="regional">Regional</th>
 				<th>Creador</th>
 				<th>{{ $papelera ? 'Eliminado' : 'Modif' }}</th>
 				<th class="col-xs-1 col-sm-1 col-md-3 col-lg-3">
@@ -83,6 +108,13 @@
 		<tbody class="hide">
 			@foreach($operadores as $operador)
 			<tr class="estado_{{ $operador -> ESOP_id}}">
+				<td>
+					<div class="btn btn-link">
+						<label>
+							<input type="checkbox" id="scrollLog" value="{{$operador->OPER_id}}">
+						</label>
+					</div>
+				</td>
 				<td>{{ str_pad($operador -> OPER_codigo, 3, '0', STR_PAD_LEFT) }}</td>
 				<td>{{ $operador -> OPER_cedula }}</td>
 				<td>{{ $operador -> OPER_nombre }}</td>
@@ -119,13 +151,13 @@
 			@endforeach
 		</tbody>
 
-		<tfoot class="">
-			<td colspan="9">
+		<!--tfoot>
+			<td colspan="10">
 				<div class="text-center">
 					<i class="fa fa-cog fa-spin fa-2x fa-fw" style="vertical-align: middle;"></i> Cargando registros...
 				</div>
 			</td>
-		</tfoot>
+		</tfoot-->
 	</table>
 
 	@include('operadores/index-modalExport')
