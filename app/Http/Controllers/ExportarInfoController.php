@@ -3,9 +3,10 @@
 namespace Wupos\Http\Controllers;
 
 use App\Http\Requests;
-use App\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\Route;
+use Illuminate\Routing\Redirector;
 use Maatwebsite\Excel\Facades\Excel;
 
 use Wupos\Operador;
@@ -91,6 +92,7 @@ class ExportarInfoController extends Controller {
 		return redirect()->refresh()->with('error_code', 1)->send();
 	}
 
+
 	/**
 	 * Exportar Certificados a Excel XLS
 	 *
@@ -137,7 +139,10 @@ class ExportarInfoController extends Controller {
 				$sheet->setAutoFilter();
 
 
-				$operadores->update( ['ESOP_id' => \Wupos\EstadoOperador::CREADO] );
+				$operadores->update( [
+					'ESOP_id' => \Wupos\EstadoOperador::CREADO,
+					'OPER_modificadopor' => auth()->check() ? auth()->user()->username : 'SYSTEM',
+				] );
 
 
 			});

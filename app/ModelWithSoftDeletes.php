@@ -20,7 +20,8 @@ class ModelWithSoftDeletes extends Model
 
         $this->{$this->getDeletedAtColumn()} = $time = $this->freshTimestamp();
 
-        $deleted_by = strtoupper(substr($this::CREATED_AT, 0, 4)).'_eliminadopor';
+        $prefix = strtoupper(substr($this::CREATED_AT, 0, 4));
+        $deleted_by = $prefix.'_eliminadopor';
 
         $query->update([
            $this->getDeletedAtColumn() => $this->fromDateTime($time),
