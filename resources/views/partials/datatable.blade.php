@@ -1,30 +1,10 @@
 @section('head')
-	{!! Html::style('assets/css/datatable/buttons.dataTables.min.css') !!}
-	{!! Html::style('assets/css/datatable/dataTables.bootstrap.min.css') !!}
-	{!! Html::style('assets/css/datatable/buttons.bootstrap.min.css') !!}
-	{!! Html::style('assets/css/datatable/responsive.dataTables.min.css') !!}
-	{!! Html::style('assets/css/datatable/buttons.bootstrap4.min.css') !!}
-	{!! Html::style('assets/css/datatable/dataTables.bootstrap4.min.css') !!}
-	{{--!! Html::style('assets/css/datatable/rowReorder.dataTables.min.css') !!--}}
-	{!! Html::style('assets/css/datatable/responsive.bootstrap.min.css') !!}
+	{!! Html::style('assets/DataTables/datatables.min.css') !!}
 @parent
 @endsection
 
 @section('scripts')
-	{!! Html::script('assets/js/datatable/jquery.dataTables.min.js') !!}
-	{!! Html::script('assets/js/datatable/dataTables.buttons.min.js') !!}
-	{!! Html::script('assets/js/datatable/jszip.min.js') !!}
-	{!! Html::script('assets/js/datatable/pdfmake.min.js') !!}
-	{!! Html::script('assets/js/datatable/vfs_fonts.js') !!}
-	{!! Html::script('assets/js/datatable/buttons.html5.min.js') !!}
-	{!! Html::script('assets/js/datatable/buttons.colVis.min.js') !!}
-	{!! Html::script('assets/js/datatable/buttons.print.min.js') !!}
-	{!! Html::script('assets/js/datatable/dataTables.responsive.min.js') !!}
-	{!! Html::script('assets/js/datatable/buttons.flash.min.js') !!}
-	{!! Html::script('assets/js/datatable/buttons.bootstrap4.min.js') !!}
-	{!! Html::script('assets/js/datatable/dataTables.bootstrap4.min.js') !!}
-	{{--!! Html::script('assets/js/datatable/dataTables.rowReorder.min.js') !!--}}
-	{!! Html::script('assets/js/datatable/responsive.bootstrap.min.js') !!}
+	{!! Html::script('assets/DataTables/datatables.min.js') !!}
 	<script>
 	 $(function () {
 
@@ -46,14 +26,19 @@
 				//rowReorder: {selector: 'td:nth-child(2)'},
 				rowReorder: false,
 				responsive: true,
+				select: true,
 				//stateSave: true,
 				dom: '<"toolbar">Blrtip',
 				buttons: [
-			        'colvis',
 			        'excel',
-			        'print'
+			        'selectAll',
+			        'selectNone'
 			    ],
-				language: { 
+				language: {
+        			buttons: {
+			            selectAll:   'Seleccionar todos',
+			            selectNone:  'Seleccionar ninguno'
+			        },
 					sProcessing:     'Procesando...', 
 					sLengthMenu:     'Mostrar _MENU_ registros', 
 					sZeroRecords:    'No se encontraron resultados', 
@@ -71,7 +56,7 @@
 						sLast:     'Último', 
 						sNext:     'Siguiente', 
 						sPrevious: 'Anterior'
-					} 
+					}
 				},
 			});
 		 }
