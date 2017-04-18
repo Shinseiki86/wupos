@@ -14,6 +14,30 @@ use Wupos\Certificado;
 
 class ExportarInfoController extends Controller {
 
+
+	public function __construct(Redirector $redirect=null)
+	{
+		//Requiere que el usuario inicie sesión.
+		$this->middleware('auth');
+		if(!auth()->guest() && isset($redirect)){
+
+			$action = Route::currentRouteAction();
+			$role = isset(auth()->user()->rol->ROLE_rol) ? auth()->user()->rol->ROLE_rol : 'user';
+
+			//Lista de acciones que solo puede realizar los administradores o los editores
+			$arrActionsAdmin = [ 'exportCertificados', 'exportOperadores' ];
+
+			if(in_array(explode("@", $action)[1], $arrActionsAdmin))//Si la acción del controlador se encuentra en la lista de acciones de admin...
+			{
+				if( ! in_array($role , ['admin','editor']))//Si el rol no es admin o editor, se niega el acceso.
+				{
+					abort(403, '¡Usuario no tiene permisos!.');
+				}
+			}
+		}
+	}
+
+
 	/**
 	 * Exportar Certificados a Excel XLS
 	 *
