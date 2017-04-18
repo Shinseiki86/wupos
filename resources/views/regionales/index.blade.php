@@ -19,6 +19,7 @@
 			<th class="col-md-2">ID</th>
 			<th class="col-md-2">Código</th>
 			<th class="col-md-2">Nombre</th>
+			<th class="col-md-2">Agencias</th>
 			<th class="col-md-2">Acciones</th>
 		</tr>
 	</thead>
@@ -30,6 +31,7 @@
 			<td>{{ $regional -> REGI_id }}</td>
 			<td>{{ $regional -> REGI_codigo }}</td>
 			<td>{{ $regional -> REGI_nombre }}</td>
+			<td>{{ $regional->agencias()->where('AGEN_activa', true)->where('AGENCIAS.AGEN_cuentawu', '!=', null)->groupBy('REGI_id')->count() }}</td>
 			<td>
 				<!-- Botón Ver (show) -->
 				<a class="btn btn-small btn-success btn-xs" href="{{ URL::to('regionales/'.$regional->REGI_id) }}">
@@ -82,8 +84,6 @@
 		@endforeach
 	</tbody>
 </table>
-
-
 
 
 @endsection

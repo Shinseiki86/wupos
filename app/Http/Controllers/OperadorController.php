@@ -29,7 +29,6 @@ class OperadorController extends Controller
 			{
 				if( ! in_array($role , ['admin','editor']))//Si el rol no es admin o editor, se niega el acceso.
 				{
-					Session::flash('alert-danger', '¡Usuario no tiene permisos!');
 					abort(403, '¡Usuario no tiene permisos!.');
 				}
 			}
@@ -126,7 +125,7 @@ class OperadorController extends Controller
 
 
 		// redirecciona al index de controlador
-		Session::flash('alert-success', 'Operador '.$operador->OPER_codigo.' creado exitosamente!');
+		flash_alert( 'Operador '.$operador->OPER_codigo.' creado exitosamente!', 'success' );
 		return redirect()->to('operadores');
 	}
 
@@ -199,7 +198,7 @@ class OperadorController extends Controller
 		);
 
 		// redirecciona al index de controlador
-		Session::flash('alert-success', 'Operador '.$operador->OPER_codigo.' modificado exitosamente!');
+		flash_alert( 'Operador '.$operador->OPER_codigo.' modificado exitosamente!', 'success' );
 		return redirect()->to('operadores');
 	}
 
@@ -222,7 +221,7 @@ class OperadorController extends Controller
 
 		// redirecciona al index de controlador
 		if($showMsg){
-			Session::flash('alert-success', 'Operador '.$operador->OPER_codigo.' eliminado exitosamente!');
+			flash_alert( 'Operador '.$operador->OPER_codigo.' eliminado exitosamente!', 'success' );
 			return redirect()->back();
 		}
 	}
@@ -249,7 +248,7 @@ class OperadorController extends Controller
 
 		// redirecciona al index de controlador
 		if($showMsg){
-			Session::flash('alert-success', '¡'.$count.' operadores(s) eliminados exitosamente!');
+			flash_alert( '¡'.$count.' operadores(s) eliminados exitosamente!', 'success' );
 			return redirect()->back();
 		}
 	}
@@ -269,7 +268,7 @@ class OperadorController extends Controller
 
 		// redirecciona al index de controlador
 		if($showMsg){
-			Session::flash('alert-success', 'Operador '.$operador->OPER_codigo.' restaurado exitosamente!');
+			flash_alert( 'Operador '.$operador->OPER_codigo.' restaurado exitosamente!', 'success' );
 			return redirect()->back();
 		}
 	}

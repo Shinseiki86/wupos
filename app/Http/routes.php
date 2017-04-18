@@ -55,6 +55,7 @@ Route::delete('operadores-borrados/vaciarPapelera', 'OperadorController@vaciarPa
 
 //Exportar a Excel
 Route::get('certificados/export/{ext}','ExportarInfoController@exportCertificados');
+Route::get('operadores/export/{ESOP_id}','ExportarInfoController@exportOperadores');
 
 /*
 

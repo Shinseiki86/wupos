@@ -2,34 +2,51 @@
 
 <!-- ALERTAS -->
 <div class="alertas">
+
 	@if (Session::has('alert-info'))
+		@foreach(Session::get('alert-info') as $msg)
 		<div class="alert alert-info alert-flash">
 			<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
 			<strong><i class="fa fa-info-circle fa-2x fa-pull-left" aria-hidden="true"></i></strong>
-			{{ Session::get('alert-info') }}
+			{{ $msg }}
 		</div>
+		@endforeach
 	@endif
+
 	@if (Session::has('alert-success'))
+		@foreach(Session::get('alert-success') as $msg)
 		<div class="alert alert-success alert-flash">
 			<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-			<strong><i class="fa fa-exclamation-triangle fa-2x fa-pull-left" aria-hidden="true"></i></strong>
-			{{ Session::get('alert-success') }}
+			<strong><i class="fa fa-check fa-2x fa-pull-left" aria-hidden="true"></i></strong>
+			{{ $msg }}
 		</div>
+		@endforeach
 	@endif
+
 	@if (Session::has('alert-warning'))
+		@foreach(Session::get('alert-warning') as $msg)
 		<div class="alert alert-warning alert-flash">
 			<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-			<strong><i class="fa fa-exclamation-triangle fa-2x fa-pull-left" aria-hidden="true"></i></strong>
-			{{ Session::get('alert-warning') }}
+			<strong>
+				<i class="fa fa-exclamation-triangle fa-2x fa-pull-left" aria-hidden="true"></i>
+				{{ $msg }}
+			</strong>
 		</div>
+		@endforeach
 	@endif
+
 	@if (Session::has('alert-danger'))
+		@foreach(Session::get('alert-danger') as $msg)
 		<div class="alert alert-danger alert-flash">
 			<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-			<strong><i class="fa fa-exclamation-triangle fa-2x fa-pull-left" aria-hidden="true"></i></strong>
-			{{ Session::get('alert-danger') }}
+			<strong>
+				<i class="fa fa-exclamation-circle fa-2x fa-pull-left" aria-hidden="true"></i>
+				{{ $msg }}
+			</strong>
 		</div>
+		@endforeach
 	@endif
+	
 </div>
 
 <!-- MODALES -->
@@ -44,7 +61,7 @@
 				<div class="modal-body">
 					<div class="row">
 						<div class="col-xs-2">
-							<i class="fa fa-exclamation-triangle fa-3x fa-fw"></i>
+							<i class="fa fa-3x fa-fw"></i>
 						</div>
 						<div class="col-xs-10">
 							<h4 id="message"></h4>
@@ -64,18 +81,30 @@
 @section('scripts')
 	<script type="text/javascript">
 
-		//Se cierra la alerta a los 5 segundos.
+		//Se cierra la alerta a los 10 segundos.
 		setTimeout(function () {
-			$('.alert-flash').slideUp(500, function(){
-				$(this).alert('close');
+        	$('.alert-flash').slideUp(500, function(){
+			    $(this).alert('close');
 			});
-		}, 5000);
+		}, 10*(1000));
 
 		//Si el mensaje es modal, se configura la ventana según el tipo de mensaje (success, warning y danger).
+		@if (Session::has('modal-info'))
+			$(document).ready(function () {
+				var modal = $('#messageModal');
+				modal.find('#message').html('{{{Session::get('modal-message')}}}');
+				modal.find('.fa').addClass('fa-info-circle');
+				modal.find('.modal-content')
+					.addClass('panel-info')
+					.find('.modal-title').text('Información');
+				modal.modal('show');
+			})
+		@endif
 		@if (Session::has('modal-success'))
 			$(document).ready(function () {
 				var modal = $('#messageModal');
 				modal.find('#message').html('{{{Session::get('modal-message')}}}');
+				modal.find('.fa').addClass('fa-check');
 				modal.find('.modal-content')
 					.addClass('panel-success')
 					.find('.modal-title').text('¡Operación exitosa!');
@@ -86,6 +115,7 @@
 			$(document).ready(function () {
 				var modal = $('#messageModal');
 				modal.find('#message').html('{{{Session::get('modal-warning')}}}');
+				modal.find('.fa').addClass('fa-exclamation-triangle');
 				modal.find('.modal-content')
 					.addClass('panel-warning')
 					.find('.modal-title').text('¡Advertencia!');
@@ -96,6 +126,7 @@
 			$(document).ready(function () {
 				var modal = $('#messageModal');
 				modal.find('#message').html('{{{Session::get('modal-danger')}}}');
+				modal.find('.fa').addClass('fa-exclamation-circle');
 				modal.find('.modal-content')
 					.addClass('panel-danger')
 					.find('.modal-title').text('¡Error!');

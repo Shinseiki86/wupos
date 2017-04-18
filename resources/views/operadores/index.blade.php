@@ -75,16 +75,11 @@
 			@endif
 
 			<!-- botón de exportar -->
-			{{ Form::open( [ 'url'=>'operadores/export/xlsx', 'method'=>'GET', 'class' => 'pull-right' ]) }}
-				{{ Form::hidden('_papelera', ''.$papelera) }}
-				{{ Form::button('<i class="fa fa-download" aria-hidden="true"></i> Exportar',[
-						'class'=>'btn btn-success',
-						'type'=>'submit',
-				]) }}
-			{{ Form::close() }}
+			<a class='btn btn-success' role='button' href="{{ URL::to('operadores/export/'.\Wupos\EstadoOperador::PEND_CREAR) }}">
+				<i class="fa fa-download" aria-hidden="true"></i> Exportar Pend crear
+			</a>
 		</div>
 	</div>
-	@include('operadores/index-modalExport')
 	@include('operadores/index-collapseFormFilters')
 
 	<table id="tbIndex" class="table table-striped table-condensed responsive-utilities">

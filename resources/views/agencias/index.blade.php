@@ -13,7 +13,7 @@
 		</div>
 	</div>
 	
-<table class="table table-striped">
+<table id="tbIndex" class="table table-striped table-condensed responsive-utilities">
 	<thead>
 		<tr>
 			{{--<th>ID</th>--}}

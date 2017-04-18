@@ -85,6 +85,9 @@ $(function () {
 	$('select[name=REGI_nombre]').on('change', function() {
 		filterTable(this, '.regional');
 	});
+	$('select[name=ESOP_descripcion]').on('change', function() {
+		filterTable(this, '.estado');
+	});
 
 	function filterTable(input, column) {
 		tbIndex

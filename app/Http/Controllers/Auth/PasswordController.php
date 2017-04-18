@@ -95,7 +95,7 @@ class PasswordController extends Controller
         ])->save();
 
         //Auth::guard($this->getGuard())->login($user);
-        Session::flash('alert-info', '¡Contraseña modificada para '.$user->username.'!');
+        flash_alert( '¡Contraseña modificada para '.$user->username.'!', 'success' );
     }
 
     /**

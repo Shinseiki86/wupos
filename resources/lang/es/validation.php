@@ -146,10 +146,17 @@ return [
         'OPER_nombre'           => 'Nombre',
         'OPER_apellido'         => 'Apellido',
         'REGI_id'               => 'Regional',
+        'REGI_codigo'           => 'Código regional',
+        'REGI_nombre'           => 'Nombre regional',
         'ESOP_id'               => 'Estado del operador',
+        'AGEN_id'               => 'Agencia',
         'AGEN_cod'              => 'Código de agencia',
         'AGEN_nombre'           => 'Nombre de agencia',
+        'AGEN_descripcion'      => 'Descripción de agencia',
         'AGEN_cuentawu'         => 'Cuenta Wupos',
+        'CERT_codigo'           => 'Código certificado',
+        'CERT_equipo'           => 'Equipo',
+
     ],
 
 ];

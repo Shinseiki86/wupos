@@ -34,7 +34,7 @@ class ExcelController extends Controller {
             }
     	})->export($ext);
 
-		Session::flash('alert-info', '¡Datos exportados exitosamente!');
+		flash_alert( '¡Datos exportados exitosamente!', 'success' );
     	return redirect()->back()->with('error_code', 1);
 	}
 

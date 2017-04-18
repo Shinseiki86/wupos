@@ -29,7 +29,6 @@ class CertificadoController extends Controller
 			{
 				if( ! in_array($role , ['admin','editor']))//Si el rol no es admin o editor, se niega el acceso.
 				{
-					Session::flash('alert-danger', '¡Usuario no tiene permisos!');
 					abort(403, '¡Usuario no tiene permisos!.');
 				}
 			}
@@ -119,7 +118,7 @@ class CertificadoController extends Controller
 		$certificado->save();
 
 		// redirecciona al index de controlador
-		Session::flash('alert-success', 'Certificado '.$certificado->CERT_codigo.' creado exitosamente!');
+		flash_alert( 'Certificado '.$certificado->CERT_codigo.' creado exitosamente!', 'success' );
 		return redirect()->to('certificados');
 	}
 
@@ -187,7 +186,7 @@ class CertificadoController extends Controller
 		$certificado->save();
 
 		// redirecciona al index de controlador
-		Session::flash('alert-success', 'Certificado '.$certificado->CERT_codigo.' modificado exitosamente!');
+		flash_alert( 'Certificado '.$certificado->CERT_codigo.' modificado exitosamente!', 'success' );
 		return redirect()->to('certificados');
 	}
 
@@ -214,7 +213,7 @@ class CertificadoController extends Controller
 
 		// redirecciona al index de controlador
 		if($showMsg){
-			Session::flash('alert-success', 'Certificado '.$certificado->CERT_codigo.' eliminado exitosamente!');
+			flash_alert( 'Certificado '.$certificado->CERT_codigo.' eliminado exitosamente!', 'success' );
 			return redirect()->back();
 		}
 	}
@@ -233,7 +232,7 @@ class CertificadoController extends Controller
 
 		// redirecciona al index de controlador
 		if($showMsg){
-			Session::flash('alert-success', '¡'.$count.' certificado(s) eliminados exitosamente!');
+			flash_alert( '¡'.$count.' certificado(s) eliminados exitosamente!', 'success' );
 			return redirect()->back();
 		}
 	}
@@ -253,7 +252,7 @@ class CertificadoController extends Controller
 
 		// redirecciona al index de controlador
 		if($showMsg){
-			Session::flash('alert-success', 'Certificado '.$certificado->CERT_codigo.' restaurado exitosamente!');
+			flash_alert('Certificado '.$certificado->CERT_codigo.' restaurado exitosamente!' , 'success' );
 			return redirect()->back();
 		}
 	}

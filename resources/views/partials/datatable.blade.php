@@ -40,14 +40,19 @@
 		else {
 			var tbIndex = $('#tbIndex').DataTable({
 				lengthMenu: [ [5, 10, 25, 50, -1], [5, 10, 25, 50, 'Todos'] ],
-				sScrollY: '350px',
+				//sScrollY: '350px',
 				pagingType: 'simple_numbers', //'full_numbers',
-				bScrollCollapse: true,
+				//bScrollCollapse: true,
 				//rowReorder: {selector: 'td:nth-child(2)'},
 				rowReorder: false,
 				responsive: true,
-				stateSave: true,
-				dom: '<"toolbar">lrtip',
+				//stateSave: true,
+				dom: '<"toolbar">Blrtip',
+				buttons: [
+			        'colvis',
+			        'excel',
+			        'print'
+			    ],
 				language: { 
 					sProcessing:     'Procesando...', 
 					sLengthMenu:     'Mostrar _MENU_ registros', 
