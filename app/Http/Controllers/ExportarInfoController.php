@@ -26,7 +26,7 @@ class ExportarInfoController extends Controller {
 			$role = isset(auth()->user()->rol->ROLE_rol) ? auth()->user()->rol->ROLE_rol : 'user';
 
 			//Lista de acciones que solo puede realizar los administradores o los editores
-			$arrActionsAdmin = [ 'exportCertificados', 'exportOperadores' ];
+			$arrActionsAdmin = [ 'exportOperadores' ];
 
 			if(in_array(explode("@", $action)[1], $arrActionsAdmin))//Si la acción del controlador se encuentra en la lista de acciones de admin...
 			{
@@ -52,19 +52,15 @@ class ExportarInfoController extends Controller {
 		$nombreArchivo = 'CertificadosWU' . ($papelera ? '_Eliminados' : '');
 
 		Excel::create($nombreArchivo, function($excel) {
-			$excel->sheet('Certs', function($sheet) {
+			$excel->sheet('CertWU', function($sheet) {
 
 				$columnas = [
-					//'CERT_id',
 					'CERT_codigo',
 					'CERT_equipo',
-					//'AGEN_id',
 					'AGEN_codigo',
 					'AGEN_nombre',
-					//'AGEN_descripcion',
 					'AGEN_cuentawu',
 					'AGEN_activa',
-					//'REGI_id',
 					'REGI_codigo',
 					'REGI_nombre',
 					'CERT_creadopor',
@@ -76,9 +72,9 @@ class ExportarInfoController extends Controller {
 				//Se obtienen todos los registros.
 				$certificados = (Input::get('_papelera')) ? Certificado::onlyTrashed() : new Certificado;
 
-				$certificados = $certificados->orderBy('CERT_id')
-							->join('REGIONALES', 'REGIONALES.REGI_id', '=', 'OPERADORES.REGI_id')
-							->join('OPERADORES', 'OPERADORES.AGEN_id', '=', 'AGENCIAS.AGEN_id')
+				$certificados = $certificados->orderBy('CERT_codigo')
+							->join('AGENCIAS', 'AGENCIAS.AGEN_id', '=', 'CERTIFICADOS.AGEN_id')
+							->join('REGIONALES', 'REGIONALES.REGI_id', '=', 'AGENCIAS.REGI_id')
 							->get($columnas);
 
 				$sheet->fromArray($certificados->toArray());
