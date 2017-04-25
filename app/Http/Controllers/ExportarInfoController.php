@@ -94,10 +94,11 @@ class ExportarInfoController extends Controller {
 	 *
 	 * @return Response
 	 */
-	public function exportOperadores($ESOP_id, $ext='xlsx')
+	public function exportOperadores($ESOP_id, $cambiar_estado = false, $ext='xlsx')
 	{
 
 		$this->ESOP_id = $ESOP_id;
+		$this->cambiar_estado = $cambiar_estado;
 
 		$papelera = Input::get('_papelera');
 		$nombreArchivo = 'Operadores';
@@ -106,13 +107,13 @@ class ExportarInfoController extends Controller {
 			$excel->sheet('Operadores', function($sheet) {
 
 				$columnas = [
+					'AGEN_cuentawu',
 					'OPER_codigo',
 					'OPER_cedula',
-					'OPER_nombre',
 					'OPER_apellido',
+					'OPER_nombre',
 					'REGI_nombre',
 					'AGEN_nombre',
-					'AGEN_cuentawu',
 					'ESOP_descripcion',
 					'OPER_creadopor',
 					'OPER_fechacreado',
@@ -122,7 +123,9 @@ class ExportarInfoController extends Controller {
 
 				//Se obtienen todos los registros.
 				//$operadores = (Input::get('_papelera')) ? \Wupos\Operador::onlyTrashed() : new \Wupos\Operador;
-				$operadores = Operador::orderBy('OPER_codigo')
+				$operadores = Operador::orderBy('REGI_nombre')
+							->orderBy('OPER_codigo')
+							->orderBy('AGEN_cuentawu')
 							->join('ESTADOSOPERADORES', 'ESTADOSOPERADORES.ESOP_id', '=', 'OPERADORES.ESOP_id')
 							->join('REGIONALES', 'REGIONALES.REGI_id', '=', 'OPERADORES.REGI_id')
 							->join('AGENCIAS', 'AGENCIAS.REGI_id', '=', 'REGIONALES.REGI_id')
@@ -134,11 +137,12 @@ class ExportarInfoController extends Controller {
 				$sheet->freezeFirstRow();
 				$sheet->setAutoFilter();
 
-
-				$operadores->update( [
-					'ESOP_id' => \Wupos\EstadoOperador::CREADO,
-					'OPER_modificadopor' => auth()->check() ? auth()->user()->username : 'SYSTEM',
-				] );
+				if($this->cambiar_estado){
+					$operadores->update( [
+						'ESOP_id' => \Wupos\EstadoOperador::CREADO,
+						'OPER_modificadopor' => auth()->check() ? auth()->user()->username : 'SYSTEM',
+					] );
+				}
 
 
 			});

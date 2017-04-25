@@ -103,13 +103,7 @@
 		<tbody class="hide">
 			@foreach($operadores as $operador)
 			<tr class="estado_{{ $operador -> ESOP_id}}">
-				<td>
-					<div class="btn btn-link">
-						<label>
-							<input type="checkbox" id="scrollLog" value="{{$operador->OPER_id}}">
-						</label>
-					</div>
-				</td>
+				<td></td>
 				<td>{{ str_pad($operador -> OPER_codigo, 3, '0', STR_PAD_LEFT) }}</td>
 				<td>{{ $operador -> OPER_cedula }}</td>
 				<td>{{ $operador -> OPER_nombre }}</td>

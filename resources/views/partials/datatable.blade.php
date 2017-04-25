@@ -28,12 +28,21 @@
 				responsive: true,
 				select: true,
 				//stateSave: true,
-				dom: '<"toolbar">Blrtip',
+				dom: '<"toolbar">Bflrtip',
 				buttons: [
 			        'excel',
 			        'selectAll',
 			        'selectNone'
 			    ],
+		        columnDefs: [ {
+		            orderable: false,
+		            className: 'select-checkbox',
+		            targets:   0
+		        } ],
+		        select: {
+		            style:    'os',
+		            selector: 'td:first-child'
+		        },
 				language: {
         			buttons: {
 			            selectAll:   'Seleccionar todos',

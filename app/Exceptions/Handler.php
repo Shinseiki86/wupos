@@ -45,21 +45,25 @@ class Handler extends ExceptionHandler
      * @return \Illuminate\Http\Response
      */
     public function render($request, Exception $e)
-    {        
+    {
         //Si está en modo depuración:
         if (!env('APP_DEBUG', false)){
             //Si la ruta no existe, mostar view 404.
             if($e instanceof \ReflectionException OR
-                $e instanceof \Symfony\Component\HttpKernel\Exception\NotFoundHttpException){
+                $e instanceof \Symfony\Component\HttpKernel\Exception\NotFoundHttpException
+            ){
                 return response(view('errors.404'), 404);
-            } 
-            /*else {
-                //Sino, mostrar view 500. Actualmente no pasa la variable $errorMsg.
-                $errorMsg = $e->getMessage();
-                return response(view('errors.500', compact($errorMsg)), 500);
-            }*/
+            }
+            if($e instanceof \ErrorException OR
+                $e instanceof \PDOException
+            ){
+                //Sino, mostrar view 500.
+                $errorFile = last(explode('\\', $e->getFile()));
+                $errorMsg = $errorFile.' (Línea '.$e->getLine().'): '.$e->getMessage();
+                return response(view('errors.500', compact('errorMsg')), 500);
+            }
         }
-
+        
         return parent::render($request, $e);
     }
 }
