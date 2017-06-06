@@ -14,6 +14,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Routing\Redirector;
 
 class AuthController extends Controller
 {
@@ -36,13 +37,21 @@ class AuthController extends Controller
 	 * @var string
 	 */
 	protected $redirectTo = '/';
+	
+	/**
+	 * 
+	 *
+	 * @var string
+	 */
+	protected $username = 'username';
 
 	/**
+
 	 * Create a new authentication controller instance.
 	 *
 	 * @return void
 	 */
-	public function __construct()
+	public function __construct(Redirector $redirect=null)
 	{
 
 		//Lista de acciones que no requieren autenticación
@@ -50,6 +59,7 @@ class AuthController extends Controller
 			'logout',
 			'login',
 			'getLogout',
+			'showLoginForm',
 		];
 
 		//Lista de acciones que solo puede realizar los administradores
@@ -67,24 +77,29 @@ class AuthController extends Controller
 
 
 		//Requiere que el usuario inicie sesión, excepto en la vista logout.
-		$this->middleware($this->guestMiddleware(),
-			['except' => array_collapse([$arrActionsLogin, $arrActionsAdmin])]
-		);
+		$this->middleware('auth', [ 'except' => $arrActionsLogin ]);
 
-		if(Route::currentRouteAction() !== null){//Compatibilidad con el comando "php artisan route:list", ya que ingresa como guest y la ruta es nula.		
-			$action = Route::currentRouteAction();
-			$role = isset(auth()->user()->rol->ROLE_rol) ? auth()->user()->rol->ROLE_rol : 'user';
-
+		if( auth()->check() ){ //Compatibilidad con el comando "php artisan route:list", ya que ingresa como guest y la ruta es nula.
+			$action = explode("@", Route::currentRouteAction())[1];
 			
-			if(in_array(explode("@", $action)[1], $arrActionsAdmin))//Si la acción del controlador se encuentra en la lista de acciones de admin...
-			{
-				if( ! in_array($role , ['admin']))//Si el rol no es admin, se niega el acceso.
+			//Si el usuario ya está autenticado e ingresa a login, redirige al home.
+			if( $action == 'showLoginForm' )
+				return redirect()->route('home')->send();
+
+			if( isset($redirect) ){
+				$ROLE_id = auth()->check() ? auth()->user()->ROLE_id : 0;
+
+				if( in_array($action, $arrActionsAdmin) )//Si la acción del controlador se encuentra en la lista de acciones de admin...
 				{
-					abort(403, '¡Usuario no tiene permisos!.');
+					if( ! in_array($ROLE_id , [\Eva360\Rol::ADMIN]) )//Si el rol no es admin, se niega el acceso.
+					{
+						abort(403, 'Usuario no tiene permisos!.');
+					}
 				}
 			}
 		}
 	}
+
 
 	/**
 	 * Get a validator for an incoming registration request.
@@ -92,15 +107,24 @@ class AuthController extends Controller
 	 * @param  array  $data
 	 * @return \Illuminate\Contracts\Validation\Validator
 	 */
-	protected function validator(array $data)
+	protected function validator(array $data, $USER_id = null)
 	{
-		return Validator::make($data, [
+
+	$rules = $USER_id !== null ? [
+			'num_documento' => 'required|numeric|unique:USERS,num_documento,'.$USER_id.',USER_id',
+			'name' => 'required|max:255',
+			'email' => 'required|email|max:255|unique:USERS,email,'.$USER_id.',USER_id',
+			'ROLE_id' => 'required',
+		] : [
+			'num_documento' => 'required|numeric|unique:USERS',
 			'name' => 'required|max:255',
 			'username' => 'required|max:15|unique:USERS',
-			'email' => 'required|email|max:255',
+			'email' => 'required|email|max:255|unique:USERS',
 			'password' => 'required|min:6|confirmed',
 			'ROLE_id' => 'required',
-		]);
+		];
+
+		return Validator::make($data, $rules);
 	}
 
 
@@ -131,13 +155,13 @@ class AuthController extends Controller
      */
     public function register(Request $request)
     {
-        $validator = $this->validator($request->all());
+		$validator = $this->validator($request->all());
 
-        if ($validator->fails()) {
-            $this->throwValidationException(
-                $request, $validator
-            );
-        }
+		if( $validator->fails() ) {
+			return redirect()->back()
+						->withErrors($validator)
+						->withInput()->send();
+		}
 
         //Auth::guard($this->getGuard())->login($this->create($request->all()));
         $user = $this->create($request->all());
@@ -156,25 +180,13 @@ class AuthController extends Controller
 	{
 		return User::create([
 			'name' => $data['name'],
-			'username' => $data['username'],
+			'username' => strtolower($data['username']),
 			'email' => $data['email'],
 			'password' => bcrypt($data['password']),
 			'ROLE_id' => $data['ROLE_id'],
 			'USER_creadopor' => auth()->user()->username,
 		]);
 	}
-
-
-    /**
-     * Get the login username to be used by the controller.
-     *
-     * @return string
-     */
-    public function loginUsername()
-    {
-    	//Se modifica para que la autenticación se realice por username y no por email
-        return property_exists($this, 'username') ? $this->username : 'username';
-    }
 
 
 	/**

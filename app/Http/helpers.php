@@ -19,7 +19,7 @@ if (! function_exists('model_to_array')) {
      * Crea un array con la llave primaria y una columna a partir de un Model.
      * Se utiliza para contruir <select> en los views.
      *
-     * @param  string|object  $class
+     * @param  string|Model  $class
      * @param  string  $column
      * @param  string  $primaryKey
      * @return array
@@ -32,7 +32,7 @@ if (! function_exists('model_to_array')) {
             $primaryKey = isset($primaryKey) ? $primaryKey : $models->first()->getKeyName();
         } else {
 
-            $class = class_exists($class) ? $class : '\\Eva360\\'.basename(str_replace('\\', '/', $class));
+            $class = class_exists($class) ? $class : '\\Eva360\\'.basename($class);
             $primaryKey = isset($primaryKey) ? $primaryKey : (new $class)->getKeyName();
             $models = $class::orderBy($primaryKey)
                             ->get([ $primaryKey , $column ]);
@@ -104,7 +104,7 @@ if (! function_exists('delete_tree')) {
         $files = array_diff(scandir($dir), array('.','..')); 
         foreach($files as $file) {
             //Primero se borran todos los archivos que se encuentran dentro de la carpeta
-            (is_dir("$dir/$file")) ? delTree("$dir/$file") : unlink("$dir/$file"); 
+            (is_dir("$dir/$file")) ? delete_tree("$dir/$file") : unlink("$dir/$file"); 
         } 
         //Y luego se borra la carpeta, retornando el valor
         //Un error de nivel E_WARNING será generado si se produce un error.
@@ -136,11 +136,11 @@ if (! function_exists('flash_alert')) {
      * @return void
      */
     function flash_alert( $msg, $type = 'info' ) {
-        if(session()->has('alert-'.$type)){
-            $msg = session()->get('alert-'.$type) + [$msg];
-        } else {
+        //if(session()->has('alert-'.$type)){
+        //    $msg = session()->get('alert-'.$type) + [$msg];
+        //} else {
             $msg = [$msg];
-        }
+        //}
         session()->flash('alert-'.$type, $msg);
     }
 }
