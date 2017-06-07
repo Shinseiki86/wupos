@@ -2,10 +2,11 @@
 
 namespace Wupos\Http\Controllers;
 
-use Illuminate\Support\Facades\Input;
-use Illuminate\Support\Facades\Session;
-use Illuminate\Support\Facades\Route;
+use Illuminate\Http\Request;
 use Illuminate\Routing\Redirector;
+use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Session;
 
 use Wupos\Operador;
 use Wupos\Regional;
@@ -43,12 +44,13 @@ class OperadorController extends Controller
 	public function index()
 	{
 		//Se obtienen todos los registros.
-		$operadores = Operador::orderBy('OPER_codigo')
+		$operadores = Operador::sortable('OPER_codigo')
 						->join('REGIONALES', 'REGIONALES.REGI_id', '=', 'OPERADORES.REGI_id')
-						->get();
+						->paginate(10);
 
 		//Se crea un array con los estados disponibles
 		$arrRegionales = model_to_array(Regional::class, 'REGI_nombre');
+
 		//Se crea un array con los estados disponibles
 		$arrEstados = model_to_array(EstadoOperador::class, 'ESOP_descripcion');
 
@@ -56,6 +58,56 @@ class OperadorController extends Controller
 		return view('operadores/index', compact('operadores', 'arrRegionales', 'arrEstados'))
 				->with('papelera', $papelera = false);
 	}
+
+	/**
+	 * Muestra una lista de los registros ordenados según los criterios suministrados.
+	 *
+	 * @return Response
+	 */
+	public function search(Request $request)
+	{
+		$operadores = Operador::sortable('OPER_codigo')
+						->join('REGIONALES', 'REGIONALES.REGI_id', '=', 'OPERADORES.REGI_id');
+
+		if($request->has('OPER_codigo')){
+			if(env('DB_CONNECTION') == 'pgsql')
+				$operadores = $operadores->whereRaw("cast(OPER_codigo as text) ilike '%".$request->get('OPER_codigo')."%'");
+			else
+				$operadores = $operadores->where('OPER_codigo', 'like', '%'.$request->get('OPER_codigo').'%');
+		}
+		if($request->has('OPER_cedula')){
+			if(env('DB_CONNECTION') == 'pgsql')
+				$operadores = $operadores->whereRaw("cast(OPER_cedula as text) ilike '%".$request->get('OPER_cedula')."%'");
+			else
+				$operadores = $operadores->where('OPER_cedula', 'like', '%'.$request->get('OPER_cedula').'%');
+		}
+		if($request->has('OPER_nombre'))
+			$operadores = $operadores->where('OPER_nombre', 'like', '%'.$request->get('OPER_nombre').'%');
+		if($request->has('OPER_apellido'))
+			$operadores = $operadores->where('OPER_apellido', 'like', '%'.$request->get('OPER_apellido').'%');
+
+		if($request->has('REGI_id'))
+			$operadores = $operadores->where('REGI_id', $request->get('REGI_id'));
+		if($request->has('ESOP_id'))
+			$operadores = $operadores->where('ESOP_id', $request->get('ESOP_id'));
+
+		$operadores = $operadores->paginate(10);
+
+		$count = $operadores->total();
+		if($count == 0)
+			flash_alert( 'No se encontraron registros con los datos suministrados.', 'warning' );
+
+		//Se crea un array con los estados disponibles
+		$arrRegionales = model_to_array(Regional::class, 'REGI_nombre');
+
+		//Se crea un array con los estados disponibles
+		$arrEstados = model_to_array(EstadoOperador::class, 'ESOP_descripcion');
+
+		//Se carga la vista y se pasan los registros
+		return view('operadores/index', compact('operadores', 'arrRegionales', 'arrEstados'))
+				->with('filtered', true)
+				->with('papelera', false);
+	}	
 
 	/**
 	 * Muestra una lista de los registros eliminados.

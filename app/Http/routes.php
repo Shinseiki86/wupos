@@ -13,8 +13,13 @@
 
 //Autenticación
 Route::auth();
-Route::resource('usuarios', 'Auth\AuthController');
-Route::resource('roles', 'Auth\RolController');
+Route::resource('usuarios', 'Auth\AuthController', [
+	'parameters'=>['usuarios' => 'USER_id']
+]);
+Route::resource('roles', 'Auth\RolController', [
+	'except' => ['show'],
+	'parameters' => ['roles' => 'ROLE_id']
+]);
 Route::get('password/email/{USER_id}', 'Auth\PasswordController@sendEmail')->where('USER_id', '[0-9]+');
 Route::get('password/reset/{USER_id}', 'Auth\PasswordController@showResetForm')->where('USER_id', '[0-9]+');
 
@@ -42,14 +47,19 @@ Route::resource('regionales', 'RegionalController');
 Route::resource('agencias', 'AgenciaController');
 
 //Certificados
-Route::resource('certificados', 'CertificadoController');
+Route::resource('certificados', 'CertificadoController', [
+	'parameters'=>['certificados' => 'CERT_id']
+]);
 Route::get('certificados/{CERT_id}/restore', 'CertificadoController@restore');
 Route::get('certificados-borrados', 'CertificadoController@indexOnlyTrashed');
 Route::delete('certificados-borrados/vaciarPapelera', 'CertificadoController@vaciarPapelera');
 
 //Operadores
-Route::resource('operadores', 'OperadorController');
-Route::get('operadores/{CERT_id}/restore', 'OperadorController@restore');
+Route::resource('operadores', 'OperadorController', [
+	'parameters'=>['operadores' => 'OPER_id']
+]);
+Route::get('operadores/search', 'OperadorController@search');
+Route::get('operadores/{OPER_id}/restore', 'OperadorController@restore');
 Route::get('operadores-borrados', 'OperadorController@indexOnlyTrashed');
 Route::delete('operadores-borrados/vaciarPapelera', 'OperadorController@vaciarPapelera');
 

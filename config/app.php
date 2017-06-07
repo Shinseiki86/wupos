@@ -159,6 +159,7 @@ return [
         //Add by DiegoCortes
         Styde\Html\HtmlServiceProvider::class,
         Maatwebsite\Excel\ExcelServiceProvider::class,
+        Kyslik\ColumnSortable\ColumnSortableServiceProvider::class,
     ],
 
     /*

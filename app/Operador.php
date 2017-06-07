@@ -3,9 +3,12 @@
 namespace Wupos;
 
 use Wupos\ModelWithSoftDeletes;
+use Kyslik\ColumnSortable\Sortable;
 
 class Operador extends ModelWithSoftDeletes
 {
+    use Sortable;
+
     //Nombre de la tabla en la base de datos
     protected $table = 'OPERADORES';
     protected $primaryKey = 'OPER_id';
@@ -28,6 +31,18 @@ class Operador extends ModelWithSoftDeletes
         'OPER_eliminadopor',
     ];
 
+    public $sortable = [
+        'OPER_codigo',
+        'OPER_cedula',
+        'OPER_nombre',
+        'OPER_apellido',
+        'REGI_id',
+        'ESOP_id',
+        'OPER_creadopor',
+        'OPER_modificadopor',
+        'OPER_eliminadopor',
+    ];
+    
     public function regional()
     {
         $foreingKey = 'REGI_id';

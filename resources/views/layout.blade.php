@@ -44,9 +44,9 @@
 				$('.table>tbody').removeClass('hide');
 				$('.table>tfoot').addClass('hide');
 
-				/*var tooltips = $('[data-tooltip="tooltip"]');
+				var tooltips = $('[data-tooltip="tooltip"]');
 				if(tooltips.length > 0)
-					tooltips.tooltip();*/
+					tooltips.tooltip();
 			})
 		</script>
 		@yield('scripts')
