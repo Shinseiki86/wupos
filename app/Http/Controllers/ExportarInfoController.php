@@ -10,6 +10,7 @@ use Illuminate\Routing\Redirector;
 use Maatwebsite\Excel\Facades\Excel;
 
 use Wupos\Operador;
+use Wupos\EstadoOperador;
 use Wupos\Certificado;
 
 
@@ -94,7 +95,7 @@ class ExportarInfoController extends Controller {
 	 *
 	 * @return Response
 	 */
-	public function exportOperadores($ESOP_id, $cambiar_estado = false, $ext='xlsx')
+	public function exportOperadores($ESOP_id, $cambiar_estado = true, $ext='xlsx')
 	{
 
 		$this->ESOP_id = $ESOP_id;
@@ -123,31 +124,36 @@ class ExportarInfoController extends Controller {
 
 				//Se obtienen todos los registros.
 				//$operadores = (Input::get('_papelera')) ? \Wupos\Operador::onlyTrashed() : new \Wupos\Operador;
-				$operadores = Operador::orderBy('REGI_nombre')
-							->orderBy('OPER_codigo')
-							->orderBy('AGEN_cuentawu')
-							->join('ESTADOSOPERADORES', 'ESTADOSOPERADORES.ESOP_id', '=', 'OPERADORES.ESOP_id')
+
+				$operExport = Operador::join('ESTADOSOPERADORES', 'ESTADOSOPERADORES.ESOP_id', '=', 'OPERADORES.ESOP_id')
 							->join('REGIONALES', 'REGIONALES.REGI_id', '=', 'OPERADORES.REGI_id')
 							->join('AGENCIAS', 'AGENCIAS.REGI_id', '=', 'REGIONALES.REGI_id')
 							->where('OPERADORES.ESOP_id', $this->ESOP_id)
 							->where('AGENCIAS.AGEN_activa', true)
-							->where('AGENCIAS.AGEN_cuentawu', '!=', null);
+							->where('AGENCIAS.AGEN_cuentawu', '!=', null)
+							->orderBy('REGI_nombre')
+							->orderBy('OPER_codigo')
+							->orderBy('AGEN_cuentawu');
 
-				$sheet->fromArray($operadores->get($columnas)->toArray());
+				$sheet->fromArray($operExport->get($columnas)->toArray());
 				$sheet->freezeFirstRow();
 				$sheet->setAutoFilter();
 
 				if($this->cambiar_estado){
-					$operadores->update( [
-						'ESOP_id' => \Wupos\EstadoOperador::CREADO,
-						'OPER_modificadopor' => auth()->check() ? auth()->user()->username : 'SYSTEM',
-					] );
+					$operadores = Operador::where('OPERADORES.ESOP_id', $this->ESOP_id);
+					switch ($this->ESOP_id) {
+						case EstadoOperador::PEND_CREAR:
+							$operadores->update( ['ESOP_id' => EstadoOperador::CREADO] );
+							break;
+						case EstadoOperador::PEND_ELIMINAR:
+							foreach($operadores->get() as $operador){
+								$operador->delete();
+							}
+							break;
+					}
 				}
-
-
 			});
 		})->export($ext);
-
 
 		flash_alert( '¡Datos exportados exitosamente!', 'success' );
 		return redirect()->refresh()->with('error_code', 1)->send();

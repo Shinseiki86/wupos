@@ -44,9 +44,9 @@ class OperadorController extends Controller
 	public function index()
 	{
 		//Se obtienen todos los registros.
-		$operadores = Operador::sortable('OPER_codigo')
+		$operadores = Operador::orderBy('OPER_codigo')
 						->join('REGIONALES', 'REGIONALES.REGI_id', '=', 'OPERADORES.REGI_id')
-						->paginate(10);
+						->get();
 
 		//Se crea un array con los estados disponibles
 		$arrRegionales = model_to_array(Regional::class, 'REGI_nombre');
@@ -64,49 +64,24 @@ class OperadorController extends Controller
 	 *
 	 * @return Response
 	 */
-	public function search(Request $request)
+	public function cambiarEstado($OPER_id)
 	{
-		$operadores = Operador::sortable('OPER_codigo')
-						->join('REGIONALES', 'REGIONALES.REGI_id', '=', 'OPERADORES.REGI_id');
-
-		if($request->has('OPER_codigo')){
-			if(env('DB_CONNECTION') == 'pgsql')
-				$operadores = $operadores->whereRaw("cast(OPER_codigo as text) ilike '%".$request->get('OPER_codigo')."%'");
-			else
-				$operadores = $operadores->where('OPER_codigo', 'like', '%'.$request->get('OPER_codigo').'%');
+		// Se obtiene el registro
+		$operador = Operador::findOrFail($OPER_id);
+		switch ($operador->ESOP_id) {
+			case EstadoOperador::PEND_CREAR:
+				$operador->ESOP_id = EstadoOperador::CREADO;
+				break;
+			case EstadoOperador::CREADO:
+				$operador->ESOP_id = EstadoOperador::PEND_ELIMINAR;
+				break;
 		}
-		if($request->has('OPER_cedula')){
-			if(env('DB_CONNECTION') == 'pgsql')
-				$operadores = $operadores->whereRaw("cast(OPER_cedula as text) ilike '%".$request->get('OPER_cedula')."%'");
-			else
-				$operadores = $operadores->where('OPER_cedula', 'like', '%'.$request->get('OPER_cedula').'%');
-		}
-		if($request->has('OPER_nombre'))
-			$operadores = $operadores->where('OPER_nombre', 'like', '%'.$request->get('OPER_nombre').'%');
-		if($request->has('OPER_apellido'))
-			$operadores = $operadores->where('OPER_apellido', 'like', '%'.$request->get('OPER_apellido').'%');
+		$operador->save();
 
-		if($request->has('REGI_id'))
-			$operadores = $operadores->where('REGI_id', $request->get('REGI_id'));
-		if($request->has('ESOP_id'))
-			$operadores = $operadores->where('ESOP_id', $request->get('ESOP_id'));
+		// redirecciona al index de controlador
+		flash_alert( 'Operador '.$operador->OPER_codigo.' en estado '.$operador->estado->ESOP_descripcion, 'success' );
+		return redirect()->to('operadores');
 
-		$operadores = $operadores->paginate(10);
-
-		$count = $operadores->total();
-		if($count == 0)
-			flash_alert( 'No se encontraron registros con los datos suministrados.', 'warning' );
-
-		//Se crea un array con los estados disponibles
-		$arrRegionales = model_to_array(Regional::class, 'REGI_nombre');
-
-		//Se crea un array con los estados disponibles
-		$arrEstados = model_to_array(EstadoOperador::class, 'ESOP_descripcion');
-
-		//Se carga la vista y se pasan los registros
-		return view('operadores/index', compact('operadores', 'arrRegionales', 'arrEstados'))
-				->with('filtered', true)
-				->with('papelera', false);
 	}	
 
 	/**
@@ -122,7 +97,10 @@ class OperadorController extends Controller
 						->join('REGIONALES', 'REGIONALES.REGI_id', '=', 'OPERADORES.REGI_id')
 						->get();
 
-		$arrRegionales = Regional::getRegionales();
+		//Se crea un array con los estados disponibles
+		$arrRegionales = model_to_array(Regional::class, 'REGI_nombre');
+
+		//Se crea un array con los estados disponibles
 		$arrEstados = model_to_array(EstadoOperador::class, 'ESOP_descripcion');
 
 		//Se carga la vista y se pasan los registros
@@ -165,7 +143,6 @@ class OperadorController extends Controller
 			'ESOP_id' => ['required', 'numeric'],
 		]);
 
-
 		//Permite seleccionar los datos que se desean guardar.
 		$operador = Operador::create(
 			array_merge(
@@ -174,7 +151,6 @@ class OperadorController extends Controller
 				['OPER_creadopor' => auth()->user()->username]
 			)
 		);
-
 
 		// redirecciona al index de controlador
 		flash_alert( 'Operador '.$operador->OPER_codigo.' creado exitosamente!', 'success' );
@@ -283,7 +259,13 @@ class OperadorController extends Controller
 		$asingCodigos = array_column(Operador::withTrashed()->orderBy('OPER_codigo')->get()->toArray(), 'OPER_codigo');
 		$codigoLibre = array_first(array_diff($allCodigos, $asingCodigos));
 
-		return $codigoLibre;
+
+		if(isset($codigoLibre)){
+			return $codigoLibre;
+		}else{
+			flash_modal( 'No hay códigos disponibles! Elimine operadores para liberar códigos.', 'danger' );
+			return redirect()->to('operadores')->send();
+		}
 	}
 
 

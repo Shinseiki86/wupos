@@ -1,52 +1,28 @@
-@section('head')
-	<style type="text/css">
-		.modal {
-		  text-align: center;
-		}
-
-		@media screen and (min-width: 768px) { 
-		  .modal:before {
-			display: inline-block;
-			vertical-align: middle;
-			content: " ";
-			height: 100%;
-		  }
-		}
-
-		.modal-dialog {
-		  display: inline-block;
-		  text-align: left;
-		  vertical-align: middle;
-		}
-
-		.fa-3x{
-			vertical-align: middle;
-		}
-
-	</style>
-@parent
-@endsection
-
 @section('scripts')
 	<script type="text/javascript">
 		//Carga de datos a mensajes modales para eliminar y clonar registros
 		$(document).ready(function () {
 			$('#pregModalDelete').on('show.bs.modal', function (event) {
-				var button = $(event.relatedTarget); // Button that triggered the modal
-				var modal = $(this);
-				
+				updateModalDelete($(event.relatedTarget), $(this));
+			});
+
+			$('#tbIndex').on('click', '.btn-delete', function(event){
+				updateModalDelete($(event.currentTarget), $('#pregModalDelete'));
+			});
+
+			function updateModalDelete(button, modal) {
 				var id = button.data('id'); // Se obtiene valor en data-id
 				modal.find('.id').text(id); //Se asigna en la etiqueta con clase id
 
 				var modelo = button.data('modelo');
-				modal.find('.modelo').text(modelo);
+				modal.find('.modelo').html(modelo);
 
 				var descripcion = button.data('descripcion');
-				modal.find('.descripcion').text(descripcion);
+				modal.find('.descripcion').html(descripcion);
 
 				var urlForm = button.data('action'); // Se cambia acción del formulario.
-				$('.frmModal').attr('action', urlForm);
-			});
+				modal.find('.frmModal').attr('action', urlForm);
+			}
 		});
 	</script>
 @parent

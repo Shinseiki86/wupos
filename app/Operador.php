@@ -3,11 +3,9 @@
 namespace Wupos;
 
 use Wupos\ModelWithSoftDeletes;
-use Kyslik\ColumnSortable\Sortable;
 
 class Operador extends ModelWithSoftDeletes
 {
-    use Sortable;
 
     //Nombre de la tabla en la base de datos
     protected $table = 'OPERADORES';
@@ -30,18 +28,6 @@ class Operador extends ModelWithSoftDeletes
         'OPER_modificadopor',
         'OPER_eliminadopor',
     ];
-
-    public $sortable = [
-        'OPER_codigo',
-        'OPER_cedula',
-        'OPER_nombre',
-        'OPER_apellido',
-        'REGI_id',
-        'ESOP_id',
-        'OPER_creadopor',
-        'OPER_modificadopor',
-        'OPER_eliminadopor',
-    ];
     
     public function regional()
     {
@@ -53,6 +39,14 @@ class Operador extends ModelWithSoftDeletes
     {
         $foreingKey = 'ESOP_id';
         return $this->belongsTo(EstadoOperador::class, $foreingKey);
+    }
+
+    protected static function boot() {
+        parent::boot();
+        static::deleting(function($model) {
+            $model->update(['ESOP_id' => EstadoOperador::ELIMINADO]);
+            return true;
+        });
     }
 
 }

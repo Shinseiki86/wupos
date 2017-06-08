@@ -32,10 +32,10 @@
 
 	<h1 class="page-header">
 		<div class="row">
-			<div id="titulo" class="col-xs-12 col-md-3 col-lg-3">
+			<div id="titulo" class="col-xs-12 col-md-5 col-lg-4">
 				Operadores {{$papelera ? 'Eliminados' : ''}}
 			</div>
-			<div id="btns-top" class="col-xs-12 col-md-9 col-lg-9 text-right">
+			<div id="btns-top" class="col-xs-12 col-md-7 col-lg-8 text-right">
 				@include('operadores/index-Btns')
 			</div>
 		</div>
@@ -43,31 +43,20 @@
 
 	@include('operadores/index-collapseFormFilters')
 
-	{{-- Paginate --}}
-	<div class="row">
-		<div id="btn-paginate" class="col-xs-12 col-md-8 col-lg-8">
-			{{ $operadores->appends(Request::all())->render() }}
-		</div>
-		<div class="col-xs-12 col-md-4 col-lg-4 text-right">
-			{{ $operadores->total() }} registros encontrados.
-		</div>
-	</div>
-	
-	<table class="table table-striped table-condensed">
+	<table id="tbIndex" class="table">
 		<thead>
 			<tr class="active">
-
-				<th class="hidden-xs col-sm-1 col-md-1 col-lg-1">@sortablelink('OPER_codigo', 'Código')</th>
-				<th class="hidden-xs col-sm-1 col-md-1 col-lg-1">@sortablelink('OPER_cedula', 'Cédula')</th>
-				<th class="col-xs-2 col-sm-2 col-md-2 col-lg-2">@sortablelink('OPER_nombre', 'Nombres')</th>
-				<th class="col-xs-2 col-sm-2 col-md-2 col-lg-2">@sortablelink('OPER_apellido', 'Apellidos')</th>
-				<th class="col-xs-1 col-sm-1 col-md-1 col-lg-1">@sortablelink('estado.ESOP_descripcion', 'Estado')</th>
-				<th class="hidden-xs col-sm-1 col-md-1 col-lg-1">@sortablelink('regional.REGI_nombre', 'Regional')</th>
-				<th class="hidden-xs col-sm-1 col-md-1 col-lg-1">@sortablelink('OPER_creadopor', 'Creador')</th>
+				<th class="col-xs-1 col-sm-1 col-md-1 col-lg-1 codigo">Código</th>
+				<th class="hidden-xs col-sm-1 col-md-1 col-lg-1 cedula">Cédula</th>
+				<th class="col-xs-2 col-sm-2 col-md-2 col-lg-2 nombres">Nombres</th>
+				<th class="col-xs-2 col-sm-2 col-md-2 col-lg-2 apellidos">Apellidos</th>
+				<th class="col-xs-1 col-sm-1 col-md-1 col-lg-1 estado">Estado</th>
+				<th class="hidden-xs col-sm-1 col-md-1 col-lg-1 regional">Regional</th>
+				<th class="hidden-xs col-sm-1 col-md-1 col-lg-1">Creador</th>
 				@if($papelera)
-				<th class="hidden-xs col-sm-1 col-md-1 col-lg-1">@sortablelink('OPER_eliminadopor', 'Eliminado')</th>
+				<th class="hidden-xs col-sm-1 col-md-1 col-lg-1">Eliminado</th>
 				@else
-				<th class="hidden-xs col-sm-1 col-md-1 col-lg-1">@sortablelink('OPER_modificadopor', 'Modif.')</th>
+				<th class="hidden-xs col-sm-1 col-md-1 col-lg-1">Modif.</th>
 				@endif
 				<th class="col-xs-1 col-sm-1 col-md-1 col-lg-1"></th>
 			</tr>
@@ -76,7 +65,7 @@
 		<tbody class="hide">
 			@foreach($operadores as $operador)
 			<tr class="estado_{{ $operador -> ESOP_id}}">
-				<td class="hidden-xs">{{ str_pad($operador -> OPER_codigo, 3, '0', STR_PAD_LEFT) }}</td>
+				<td>{{ str_pad($operador -> OPER_codigo, 3, '0', STR_PAD_LEFT) }}</td>
 				<td class="hidden-xs">{{ $operador -> OPER_cedula }}</td>
 				<td>{{ $operador -> OPER_nombre }}</td>
 				<td>{{ $operador -> OPER_apellido }}</td>
@@ -88,37 +77,28 @@
 					@if(!$papelera)
 					<!-- Cargar botón Editar -->
 					<a class="btn btn-xs btn-info" href="{{ 'operadores/'. $operador->OPER_id . '/edit' }}">
-						<i class="fa fa-pencil-square-o" aria-hidden="true"></i> <span class="hidden-xs">Editar</span>
+						<i class="fa fa-pencil-square-o" aria-hidden="true"></i>
 					</a>
 					@else
-					<!-- Cargar botón Restaurar -->
+					<!-- Cargar botón Restaurar 
 					<a class="btn btn-xs btn-warning" href="{{ 'operadores/'. $operador->OPER_id . '/restore' }}">
-						<i class="fa fa-undo" aria-hidden="true"></i> <span class="hidden-xs">Restaurar</span>
-					</a>
+						<i class="fa fa-undo" aria-hidden="true"></i>
+					</a>-->
 					@endif
 
 					<!-- carga botón de Borrar -->
-					@if($operador->ESOP_id == \wupos\EstadoOperador::PEND_CREAR)
-					{{ Form::button('<i class="fa fa-user-plus" aria-hidden="true"></i>',[
-						'class'=>'btn btn-xs btn-success',
-						'data-toggle'=> 'modal',
-						'data-id'=> str_pad($operador->OPER_codigo, 3, '0', STR_PAD_LEFT),
-						'data-descripcion'=> $operador->OPER_nombre.' '.$operador->OPER_apellido,
-						'data-action'=> 'operadores/'.$operador->OPER_id.'/CambiarEstado',
-						'data-target'=> '#pregModal',
-					])}}
-					@elseif($operador->ESOP_id == \wupos\EstadoOperador::CREADO)
+					@if($operador->ESOP_id == \wupos\EstadoOperador::CREADO)
 					{{ Form::button('<i class="fa fa-trash" aria-hidden="true"></i>',[
-						'class'=>'btn btn-xs btn-warning',
+						'class'=>'btn btn-xs btn-warning btn-delete',
 						'data-toggle'=> 'modal',
 						'data-id'=> str_pad($operador->OPER_codigo, 3, '0', STR_PAD_LEFT),
 						'data-descripcion'=> $operador->OPER_nombre.' '.$operador->OPER_apellido,
-						'data-action'=> 'operadores/'.$operador->OPER_id.'/CambiarEstado',
-						'data-target'=> '#pregModal',
+						'data-action'=> 'operadores/'.$operador->OPER_id.'/pendBorrar',
+						'data-target'=> '#pregModalDelete',
 					])}}
 					@elseif($operador->ESOP_id == \wupos\EstadoOperador::PEND_ELIMINAR)
 					{{ Form::button('<i class="fa fa-trash" aria-hidden="true"></i>',[
-						'class'=>'btn btn-xs btn-danger',
+						'class'=>'btn btn-xs btn-danger btn-delete',
 						'data-toggle'=> 'modal',
 						'data-id'=> str_pad($operador->OPER_codigo, 3, '0', STR_PAD_LEFT),
 						'data-descripcion'=> $operador->OPER_nombre.' '.$operador->OPER_apellido,
@@ -141,6 +121,7 @@
 	</table>
 
 	@include('operadores/index-modalExport')
+	@include('partials/datatable')
 	@include('partials/modalDelete') <!-- incluye el modal del Delete -->
 @endsection
 

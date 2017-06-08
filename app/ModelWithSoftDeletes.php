@@ -31,4 +31,25 @@ class ModelWithSoftDeletes extends Model
         //$deleted_by => (\Auth::id()) ?: null
     }
 
+    protected static function boot() {
+        parent::boot();
+
+        static::creating(function($model) {
+            $prefix = strtoupper(substr($model->getKeyName(), 0, 4));
+            $created_by = $prefix.'_creadopor';
+            $model->$created_by = auth()->check() ? auth()->user()->username : 'SYSTEM';
+            return true;
+        });
+        static::updating(function($model) {
+            $prefix = strtoupper(substr($model->getKeyName(), 0, 4));
+            $updated_by = $prefix.'_modificadopor';
+            if (\Schema::hasColumn($model->getTable(), $updated_by)) {
+                $model->$updated_by = auth()->check()
+                    ? auth()->user()->username
+                    : 'SYSTEM';
+                return true;
+            }
+        });
+    }
+
 }

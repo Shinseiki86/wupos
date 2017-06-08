@@ -79,12 +79,13 @@
 	</div><!-- Fin de Mensaje Modal.-->
 
 @section('scripts')
+@parent
 	<script type="text/javascript">
 
 		//Se cierra la alerta a los 10 segundos.
 		setTimeout(function () {
         	$('.alert-flash').slideUp(500, function(){
-			    $(this).alert('close');
+			    //$(this).alert('close');
 			});
 		}, 10*(1000));
 
@@ -134,5 +135,4 @@
 			})
 		@endif
 	</script>
-@parent
 @endsection

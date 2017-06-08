@@ -26,15 +26,15 @@
 				//rowReorder: {selector: 'td:nth-child(2)'},
 				rowReorder: false,
 				responsive: true,
-				select: true,
-				//stateSave: true,
+				select: false,
+				stateSave: false,
 				dom: '<"toolbar">Bflrtip',
 				buttons: [
 			        'excel',
-			        'selectAll',
-			        'selectNone'
+			        //'selectAll',
+			        //'selectNone'
 			    ],
-		        columnDefs: [ {
+		        /*columnDefs: [ {
 		            orderable: false,
 		            className: 'select-checkbox',
 		            targets:   0
@@ -42,7 +42,7 @@
 		        select: {
 		            style:    'os',
 		            selector: 'td:first-child'
-		        },
+		        },*/
 				language: {
         			buttons: {
 			            selectAll:   'Seleccionar todos',
