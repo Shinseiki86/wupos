@@ -5,9 +5,13 @@
 			min-width:100px;
 			text-align:left;
 		}
+		span[name=btnClear]{
+			z-index: 999;
+			cursor: pointer;
+			pointer-events: all;
+		}
 		.filter{ padding: 0px; }
 	</style>
-@parent
 @endsection
 
 @section('scripts')
@@ -40,7 +44,7 @@ $(function () {
 		$(this).next().removeClass('hide');
 	});
 	//Búsquedas por columna
-	$('input[name=OPER_codigo]').on('input', function() {
+	$('input[name=OPER_codigo]').on('input change', function() {
 		filterTable(this, '.codigo');
 	});
 	$('input[name=OPER_cedula]').on('input', function() {
@@ -73,9 +77,12 @@ $(function () {
 	});
 	$('#resetFilter').on('click', function() {
 		$('#frmFilter').trigger("reset");
-		//$('input[name^=OPER_]').val('').trigger('input');
+
+		$('#frmFilter').find('input').trigger('input');
 		//$('input[name^=REGI_]').val('').trigger('change');
+
 		$('span[name=btnClear]').addClass('hide');
+		tbIndex.search('', true, true).draw();
 	});
 });
 </script>
@@ -83,20 +90,19 @@ $(function () {
 
 
 <div id="filters" class="collapse">
-	<div class="form-group col-xs-12 col-md-8">
-	<form id='frmFilter'>
+	<div class="form-group col-xs-12">
+	<form id='frmFilter' class="form-inline">
 		<div class="input-group has-feedback">
 			<div class="input-group-addon control-label">Operador</div>
-			{{ Form::number('OPER_codigo', null, ['class'=>'form-control', 'placeholder'=>'Por código...']) }}
+			{{ Form::text('OPER_codigo', null, ['class'=>'form-control', 'placeholder'=>'Por código...']) }}
 			<span name="btnClear" class="hide glyphicon glyphicon-remove-circle form-control-feedback"></span>
 		</div>
 
 		<div class="input-group has-feedback">
 			<div class="input-group-addon control-label">Cédula</div>
-			{{ Form::number('OPER_cedula', null, ['class'=>'form-control', 'placeholder'=>'Por cédula...']) }}
+			{{ Form::text('OPER_cedula', null, ['class'=>'form-control', 'placeholder'=>'Por cédula...']) }}
 			<span name="btnClear" class="hide glyphicon glyphicon-remove-circle form-control-feedback"></span>
 		</div>
-
 		<div class="input-group has-feedback">
 			<div class="input-group-addon control-label">Nombre</div>
 			{{ Form::text('OPER_nombre', null, ['class'=>'form-control', 'placeholder'=>'Por nombre del operador...']) }}

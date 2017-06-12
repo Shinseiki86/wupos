@@ -22,32 +22,58 @@
 				lengthMenu: [ [5, 10, 25, 50, -1], [5, 10, 25, 50, 'Todos'] ],
 				//sScrollY: '350px',
 				pagingType: 'simple_numbers', //'full_numbers',
-				//bScrollCollapse: true,
+				bScrollCollapse: true,
 				//rowReorder: {selector: 'td:nth-child(2)'},
 				rowReorder: false,
 				responsive: true,
 				select: false,
 				stateSave: false,
-				dom: '<"toolbar">Bflrtip',
-				buttons: [
-			        'excel',
-			        //'selectAll',
-			        //'selectNone'
-			    ],
-		        /*columnDefs: [ {
-		            orderable: false,
-		            className: 'select-checkbox',
-		            targets:   0
-		        } ],
-		        select: {
-		            style:    'os',
-		            selector: 'td:first-child'
-		        },*/
+				//dom: '<"toolbar">Bflrtip',
+				/*dom: "<'row'<'form-inline' <'col-sm-offset-5'B>>>"
+					+"<'row' <'form-inline' <'col-sm-2'f>>>"
+					+"<rt>"
+					+"<'row'<'form-inline' <'col-sm-6 col-md-6 col-lg-6'l>"
+					+"<'col-sm-6 col-md-6 col-lg-6'p>>>",*/
+				/*buttons: [
+					{//Bton CVS
+						extend: 'csvHtml5',
+						//exportOptions: { columns: columnss },
+						text:   '<i class="fa fa-file-text-o"></i>',
+						titleAttr: 'CSV',
+						filename:name+fecha()
+					},
+					{//Boton Excel
+						extend: 'excelHtml5',
+						//exportOptions: { columns: columnss },
+						text:      '<i class="fa fa-file-excel-o"></i>',
+						titleAttr: 'Excel',
+						filename:name+fecha()
+					},
+					{//Boton Imprimir
+						extend: 'print',
+						//exportOptions: {columns: [ 0, 1, 2, 3,4,5 ]},
+						text: '<i class="fa fa-print"></i>',
+						titleAttr: 'Imprimir'
+					},
+					{//Boton Ver
+						extend: 'colvis',
+						text: 'Ver Columnas'               
+					}
+				],
+				columnDefs: [ {
+					orderable: false,
+					className: 'select-checkbox',
+					targets:   0
+				} ],
+				select: {
+					style:    'os',
+					selector: 'td:first-child'
+				},*/
 				language: {
-        			buttons: {
-			            selectAll:   'Seleccionar todos',
-			            selectNone:  'Seleccionar ninguno'
-			        },
+					buttons: {
+						selectAll:   'Seleccionar todos',
+						selectNone:  'Seleccionar ninguno'
+					},
 					sProcessing:     'Procesando...', 
 					sLengthMenu:     'Mostrar _MENU_ registros', 
 					sZeroRecords:    'No se encontraron resultados', 
@@ -70,12 +96,7 @@
 			});
 		 }
 
-		$('a[data-toggle="tab"]').on( 'shown.bs.tab', function (e) {
-			$.fn.dataTable.tables( {visible: true, api: true} ).columns.adjust().draw();
-		});
 		
-		$('#tbIndex').find('tbody').removeClass('hide');
-		$('#tbIndex').find('tfoot').addClass('hide');
 		
 	  });
 	</script>

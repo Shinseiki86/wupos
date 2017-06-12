@@ -147,8 +147,7 @@ class OperadorController extends Controller
 		$operador = Operador::create(
 			array_merge(
 				['OPER_codigo' => $this->getCodigoOperadorDisp()],
-				request()->except(['_token']) ,
-				['OPER_creadopor' => auth()->user()->username]
+				request()->except(['_token'])
 			)
 		);
 
@@ -256,7 +255,7 @@ class OperadorController extends Controller
 
 	protected function getCodigoOperadorDisp(){
 		$allCodigos = range(1, 999);
-		$asingCodigos = array_column(Operador::withTrashed()->orderBy('OPER_codigo')->get()->toArray(), 'OPER_codigo');
+		$asingCodigos = array_column(Operador::orderBy('OPER_codigo')->get()->toArray(), 'OPER_codigo');
 		$codigoLibre = array_first(array_diff($allCodigos, $asingCodigos));
 
 
