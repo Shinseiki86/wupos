@@ -111,12 +111,12 @@ class AuthController extends Controller
 	{
 
 	$rules = $USER_id !== null ? [
-			'num_documento' => 'required|numeric|unique:USERS,num_documento,'.$USER_id.',USER_id',
+			//'num_documento' => 'required|numeric|unique:USERS,num_documento,'.$USER_id.',USER_id',
 			'name' => 'required|max:255',
 			'email' => 'required|email|max:255|unique:USERS,email,'.$USER_id.',USER_id',
 			'ROLE_id' => 'required',
 		] : [
-			'num_documento' => 'required|numeric|unique:USERS',
+			//'num_documento' => 'required|numeric|unique:USERS',
 			'name' => 'required|max:255',
 			'username' => 'required|max:15|unique:USERS',
 			'email' => 'required|email|max:255|unique:USERS',
