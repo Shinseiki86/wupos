@@ -91,7 +91,7 @@ class AuthController extends Controller
 
 				if( in_array($action, $arrActionsAdmin) )//Si la acción del controlador se encuentra en la lista de acciones de admin...
 				{
-					if( ! in_array($ROLE_id , [\Eva360\Rol::ADMIN]) )//Si el rol no es admin, se niega el acceso.
+					if( ! in_array($ROLE_id , [\Wupos\Rol::ADMIN]) )//Si el rol no es admin, se niega el acceso.
 					{
 						abort(403, 'Usuario no tiene permisos!.');
 					}
