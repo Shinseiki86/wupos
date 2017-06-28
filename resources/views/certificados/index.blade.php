@@ -1,6 +1,22 @@
 @extends('layout')
 @section('title', '/ Certificados')
 
+@section('head')
+	<style>
+		/* Define el tamaño de los input-group-addon para que sean todos iguales */
+		.input-group-addon {
+			min-width:100px;
+			text-align:left;
+		}
+		span[name=btnClear]{
+			z-index: 999;
+			cursor: pointer;
+			pointer-events: all;
+			font-size: 18px;
+		}
+	</style>
+@parent
+@endsection
 
 @section('scripts')
     {!! Html::script('assets/js/angular/angular.min.js') !!}
@@ -29,6 +45,24 @@
 			$scope.sortType = 'CERT_fechamodificado';
 			$scope.sortReverse = true;
 
+			//Filtros
+			if(localStorage.searchCertificado != 'null'){
+			console.log(localStorage.searchCertificado);
+				if (localStorage.searchCertificado[0] === '{'){
+					$scope.searchCertificado = JSON.parse(localStorage.searchCertificado);
+					$('#filters').collapse('show')
+				} else {
+					$scope.searchCertificado = localStorage.searchCertificado;
+				}
+			}
+
+			$scope.$watchCollection('searchCertificado', function(filter) {
+				if(typeof filter == 'object')
+					localStorage.searchCertificado = JSON.stringify(filter);
+				else
+					localStorage.searchCertificado = filter;
+			});
+
 			//Formato de fecha
 			$scope.formatDate = function(strDate){
 				var strDateFormatted = moment(strDate).format('DD/MM/YYYY hh:mm A');
@@ -49,71 +83,30 @@
 @section('content')
 
 <div class="container_tb_certificados" ng-app="appWupos" ng-controller="CertificadosCtrl">
-	<h1 class="page-header">Certificados {{$papelera ? 'Eliminados' : ''}}</h1>
-
-	<div class="row well well-sm">
-
-		<!-- Filtrar datos en vista -->
-		<div id="frm-find" class="col-xs-12 col-sm-2 col-md-2">
-			<a class='btn btn-primary' role='button' data-toggle="collapse" data-target="#filters" href="#" ng-click="searchCertificado = null">
-				<i class="fa fa-filter" aria-hidden="true"></i> 
-				Filtrar <span class="hidden-xs hidden-sm">resultados</span>
-			</a>
+	<h1 class="row page-header">
+		<div class="col-xs-12 col-sm-3">
+			Certificados {{$papelera ? 'Eliminados' : ''}}
 		</div>
-		<div class="col-xs-12 col-sm-8 col-md-6">
-			<form>
+
+		<div class="col-xs-12 col-sm-9 text-right">
+			<form class="form-inline">
 				<div class="input-group has-feedback">
-					<div class="input-group-addon control-label">Filtrar</div>
 					<input type="text"
 						class="form-control"
-						placeholder="En todos los campos..."
+						placeholder="Filtrar..."
 						ng-model="searchCertificado"
 					>
-					<span ng-if="searchCertificado"
+					<!--span ng-if="searchCertificado"
+						name="btnClear"
 						ng-click="searchCertificado = null"
 						class="glyphicon glyphicon-remove-circle form-control-feedback"
-						style="cursor: pointer; pointer-events: all;"
 						uib-tooltip="Borrar"
-					></span>
+					></span-->
 				</div>
+				@include('certificados/index-Btns')
 			</form>
 		</div>
-
-		<!-- Botones -->
-		<div id="btns-top" class="col-xs-12 col-sm-2 col-md-4 text-right">
-			<!-- botón de crear nuevo reg -->
-			@if(in_array(auth()->user()->rol->ROLE_rol , ['admin']) && !$papelera)
-			<a class='btn btn-primary' role='button' href="{{ URL::to('certificados/create') }}">
-				<i class="fa fa-plus" aria-hidden="true"></i>
-				Nuevo <span class="hidden-xs hidden-sm">Certificado</span>
-			</a>
-			<a class='btn btn-warning' role='button' href="{{ URL::to('certificados-borrados') }}">
-				<i class="fa fa-trash-o" aria-hidden="true"></i> 
-				Papelera
-			</a>
-			@elseif($papelera)
-				<!-- botón de vaciar papelera -->
-				{{ Form::button('<i class="fa fa-trash" aria-hidden="true"></i> Vaciar <span class="hidden-xs">Papelera</span>',[
-						'class'=>'btn btn-danger',
-						'data-toggle'=>'modal',
-						'data-id'=>'{% papelera %}',
-						'data-descripcion'=>'registros en la papelera',
-						'data-action'=>'certificados-borrados/vaciarPapelera',
-						'data-target'=>'#pregModalDelete',
-					])
-				}}
-			@endif
-
-			<!-- botón de exportar -->
-			{{ Form::open( [ 'url'=>'certificados/export/xlsx', 'method'=>'GET', 'class' => 'pull-right' ]) }}
-				{{ Form::hidden('_papelera', ''.$papelera) }}
-				{{ Form::button('<i class="fa fa-download" aria-hidden="true"></i> Exportar',[
-						'class'=>'btn btn-success',
-						'type'=>'submit',
-				]) }}
-			{{ Form::close() }}
-		</div>
-	</div>
+	</h1>
 
 	@include('certificados/index-modalExport')
 	@include('certificados/index-collapseFormFilters')

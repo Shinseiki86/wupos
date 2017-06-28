@@ -20,9 +20,9 @@
 				ng-model="searchCertificado.CERT_codigo"
 			>
 			<span ng-if="searchCertificado.CERT_codigo"
+				name="btnClear"
 				ng-click="searchCertificado.CERT_codigo = ''"
 				class="glyphicon glyphicon-remove-circle form-control-feedback"
-				style="cursor: pointer; pointer-events: all;"
 				uib-tooltip="Borrar"
 			></span>
 		</div>
@@ -35,9 +35,9 @@
 				ng-model="searchCertificado.AGEN_codigo"
 			>
 			<span ng-if="searchCertificado.AGEN_codigo"
+				name="btnClear"
 				ng-click="searchCertificado.AGEN_codigo = ''"
 				class="glyphicon glyphicon-remove-circle form-control-feedback"
-				style="cursor: pointer; pointer-events: all;"
 				uib-tooltip="Borrar"
 			></span>
 			<input type="text"
@@ -46,9 +46,9 @@
 				ng-model="searchCertificado.AGEN_nombre"
 			>
 			<span ng-if="searchCertificado.AGEN_nombre"
+				name="btnClear"
 				ng-click="searchCertificado.AGEN_nombre = ''"
 				class="glyphicon glyphicon-remove-circle form-control-feedback"
-				style="cursor: pointer; pointer-events: all;"
 				uib-tooltip="Borrar"
 			></span>
 		</div>
@@ -62,9 +62,9 @@
 				ng-model="searchCertificado.AGEN_cuentawu"
 			>
 			<span ng-if="searchCertificado.AGEN_cuentawu"
+				name="btnClear"
 				ng-click="searchCertificado.AGEN_cuentawu = ''"
 				class="glyphicon glyphicon-remove-circle form-control-feedback"
-				style="cursor: pointer; pointer-events: all;"
 				uib-tooltip="Borrar"
 			></span>
 		</div>
