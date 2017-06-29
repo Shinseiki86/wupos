@@ -24,8 +24,7 @@ Route::get('password/email/{USER_id}', 'Auth\PasswordController@sendEmail')->whe
 Route::get('password/reset/{USER_id}', 'Auth\PasswordController@showResetForm')->where('USER_id', '[0-9]+');
 
 //Inicio
-Route::get('/home', 'HomeController@index');
-Route::get('/', 'HomeController@index');
+Route::get('/', 'HomeController@index')->name('home');
 
 //Ayuda
 Route::get('/help', function(){
