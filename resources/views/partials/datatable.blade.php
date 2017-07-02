@@ -14,10 +14,6 @@
 		son configuraciones de presentación
 		HFG--Se Realiza ajuste de texto, otros atributos
 		*/
-		if ( $.fn.dataTable.isDataTable( '#tbIndex' ) ) {
-			var tbIndex = $('#tbIndex').DataTable();
-		}
-		else {
 			var tbIndex = $('#tbIndex').DataTable({
 				lengthMenu: [ [5, 10, 25, 50, -1], [5, 10, 25, 50, 'Todos'] ],
 				//sScrollY: '350px',
@@ -94,7 +90,6 @@
 					}
 				},
 			});
-		 }
 
 		
 		

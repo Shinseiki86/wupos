@@ -19,41 +19,66 @@
 @endsection
 
 @section('scripts')
-    {!! Html::script('assets/js/angular/angular.min.js') !!}
-	{!! Html::script('assets/js/angular/ui-bootstrap-tpls-2.3.1.min.js') !!}
+	{!! Html::script('assets/js/angular/angular.min.js') !!}
+	{!! Html::script('assets/js/angular/angular-animate.min.js') !!}
+	{!! Html::script('assets/js/angular/angular-sanitize.min.js') !!}
+	{!! Html::script('assets/js/angular/ui-bootstrap-tpls-2.5.0.min.js') !!}
 	{!! Html::script('assets/js/angular/dirPagination.js') !!}
 	{!! Html::script('assets/js/momentjs/moment-with-locales.min.js') !!}
 	<script type="text/javascript">
-		var appWupos = angular.module('appWupos', ['angularUtils.directives.dirPagination','ui.bootstrap'], function($interpolateProvider) {
+		var appWupos = angular.module('appWupos', ['ngAnimate', 'ngSanitize', 'dirPagination', 'ui.bootstrap'], function($interpolateProvider) {
 			$interpolateProvider.startSymbol('{%');
 			$interpolateProvider.endSymbol('%}');
 		});
 
-		//appWupos.config(['$compileProvider', function ($compileProvider) {
-		//	$compileProvider.debugInfoEnabled(false);
-		//}]);
-
 		appWupos.controller('CertificadosCtrl', ['$scope', '$timeout', function($scope, $timeout){
 			//Mostrar mensaje de carga
-        	$scope.show = true;
+			$scope.show = true;
 
 			//paginación
-			$scope.currentPage = 1;
-			$scope.pageSize = 25;
+			if(!localStorage.currentPageCert || !localStorage.pageSizeCert){
+				localStorage.currentPageCert = 1
+				localStorage.pageSizeCert = 25;
+			}
+			$scope.currentPage = localStorage.currentPageCert;
+			$scope.$watch('currentPage', function(currentPage) {
+				localStorage.currentPageCert = currentPage;
+			});
+			$scope.pageSize = localStorage.pageSizeCert;
+			$scope.$watch('pageSize', function(pageSize) {
+				localStorage.pageSizeCert = pageSize;
+			});
 
 			//Ordenamiento
-			$scope.sortType = 'CERT_fechamodificado';
-			$scope.sortReverse = true;
+			if(!localStorage.sortTypeCert || !localStorage.sortReverseCert){
+				localStorage.sortTypeCert = 'CERT_fechamodificado'
+				localStorage.sortReverseCert = true;
+			}
+			$scope.sortType = localStorage.sortTypeCert;
+			$scope.$watch('sortType', function(sortType) {
+				localStorage.sortTypeCert = sortType;
+			});
+			$scope.sortReverse = localStorage.sortReverseCert;
+			$scope.$watch('sortReverse', function(sortReverse) {
+				localStorage.sortReverseCert = sortReverse;
+			});
 
 			//Filtros
-			if(localStorage.searchCertificado != 'null'){
-			console.log(localStorage.searchCertificado);
+			if(!localStorage.searchCertificado)
+				localStorage.searchCertificado = null;
+			$scope.isFiltered = false;
+			if(localStorage.searchCertificado != 'null' && localStorage.searchCertificado != 'undefined'){
 				if (localStorage.searchCertificado[0] === '{'){
+					$scope.isFiltered = true;
 					$scope.searchCertificado = JSON.parse(localStorage.searchCertificado);
-					$('#filters').collapse('show')
 				} else {
 					$scope.searchCertificado = localStorage.searchCertificado;
 				}
+			}
+			$scope.toggleFormFilter = function() {
+				$scope.isFiltered = !$scope.isFiltered;
+				//if(!$scope.isFiltered && typeof $scope.searchCertificado == 'object')
+					$scope.searchCertificado = null;
 			}
 
 			$scope.$watchCollection('searchCertificado', function(filter) {
@@ -69,11 +94,11 @@
 				return strDateFormatted;
 			}
 
-        	$timeout( function(){
+			//$timeout( function(){
 				$scope.certificados = {!! $certificados !!};
 				$scope.regionales = {!! json_encode($arrRegionales ,JSON_NUMERIC_CHECK) !!};
-	        	$scope.show = false;
-        	}, 500);  // artificial wait of 1/2 second
+				$scope.show = false;
+			//}, 500);  // artificial wait of 1/2 second
 
 		}]);
 	</script>
@@ -82,7 +107,7 @@
 
 @section('content')
 
-<div class="container_tb_certificados" ng-app="appWupos" ng-controller="CertificadosCtrl">
+<div ng-app="appWupos" ng-controller="CertificadosCtrl">
 	<h1 class="row page-header">
 		<div class="col-xs-12 col-sm-3">
 			Certificados {{$papelera ? 'Eliminados' : ''}}
@@ -92,6 +117,7 @@
 			<form class="form-inline">
 				<div class="input-group has-feedback">
 					<input type="text"
+						ng-hide="isFiltered"
 						class="form-control"
 						placeholder="Filtrar..."
 						ng-model="searchCertificado"
@@ -119,85 +145,20 @@
 				</td>
 			</tr>
 			<tr class="active">
-				<th class="col-xs-1 col-sm-1 col-md-1 col-lg-1" style="width:40px;">
-					<a href="#" ng-click="sortType = 'CERT_codigo'; sortReverse = !sortReverse">
-						Cod Cert
-						<span ng-show="sortType == 'CERT_codigo' && !sortReverse" class="fa fa-caret-down"></span>
-						<span ng-show="sortType == 'CERT_codigo' && sortReverse" class="fa fa-caret-up"></span>
-					</a>
-				</th>
-
-				<th class="col-xs-1 col-sm-1 col-md-1 col-lg-1">
-					<a href="#" ng-click="sortType = 'CERT_equipo'; sortReverse = !sortReverse">
-						Equipo
-						<span ng-show="sortType == 'CERT_equipo' && !sortReverse" class="fa fa-caret-down"></span>
-						<span ng-show="sortType == 'CERT_equipo' && sortReverse" class="fa fa-caret-up"></span>
-					</a>
-				</th>
-
-				<th class="col-xs-1 col-sm-1 col-md-1 col-lg-1" style="width:40px;">
-					<a href="#" ng-click="sortType = 'AGEN_codigo'; sortReverse = !sortReverse">
-						Cod Agen
-						<span ng-show="sortType == 'AGEN_codigo' && !sortReverse" class="fa fa-caret-down"></span>
-						<span ng-show="sortType == 'AGEN_codigo' && sortReverse" class="fa fa-caret-up"></span>
-					</a>
-				</th>
-
-				<th class="hidden-xs col-sm-2 col-md-2 col-lg-2">
-					<a href="#" ng-click="sortType = 'AGEN_nombre'; sortReverse = !sortReverse">
-						Agencia
-						<span ng-show="sortType == 'AGEN_nombre' && !sortReverse" class="fa fa-caret-down"></span>
-						<span ng-show="sortType == 'AGEN_nombre' && sortReverse" class="fa fa-caret-up"></span>
-					</a>
-				</th>
-
-				<th class="col-xs-1 col-sm-1 col-md-1 col-lg-1">
-					<a href="#" ng-click="sortType = 'AGEN_cuentawu'; sortReverse = !sortReverse">
-						Cuenta WU
-						<span ng-show="sortType == 'AGEN_cuentawu' && !sortReverse" class="fa fa-caret-down"></span>
-						<span ng-show="sortType == 'AGEN_cuentawu' && sortReverse" class="fa fa-caret-up"></span>
-					</a>
-				</th>
-
-				<th class="hidden-xs col-sm-2 col-md-2 col-lg-2">
-					<a href="#" ng-click="sortType = 'REGI_nombre'; sortReverse = !sortReverse">
-						Regional
-						<span ng-show="sortType == 'REGI_nombre' && !sortReverse" class="fa fa-caret-down"></span>
-						<span ng-show="sortType == 'REGI_nombre' && sortReverse" class="fa fa-caret-up"></span>
-					</a>
-				</th>
-
-				<th class="hidden-xs col-sm-1 col-md-1 col-lg-1">
-					<a href="#" ng-click="sortType = 'CERT_creadopor'; sortReverse = !sortReverse">
-						Creado por
-						<span ng-show="sortType == 'CERT_creadopor' && !sortReverse" class="fa fa-caret-down"></span>
-						<span ng-show="sortType == 'CERT_creadopor' && sortReverse" class="fa fa-caret-up"></span>
-					</a>
-				</th>
-
-				<th class="hidden-xs col-sm-1 col-md-1 col-lg-1">
-					<a href="#" ng-click="sortType = 'CERT_modificadopor'; sortReverse = !sortReverse">
-						Modif por
-						<span ng-show="sortType == 'CERT_modificadopor' && !sortReverse" class="fa fa-caret-down"></span>
-						<span ng-show="sortType == 'CERT_modificadopor' && sortReverse" class="fa fa-caret-up"></span>
-					</a>
-				</th>
-
-				<th class="hidden-xs col-sm-1 col-md-1 col-lg-1">
-					<a href="#" ng-click="sortType = 'CERT_fechamodificado'; sortReverse = !sortReverse">
-						Fch Modif
-						<span ng-show="sortType == 'CERT_fechamodificado' && !sortReverse" class="fa fa-caret-down"></span>
-						<span ng-show="sortType == 'CERT_fechamodificado' && sortReverse" class="fa fa-caret-up"></span>
-					</a>
-				</th>
-
-				<th class="col-xs-1 col-sm-1 col-md-3 col-lg-3">
-					Acciones
-				</th>
+				@include('partials.widgets.th', ['id'=>'CERT_codigo', 'title'=>'Cod Cert', 'class'=>'col-xs-1 col-sm-1 col-md-1 col-lg-1', 'width'=>'40px'])
+				@include('partials.widgets.th', ['id'=>'CERT_equipo', 'title'=>'Equipo', 'class'=>'col-xs-1 col-sm-1 col-md-1 col-lg-1'])
+				@include('partials.widgets.th', ['id'=>'AGEN_codigo', 'title'=>'Cod Agen', 'class'=>'col-xs-1 col-sm-1 col-md-1 col-lg-1', 'width'=>'40px'])
+				@include('partials.widgets.th', ['id'=>'AGEN_nombre', 'title'=>'Agencia', 'class'=>'hidden-xs col-sm-2 col-md-2 col-lg-2'])
+				@include('partials.widgets.th', ['id'=>'AGEN_cuentawu', 'title'=>'Cuenta WU', 'class'=>'col-xs-1 col-sm-1 col-md-1 col-lg-1'])
+				@include('partials.widgets.th', ['id'=>'REGI_nombre', 'title'=>'Regional', 'class'=>'hidden-xs col-sm-2 col-md-2 col-lg-2'])
+				@include('partials.widgets.th', ['id'=>'CERT_creadopor', 'title'=>'Creado por', 'class'=>'hidden-xs col-sm-1 col-md-1 col-lg-1'])
+				@include('partials.widgets.th', ['id'=>'CERT_modificadopor', 'title'=>'Modif por', 'class'=>'hidden-xs col-sm-1 col-md-1 col-lg-1'])
+				@include('partials.widgets.th', ['id'=>'CERT_fechamodificado', 'title'=>'Fch Modif', 'class'=>'hidden-xs col-sm-1 col-md-1 col-lg-1'])
+				<th class="col-xs-1 col-sm-1 col-md-3 col-lg-3">Acciones</th>
 			</tr>
 		</thead>
 		
-		<tbody <div ng-show="!show">
+		<tbody ng-show="!show">
 		  <tr dir-paginate="certificado in certificados | orderBy:sortType:sortReverse | filter:searchCertificado | itemsPerPage: pageSize" current-page="currentPage" class="{% certificado.AGEN_activa ? '' : 'danger' %}">
 				{{-- <td>{% certificado.CERT_id %}</td> --}}
 				<td ng-bind="certificado.CERT_codigo"></td>
@@ -210,10 +171,6 @@
 				<td class="hidden-xs" ng-bind="certificado.CERT_modificadopor"></td>
 				<td class="hidden-xs" ng-bind="formatDate(certificado.CERT_fechamodificado)"></td>
 				<td>
-					<!-- carga botón de Ver 
-					<a class="btn btn-xs btn-success" href="{% 'certificados/' + certificado.CERT_id %}" role="button">
-						<span class="glyphicon glyphicon-eye-open"></span> <span class="hidden-xs">Ver</span>
-					</a>-->
 
 					@if(!$papelera)
 					<!-- Cargar botón Editar -->

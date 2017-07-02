@@ -9,7 +9,7 @@
 @parent
 @endsection
 
-<div id="filters" class="collapse">
+<div id="filters" class="collapse" uib-collapse="!isFiltered">
 	<div class="form-group col-xs-12 col-md-8">
 	<form>
 		<div class="input-group has-feedback">

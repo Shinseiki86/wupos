@@ -1,8 +1,8 @@
 
 <!-- Filtrar datos en vista -->
-<a class='btn btn-primary' role='button' data-toggle="collapse" data-target="#filters" href="#" ng-click="searchCertificado = null">
+<button type="button" class="btn btn-primary" ng-click="toggleFormFilter()" data-tooltip="tooltip" title="Filtrar resultados">
 	<i class="fa fa-filter" aria-hidden="true"></i>
-</a>
+</button>
 
 <!-- botón de crear nuevo reg -->
 @if(in_array(auth()->user()->rol->ROLE_rol , ['admin']) && !$papelera)

@@ -1,13 +1,13 @@
 
 <!-- Filtrar datos en vista -->
-<a class='btn btn-primary' role='button' data-toggle="collapse" data-target="#filters" href="#" data-tooltip="tooltip" title="Filtrar resultados">
+<button type="button" class="btn btn-primary" ng-click="toggleFormFilter()" data-tooltip="tooltip" title="Filtrar resultados">
 	<i class="fa fa-filter" aria-hidden="true"></i>
-</a>
+</button>
 
 @if(in_array(auth()->user()->rol->ROLE_rol , ['admin']))
 	@if(!$papelera)
 	<a class='btn btn-primary' role='button' href="{{ URL::to('operadores/create') }}">
-		<i class="fa fa-plus" aria-hidden="true"></i> Nuevo
+		<i class="fa fa-plus" aria-hidden="true"></i>
 	</a>
 	<!-- botón de importar usuarios -->
 	{{ Form::button('<i class="fa fa-file-excel-o" aria-hidden="true"></i>',[
