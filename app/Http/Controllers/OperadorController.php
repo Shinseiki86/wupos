@@ -26,7 +26,7 @@ class OperadorController extends Controller
 			//Lista de acciones que solo puede realizar los administradores o los editores
 			$arrActionsAdmin = [ 'create', 'edit', 'store', 'update', 'destroy' ];
 
-			if(in_array(explode("@", $action)[1], $arrActionsAdmin))//Si la acción del controlador se encuentra en la lista de acciones de admin...
+			if(in_array(explode('@', $action)[1], $arrActionsAdmin))//Si la acción del controlador se encuentra en la lista de acciones de admin...
 			{
 				if( ! in_array($role , ['admin','editor']))//Si el rol no es admin o editor, se niega el acceso.
 				{
@@ -46,7 +46,22 @@ class OperadorController extends Controller
 		//Se obtienen todos los registros.
 		$operadores = Operador::orderBy('OPER_codigo')
 						->join('REGIONALES', 'REGIONALES.REGI_id', '=', 'OPERADORES.REGI_id')
-						->get();
+						->join('ESTADOSOPERADORES', 'ESTADOSOPERADORES.ESOP_id', '=', 'OPERADORES.ESOP_id')
+						->select([
+							'OPER_id',
+							'OPER_codigo',
+							'OPER_cedula',
+							'OPER_nombre',
+							'OPER_apellido',
+							'ESTADOSOPERADORES.ESOP_id',
+							'ESTADOSOPERADORES.ESOP_descripcion',
+							'REGIONALES.REGI_nombre',
+							'OPER_creadopor',
+							'OPER_modificadopor',
+							'OPER_eliminadopor',
+						])->get();
+
+
 
 		//Se crea un array con los estados disponibles
 		$arrRegionales = model_to_array(Regional::class, 'REGI_nombre');
