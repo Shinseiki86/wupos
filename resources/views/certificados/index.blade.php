@@ -114,7 +114,7 @@
 		</div>
 
 		<div class="col-xs-12 col-sm-9 text-right">
-			<form class="form-inline">
+			<div role="form" class="form form-inline">
 				<div class="input-group has-feedback">
 					<input type="text"
 						ng-hide="isFiltered"
@@ -130,7 +130,7 @@
 					></span-->
 				</div>
 				@include('certificados/index-Btns')
-			</form>
+			</div>
 		</div>
 	</h1>
 
