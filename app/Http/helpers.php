@@ -139,7 +139,7 @@ if (! function_exists('flash_alert')) {
         //if(session()->has('alert-'.$type)){
         //    $msg = session()->get('alert-'.$type) + [$msg];
         //} else {
-            $msg = [$msg];
+        //    $msg = [$msg];
         //}
         session()->flash('alert-'.$type, $msg);
     }
