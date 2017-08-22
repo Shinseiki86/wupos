@@ -4,47 +4,39 @@
 <div class="alertas">
 
 	@if (Session::has('alert-info'))
-		@foreach(Session::get('alert-info') as $msg)
 		<div class="alert alert-info alert-flash">
 			<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
 			<strong><i class="fa fa-info-circle fa-2x fa-pull-left" aria-hidden="true"></i></strong>
-			{{ $msg }}
+			{{ Session::get('alert-info') }}
 		</div>
-		@endforeach
 	@endif
 
 	@if (Session::has('alert-success'))
-		@foreach(Session::get('alert-success') as $msg)
 		<div class="alert alert-success alert-flash">
 			<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
 			<strong><i class="fa fa-check fa-2x fa-pull-left" aria-hidden="true"></i></strong>
-			{{ $msg }}
+			{{ Session::get('alert-success') }}
 		</div>
-		@endforeach
 	@endif
 
 	@if (Session::has('alert-warning'))
-		@foreach(Session::get('alert-warning') as $msg)
 		<div class="alert alert-warning alert-flash">
 			<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
 			<strong>
 				<i class="fa fa-exclamation-triangle fa-2x fa-pull-left" aria-hidden="true"></i>
-				{{ $msg }}
+				{{ Session::get('alert-warning') }}
 			</strong>
 		</div>
-		@endforeach
 	@endif
 
 	@if (Session::has('alert-danger'))
-		@foreach(Session::get('alert-danger') as $msg)
 		<div class="alert alert-danger alert-flash">
 			<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
 			<strong>
 				<i class="fa fa-exclamation-circle fa-2x fa-pull-left" aria-hidden="true"></i>
-				{{ $msg }}
+				{{ Session::get('alert-warning') }}
 			</strong>
 		</div>
-		@endforeach
 	@endif
 	
 </div>
