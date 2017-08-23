@@ -61,8 +61,6 @@ class OperadorController extends Controller
 							'OPER_eliminadopor',
 						])->get();
 
-
-
 		//Se crea un array con los estados disponibles
 		$arrRegionales = model_to_array(Regional::class, 'REGI_nombre');
 
@@ -110,7 +108,20 @@ class OperadorController extends Controller
 		$operadores = Operador::onlyTrashed()
 						->orderBy('OPER_codigo')
 						->join('REGIONALES', 'REGIONALES.REGI_id', '=', 'OPERADORES.REGI_id')
-						->get();
+						->join('ESTADOSOPERADORES', 'ESTADOSOPERADORES.ESOP_id', '=', 'OPERADORES.ESOP_id')
+						->select([
+							'OPER_id',
+							'OPER_codigo',
+							'OPER_cedula',
+							'OPER_nombre',
+							'OPER_apellido',
+							'ESTADOSOPERADORES.ESOP_id',
+							'ESTADOSOPERADORES.ESOP_descripcion',
+							'REGIONALES.REGI_nombre',
+							'OPER_creadopor',
+							'OPER_modificadopor',
+							'OPER_eliminadopor',
+						])->get();
 
 		//Se crea un array con los estados disponibles
 		$arrRegionales = model_to_array(Regional::class, 'REGI_nombre');
@@ -158,16 +169,19 @@ class OperadorController extends Controller
 			'ESOP_id' => ['required', 'numeric'],
 		]);
 
-		//Permite seleccionar los datos que se desean guardar.
-		$operador = Operador::create(
-			array_merge(
-				['OPER_codigo' => $this->getCodigoOperadorDisp()],
-				request()->except(['_token'])
-			)
-		);
+		$codigoLibre = $this->getCodigoOperadorDisp(request()->get('REGI_id'));
+		if(!isset($codigoLibre)){
+			flash_modal( '¡No hay códigos disponibles! Elimine operadores para liberar códigos.', 'danger' );
+		} else {
+			$operador = Operador::create(
+				array_merge(
+					['OPER_codigo' => $codigoLibre],
+					request()->except(['_token'])
+				)
+			);
+			flash_alert( 'Operador '.$operador->OPER_codigo.' creado exitosamente!', 'success' );
+		}
 
-		// redirecciona al index de controlador
-		flash_alert( 'Operador '.$operador->OPER_codigo.' creado exitosamente!', 'success' );
 		return redirect()->to('operadores');
 	}
 
@@ -240,7 +254,7 @@ class OperadorController extends Controller
 		);
 
 		// redirecciona al index de controlador
-		flash_alert( 'Operador '.$operador->OPER_codigo.' modificado exitosamente!', 'success' );
+		flash_alert( '¡Operador '.$operador->OPER_codigo.' modificado exitosamente!', 'success' );
 		return redirect()->to('operadores');
 	}
 
@@ -268,18 +282,18 @@ class OperadorController extends Controller
 		}
 	}
 
-	protected function getCodigoOperadorDisp(){
-		$allCodigos = range(1, 999);
-		$asingCodigos = array_column(Operador::orderBy('OPER_codigo')->get()->toArray(), 'OPER_codigo');
-		$codigoLibre = array_first(array_diff($allCodigos, $asingCodigos));
+	protected function getCodigoOperadorDisp($REGI_id){
+		$allCodigos = range(0, 999);
 
+		$asingCodigos = array_column(
+			Operador::orderBy('OPER_codigo')
+				->select(['OPER_codigo', 'REGI_id'])
+				->where('REGI_id', $REGI_id)
+				->distinct()->get()->toArray(),
+			'OPER_codigo'
+		);
 
-		if(isset($codigoLibre)){
-			return $codigoLibre;
-		}else{
-			flash_modal( 'No hay códigos disponibles! Elimine operadores para liberar códigos.', 'danger' );
-			return redirect()->to('operadores')->send();
-		}
+		return array_first(array_diff($allCodigos, $asingCodigos));
 	}
 
 

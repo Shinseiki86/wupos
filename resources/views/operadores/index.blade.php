@@ -51,14 +51,15 @@
 
 			//Ordenamiento
 			if(!localStorage.sortTypeOperador || !localStorage.sortReverseOperador){
-				localStorage.sortTypeOperador = 'OPER_codigo'
+				localStorage.sortTypeOperador = 'OPER_codigo';
 				localStorage.sortReverseOperador = false;
 			}
 			$scope.sortType = localStorage.sortTypeOperador;
 			$scope.$watch('sortType', function(sortType) {
 				localStorage.sortTypeOperador = sortType;
 			});
-			$scope.sortReverse = localStorage.sortReverseOperador;
+
+			$scope.sortReverse = JSON.parse(localStorage.sortReverseOperador);
 			$scope.$watch('sortReverse', function(sortReverse) {
 				localStorage.sortReverseOperador = sortReverse;
 			});
@@ -219,7 +220,7 @@
 							'data-target'=>'#pregModalDelete',
 						])}}
 					</div>
-					<div ng-if="operador.ESOP_id == estadoOperador['PEND_ELIMINAR']">
+					<div ng-if="operador.ESOP_id != estadoOperador['PEND_ELIMINAR']">
 						{{ Form::button('<i class="fa fa-trash" aria-hidden="true"></i>',[
 							'class'=>'btn btn-xs btn-danger btn-delete',
 							'data-toggle'=> 'modal',
