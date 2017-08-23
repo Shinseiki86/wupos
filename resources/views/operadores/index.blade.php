@@ -220,7 +220,7 @@
 							'data-target'=>'#pregModalDelete',
 						])}}
 					</div>
-					<div ng-if="operador.ESOP_id != estadoOperador['PEND_ELIMINAR']">
+					<div ng-if="operador.ESOP_id == estadoOperador['PEND_ELIMINAR']">
 						{{ Form::button('<i class="fa fa-trash" aria-hidden="true"></i>',[
 							'class'=>'btn btn-xs btn-danger btn-delete',
 							'data-toggle'=> 'modal',

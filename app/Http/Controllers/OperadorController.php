@@ -148,6 +148,7 @@ class OperadorController extends Controller
 
 		//Se crea un array con los estados disponibles
 		$arrEstados = model_to_array(EstadoOperador::class, 'ESOP_descripcion');
+		array_forget($arrEstados, EstadoOperador::ELIMINADO);
 
 		return view('operadores/create', compact('arrRegionales', 'arrEstados'));
 	}
@@ -218,6 +219,7 @@ class OperadorController extends Controller
 
 		//Se crea un array con los estados disponibles
 		$arrEstados = model_to_array(EstadoOperador::class, 'ESOP_descripcion');
+		array_forget($arrEstados, EstadoOperador::ELIMINADO);
 
 		// Muestra el formulario de edición y pasa el registro a editar
 		return view('operadores/edit', compact('operador', 'arrRegionales', 'arrEstados'));
