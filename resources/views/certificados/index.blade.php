@@ -58,7 +58,7 @@
 			$scope.$watch('sortType', function(sortType) {
 				localStorage.sortTypeCert = sortType;
 			});
-			$scope.sortReverse = localStorage.sortReverseCert;
+			$scope.sortReverse = JSON.parse(localStorage.sortReverseCert);
 			$scope.$watch('sortReverse', function(sortReverse) {
 				localStorage.sortReverseCert = sortReverse;
 			});
@@ -66,6 +66,7 @@
 			//Filtros
 			if(!localStorage.searchCertificado)
 				localStorage.searchCertificado = null;
+
 			$scope.isFiltered = false;
 			if(localStorage.searchCertificado != 'null' && localStorage.searchCertificado != 'undefined'){
 				if (localStorage.searchCertificado[0] === '{'){
@@ -175,17 +176,17 @@
 					@if(!$papelera)
 					<!-- Cargar botón Editar -->
 					<a class="btn btn-xs btn-info" href="{% 'certificados/' + certificado.CERT_id + '/edit' %}">
-						<i class="fa fa-pencil-square-o" aria-hidden="true"></i> <span class="hidden-xs">Editar</span>
+						<i class="fa fa-pencil-square-o" aria-hidden="true"></i>
 					</a>
 					@else
 					<!-- Cargar botón Restaurar -->
 					<a class="btn btn-xs btn-warning" href="{% 'certificados/' + certificado.CERT_id + '/restore' %}">
-						<i class="fa fa-undo" aria-hidden="true"></i> <span class="hidden-xs">Restaurar</span>
+						<i class="fa fa-undo" aria-hidden="true"></i>
 					</a>
 					@endif
 
 					<!-- carga botón de Borrar -->
-					{{ Form::button('<i class="fa fa-trash" aria-hidden="true"></i> <span class="hidden-xs">Borrar</span>',[
+					{{ Form::button('<i class="fa fa-trash" aria-hidden="true"></i>',[
 							'class'=>'btn btn-xs btn-danger',
 							'data-toggle'=>'modal',
 							'data-id'=>'{% certificado.CERT_id %}',

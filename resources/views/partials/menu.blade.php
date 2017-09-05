@@ -10,7 +10,7 @@
 				<span class="icon-bar"></span>
 				<span class="icon-bar"></span>
 			</button>
-			<a href="{{ URL::to('home') }}" class="pull-left">
+			<a href="{{ URL::to('/') }}" class="pull-left">
 				<img src="{{ asset('assets/img/LOGO.png') }}" height="50" style="padding-top: 5px;padding-bottom: 5px;">
 			</a>
 		</div>
@@ -20,10 +20,6 @@
 			<ul class="nav navbar-nav">
 
 				@unless (Auth::guest())
-					<li ><a href="{{ URL::to('home') }}">
-						<i class="fa fa-home" aria-hidden="true"></i> Inicio
-					</a></li>
-
 					@if (in_array(Auth::user()->rol->ROLE_rol , ['admin']))<!-- admins -->
 						<li class="dropdown">
 							<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
@@ -40,16 +36,13 @@
 
 								<li><a href="{{ url('/usuarios') }}"><i class="fa fa-btn fa-users"></i> Usuarios Locales</a></li>
 								
-								<li role="separator" class="divider"></li>
-
-								<li><a href="{{ url('/upload') }}"><i class="fa fa-btn fa-table"></i> Cargar XLS a DB</a></li>
 							</ul>
 						</li>
 					@endif
 
 					@if (in_array(Auth::user()->rol->ROLE_rol , ['editor','admin', 'user']))<!-- usuarios, editores y admins -->
 						<li><a href="{{ url('certificados') }}">
-							<i class="fa fa-check-square" aria-hidden="true"></i> Certificados
+							<i class="fa fa-address-card" aria-hidden="true"></i> Certificados
 						</a></li>
 						<li><a href="{{ url('operadores') }}">
 							<i class="fa fa-user-secret" aria-hidden="true"></i> Operadores
