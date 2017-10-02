@@ -19,7 +19,11 @@
 		{!! Html::style('assets/css/style.css') !!}
 
 		@yield('head')
-		
+		<style type="text/css">
+			body { 
+				background: url('{{ asset('assets/img/logo-background.png') }}') no-repeat fixed bottom right;
+			}
+		</style>
 	</head>
 
 	<body>
