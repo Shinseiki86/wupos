@@ -3,9 +3,8 @@
 namespace Wupos;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Certificado extends Model
+class Certificado extends ModelWithSoftDeletes
 {
 	//Nombre de la tabla en la base de datos
 	protected $table = 'CERTIFICADOS';
@@ -14,7 +13,6 @@ class Certificado extends Model
 	//Traza: Nombre de campos en la tabla para auditoría de cambios
 	const CREATED_AT = 'CERT_fechacreado';
 	const UPDATED_AT = 'CERT_fechamodificado';
-	use SoftDeletes;
 	const DELETED_AT = 'CERT_fechaeliminado';
 	protected $dates = ['CERT_fechaeliminado'];
 

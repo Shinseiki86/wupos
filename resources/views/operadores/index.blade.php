@@ -91,7 +91,9 @@
 
 			//Formato de fecha
 			$scope.formatDate = function(strDate){
-				var strDateFormatted = moment(strDate).format('DD/MM/YYYY hh:mm A');
+				var strDateFormatted = '';
+				if( jQuery.inArray( strDate, ['', null, 'undefined']) == -1 )
+					strDateFormatted = moment(strDate).format('DD/MM/YYYY hh:mm A');
 				return strDateFormatted;
 			}
 
@@ -130,7 +132,6 @@
 @endsection
 
 @section('content')
-
 <div ng-app="appWupos" ng-controller="OperadoresCtrl">
 
 	<h1 class="row page-header">
@@ -147,12 +148,6 @@
 						placeholder="Filtrar..."
 						ng-model="searchOperador"
 					>
-					<!--span ng-if="searchOperador"
-						name="btnClear"
-						ng-click="searchOperador = null"
-						class="glyphicon glyphicon-remove-circle form-control-feedback"
-						uib-tooltip="Borrar"
-					></span-->
 				</div>
 				@include('operadores/index-Btns')
 			</div>
@@ -202,10 +197,10 @@
 						<i class="fa fa-pencil-square-o" aria-hidden="true"></i>
 					</a>
 					@else
-					<!-- Cargar botón Restaurar 
-					<a class="btn btn-xs btn-warning" href="{% 'certificados/' + operador.OPER_id + '/restore' %}">
+					<!-- Cargar botón Restaurar -->
+					<a class="btn btn-xs btn-warning" href="{% 'operadores/' + operador.OPER_id + '/restore' %}">
 						<i class="fa fa-undo" aria-hidden="true"></i> <span class="hidden-xs">Restaurar</span>
-					</a>-->
+					</a>
 					@endif
 
 					<!-- carga botón de Borrar	-->

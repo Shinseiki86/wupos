@@ -47,19 +47,7 @@ class OperadorController extends Controller
 		$operadores = Operador::orderBy('OPER_codigo')
 						->join('REGIONALES', 'REGIONALES.REGI_id', '=', 'OPERADORES.REGI_id')
 						->join('ESTADOSOPERADORES', 'ESTADOSOPERADORES.ESOP_id', '=', 'OPERADORES.ESOP_id')
-						->select([
-							'OPER_id',
-							'OPER_codigo',
-							'OPER_cedula',
-							'OPER_nombre',
-							'OPER_apellido',
-							'ESTADOSOPERADORES.ESOP_id',
-							'ESTADOSOPERADORES.ESOP_descripcion',
-							'REGIONALES.REGI_nombre',
-							'OPER_creadopor',
-							'OPER_modificadopor',
-							'OPER_eliminadopor',
-						])->get();
+						->get();
 
 		//Se crea un array con los estados disponibles
 		$arrRegionales = model_to_array(Regional::class, 'REGI_nombre');
@@ -324,17 +312,14 @@ class OperadorController extends Controller
 	 * @param  int  $OPER_id
 	 * @return Response
 	 */
-	public function restore($OPER_id, $showMsg=True)
+	public function restore($OPER_id)
 	{
 		$operador = Operador::onlyTrashed()->findOrFail($OPER_id);
+		$operador->ESOP_id = EstadoOperador::PEND_ELIMINAR;
 		$operador->restore();
-		//$certificado->history()->restore();
 
-		// redirecciona al index de controlador
-		if($showMsg){
-			flash_alert( 'Operador '.$operador->OPER_codigo.' restaurado exitosamente!', 'success' );
-			return redirect()->back();
-		}
+		flash_alert( 'Operador '.$operador->OPER_codigo.' restaurado con estado "Pendiente Eliminar" exitosamente!', 'success' );
+		return redirect()->back();
 	}
 
 

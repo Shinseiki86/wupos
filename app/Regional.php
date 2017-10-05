@@ -3,9 +3,8 @@
 namespace Wupos;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Regional extends Model
+class Regional extends ModelWithSoftDeletes
 {
 	//Nombre de la tabla en la base de datos
 	protected $table = 'REGIONALES';
@@ -14,7 +13,6 @@ class Regional extends Model
 	//Traza: Nombre de campos en la tabla para auditoría de cambios
 	const CREATED_AT = 'REGI_fechacreado';
 	const UPDATED_AT = 'REGI_fechamodificado';
-	use SoftDeletes;
 	const DELETED_AT = 'REGI_fechaeliminado';
 	protected $dates = ['REGI_fechaeliminado'];
 

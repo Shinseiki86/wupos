@@ -3,9 +3,8 @@
 namespace Wupos;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Rol extends Model
+class Rol extends ModelWithSoftDeletes
 {
 	//Nombre de la tabla en la base de datos
 	protected $table = 'ROLES';
@@ -14,7 +13,6 @@ class Rol extends Model
 	//Traza: Nombre de campos en la tabla para auditoría de cambios
 	const CREATED_AT = 'ROLE_fechacreado';
 	const UPDATED_AT = 'ROLE_fechamodificado';
-	use SoftDeletes;
 	const DELETED_AT = 'ROLE_fechaeliminado';
 	protected $dates = ['ROLE_fechacreado', 'ROLE_fechamodificado', 'ROLE_fechaeliminado'];
 

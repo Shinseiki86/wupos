@@ -60,7 +60,7 @@ Route::resource('operadores', 'OperadorController', [
 Route::delete('operadores/{OPER_id}/pendBorrar', 'OperadorController@cambiarEstado');
 Route::get('operadores/{OPER_id}/restore', 'OperadorController@restore');
 Route::get('operadores-borrados', 'OperadorController@indexOnlyTrashed');
-//Route::delete('operadores-borrados/vaciarPapelera', 'OperadorController@vaciarPapelera');
+Route::delete('operadores-borrados/vaciarPapelera', 'OperadorController@vaciarPapelera');
 
 //Exportar a Excel
 Route::get('certificados/export/{ext}','ExportarInfoController@exportCertificados');

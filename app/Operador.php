@@ -27,6 +27,7 @@ class Operador extends ModelWithSoftDeletes
         'OPER_creadopor',
         'OPER_modificadopor',
         'OPER_eliminadopor',
+        'OPER_fechamodificado',
     ];
     
     public function regional()
