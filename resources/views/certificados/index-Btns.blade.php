@@ -9,7 +9,7 @@
 <a class='btn btn-primary' role='button' href="{{ URL::to('certificados/create') }}">
 	<i class="fa fa-plus" aria-hidden="true"></i>
 </a>
-<a class='btn btn-warning' role='button' href="{{ URL::to('certificados-borrados') }}">
+<a class='btn btn-warning' role='button' href="{{ URL::to('certificados/papelera') }}">
 	<i class="fa fa-trash-o" aria-hidden="true"></i>
 </a>
 @elseif($papelera)
@@ -19,7 +19,7 @@
 			'data-toggle'=>'modal',
 			'data-id'=>'{% papelera %}',
 			'data-descripcion'=>'registros en la papelera',
-			'data-action'=>'certificados-borrados/vaciarPapelera',
+			'data-action'=>'certificados/papelera/vaciar',
 			'data-target'=>'#pregModalDelete',
 		])
 	}}

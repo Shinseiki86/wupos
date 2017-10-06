@@ -5,9 +5,6 @@
 
 	<h1 class="page-header">Nuevo Operador</h1>
 
-	@include('partials/errors')
-
-
 	{{ Form::open( [ 'url' => 'operadores' ] ) }}
 
 		{{--<div class="form-group{{ $errors->has('OPER_codigo') ? ' has-error' : '' }}">

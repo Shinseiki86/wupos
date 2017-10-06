@@ -31,40 +31,29 @@ Route::get('/help', function(){
 	return View::make('help');
 });
 
-//upload
-Route::get('upload', 'UploadController@index');
-Route::post('upload', 'UploadController@upload');
-
-//Parametrizaciones
-//Route::resource('estadosencuesta', 'EstadoEncuestaController');
-//Route::resource('tipospregunta', 'TipoPreguntaController');
-
-//Regionales
 Route::resource('regionales', 'RegionalController');
-
-//Agencias
 Route::resource('agencias', 'AgenciaController');
 
 //Certificados
-Route::resource('certificados', 'CertificadoController', [
-	'parameters'=>['certificados' => 'CERT_id']
-]);
-Route::get('certificados/{CERT_id}/restore', 'CertificadoController@restore');
-Route::get('certificados-borrados', 'CertificadoController@indexOnlyTrashed');
-Route::delete('certificados-borrados/vaciarPapelera', 'CertificadoController@vaciarPapelera');
+Route::resource('certificados', 'CertificadoController', ['parameters'=>['certificados' => 'CERT_id']]);
+Route::group(['as' => 'certificados.', 'prefix' => 'certificados'], function () {
+	Route::get('{CERT_id}/restore', 'CertificadoController@restore');
+	Route::get('papelera', 'CertificadoController@indexOnlyTrashed');
+	Route::delete('papelera/vaciar', 'CertificadoController@vaciarPapelera');
+	Route::get('certificados/export/{ext}','ExportarInfoController@exportCertificados');
+});
 
 //Operadores
-Route::resource('operadores', 'OperadorController', [
-	'parameters'=>['operadores' => 'OPER_id']
-]);
-Route::delete('operadores/{OPER_id}/pendBorrar', 'OperadorController@cambiarEstado');
-Route::get('operadores/{OPER_id}/restore', 'OperadorController@restore');
-Route::get('operadores-borrados', 'OperadorController@indexOnlyTrashed');
-Route::delete('operadores-borrados/vaciarPapelera', 'OperadorController@vaciarPapelera');
+Route::resource('operadores', 'OperadorController', ['parameters'=>['operadores' => 'OPER_id']]);
+Route::group(['as' => 'operadores.', 'prefix' => 'operadores'], function () {
+	Route::delete('{OPER_id}/pendBorrar', 'OperadorController@cambiarEstado');
+	Route::get('{OPER_id}/restore', 'OperadorController@restore');
+	Route::delete('papelera/vaciar', 'OperadorController@vaciarPapelera');
+	Route::get('papelera', 'OperadorController@indexOnlyTrashed')->name('trash');
+	Route::post('createFromAjax', 'OperadorController@createFromAjax')->name('createFromAjax');
+	Route::get('export/{ESOP_id}','ExportarInfoController@exportOperadores');
+});
 
-//Exportar a Excel
-Route::get('certificados/export/{ext}','ExportarInfoController@exportCertificados');
-Route::get('operadores/export/{ESOP_id}','ExportarInfoController@exportOperadores');
 
 /*
 

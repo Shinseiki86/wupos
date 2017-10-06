@@ -17,7 +17,7 @@
 		'data-tooltip'=>'tooltip',
 		'title'=>'Importar operadores desde Excel',
 	])}}
-	<a class='btn btn-warning' role='button' href="{{ URL::to('operadores-borrados') }}">
+	<a class='btn btn-warning' role='button' href="{{ URL::to('operadores/papelera') }}">
 		<i class="fa fa-trash-o" aria-hidden="true"></i> Papelera
 	</a>
 	<!-- botón de exportar -->
@@ -37,7 +37,7 @@
 		'data-toggle'=>'modal',
 		'data-id'=>'{% papelera %}',
 		'data-descripcion'=>'registros en la papelera',
-		'data-action'=>'operadores-borrados/vaciarPapelera',
+		'data-action'=>'operadores/papelera/vaciar',
 		'data-target'=>'#pregModalDelete',
 	])}}
 	@endif

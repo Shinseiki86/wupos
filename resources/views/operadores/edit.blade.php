@@ -4,8 +4,6 @@
 @section('content')
 	<h1 class="page-header">Editar Operador {{ $operador->OPER_cedula }}</h1>
 
-	@include('partials/errors')
-
 	{{ Form::model($operador, [ 'action' => ['OperadorController@update', $operador->OPER_id], 'method' => 'PUT' ]) }}
 
 		<div class="form-group{{ $errors->has('OPER_codigo') ? ' has-error' : '' }}">

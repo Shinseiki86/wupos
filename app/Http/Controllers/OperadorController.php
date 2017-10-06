@@ -14,6 +14,9 @@ use Wupos\EstadoOperador;
 
 class OperadorController extends Controller
 {
+	protected $route = 'operadores';
+	protected $class = Operador::class;
+
 	public function __construct(Redirector $redirect=null)
 	{
 		//Requiere que el usuario inicie sesión.
@@ -97,19 +100,7 @@ class OperadorController extends Controller
 						->orderBy('OPER_codigo')
 						->join('REGIONALES', 'REGIONALES.REGI_id', '=', 'OPERADORES.REGI_id')
 						->join('ESTADOSOPERADORES', 'ESTADOSOPERADORES.ESOP_id', '=', 'OPERADORES.ESOP_id')
-						->select([
-							'OPER_id',
-							'OPER_codigo',
-							'OPER_cedula',
-							'OPER_nombre',
-							'OPER_apellido',
-							'ESTADOSOPERADORES.ESOP_id',
-							'ESTADOSOPERADORES.ESOP_descripcion',
-							'REGIONALES.REGI_nombre',
-							'OPER_creadopor',
-							'OPER_modificadopor',
-							'OPER_eliminadopor',
-						])->get();
+						->get();
 
 		//Se crea un array con los estados disponibles
 		$arrRegionales = model_to_array(Regional::class, 'REGI_nombre');
@@ -148,32 +139,37 @@ class OperadorController extends Controller
 	 */
 	public function store()
 	{
+		//Datos recibidos desde la vista.
+		$data = parent::getRequest();
+
 		//Validación de datos
-		$this->validate(request(), [
-			//'OPER_codigo' => ['required', 'numeric', 'digits_between:1,3', 'unique:OPERADORES'],
-			'OPER_cedula' => ['required', 'numeric', 'digits_between:1,15', 'unique:OPERADORES'],
-			'OPER_nombre' => ['required', 'string', 'max:100'],
-			'OPER_apellido' => ['required', 'string', 'max:100'],
-			'REGI_id' => ['required', 'numeric'],
-			'ESOP_id' => ['required', 'numeric'],
-		]);
+		$validator = $this->validateRules($data);
 
-		$codigoLibre = $this->getCodigoOperadorDisp(request()->get('REGI_id'));
-		if(!isset($codigoLibre)){
-			flash_modal( '¡No hay códigos disponibles! Elimine operadores para liberar códigos.', 'danger' );
+		if($validator->passes()){
+			$result = $this->storeOperador($data);
+			flash_alert($result['msg'] , $result['class'] );
+			return redirect()->to('operadores');
 		} else {
-			$operador = Operador::create(
-				array_merge(
-					['OPER_codigo' => $codigoLibre],
-					request()->except(['_token'])
-				)
-			);
-			flash_alert( 'Operador '.$operador->OPER_codigo.' creado exitosamente!', 'success' );
+			return redirect()->back()->withErrors($validator)->withInput()->send();
 		}
-
-		return redirect()->to('operadores');
 	}
 
+	private function storeOperador(array $data)
+	{
+		$codigoLibre = $this->getCodigoOperadorDisp($data['REGI_id']);
+		if(!isset($codigoLibre)){
+			return [
+				'msg'  => '¡No hay códigos disponibles! Elimine operadores para liberar códigos.',
+				'class'=>'danger'
+			];
+		} else {
+			$operador = Operador::create(['OPER_codigo' => $codigoLibre] + $data);
+			return [
+				'msg' => 'Operador '.$operador->OPER_codigo.' creado exitosamente!',
+				'class'=>'success'
+			];
+		}
+	}
 
 	/**
 	 * Muestra información de un registro.
@@ -222,30 +218,26 @@ class OperadorController extends Controller
 	 */
 	public function update($OPER_id)
 	{
+		//Datos recibidos desde la vista.
+		$data = $this->getRequest();
+
 		//Validación de datos
-		$this->validate(request(), [
-			//'OPER_codigo' => ['required', 'numeric', 'digits_between:1,3'],
-			'OPER_cedula' => ['required', 'numeric', 'digits_between:1,15'],
-			'OPER_nombre' => ['required', 'string', 'max:100'],
-			'OPER_apellido' => ['required', 'string', 'max:100'],
-			'REGI_id' => ['required', 'numeric'],
-			'ESOP_id' => ['required', 'numeric'],
-		]);
+		$validator = $this->validateRules($data, $OPER_id);
 
-		// Se obtiene el registro
-		$operador = Operador::findOrFail($OPER_id);
+		if($validator->passes()){
 
-		//Se guardan los valores del request al modelo encontrado
-		$operador->update(
-			array_merge(
-				request()->except(['_token']) ,
-				['OPER_modificadopor' => auth()->user()->username]
-			)
-		);
+			// Se obtiene el registro
+			$operador = Operador::findOrFail($OPER_id);
 
-		// redirecciona al index de controlador
-		flash_alert( '¡Operador '.$operador->OPER_codigo.' modificado exitosamente!', 'success' );
-		return redirect()->to('operadores');
+			//Se guardan los valores del request al modelo encontrado
+			$operador->update(request()->except(['_token']));
+
+			// redirecciona al index de controlador
+			flash_alert( '¡Operador '.$operador->OPER_codigo.' modificado exitosamente!', 'success' );
+			return redirect()->to('operadores');
+		} else {
+			return redirect()->back()->withErrors($validator)->withInput()->send();
+		}
 	}
 
 	/**
@@ -321,6 +313,74 @@ class OperadorController extends Controller
 		flash_alert( 'Operador '.$operador->OPER_codigo.' restaurado con estado "Pendiente Eliminar" exitosamente!', 'success' );
 		return redirect()->back();
 	}
+
+
+	/**
+	 * Crea operadores por ajax cargados desde un archivo de excel.
+	 *
+	 */
+	public function createFromAjax(Request $request)
+	{
+		$REGI_nombre = Input::get('regional');
+		if(!isset($REGI_nombre))
+			return response()->json([
+				'status' => 'ERR',
+				'msg' => 'Regional no definida.',
+				'csrfToken' => csrf_token(),
+			]);
+
+		$regional = Regional::where('REGI_nombre' , $REGI_nombre)->get()->first();
+		if(!isset($regional))
+			return response()->json([
+				'status' => 'ERR',
+				'msg' => 'Regional '.$REGI_nombre.' no existe.',
+				'csrfToken' => csrf_token(),
+			]);
+
+		$data = [
+			'OPER_cedula'  => Input::get('cedula'),
+			'OPER_nombre'     => Input::get('nombre'),
+			'OPER_apellido' => Input::get('apellido'),
+			'REGI_id'  => $regional->REGI_id,
+			'ESOP_id'  => EstadoOperador::PEND_CREAR,
+		];
+
+		//Se busca el usuario entre los eliminados.
+		$operador = Operador::onlyTrashed()
+						->where('OPER_cedula', $data['OPER_cedula'])
+						->get()->first();
+
+		$OPER_id = isset($operador) ? $operador->OPER_id : 0;
+		$validator = $this->validateRules($data, $OPER_id);
+
+		if($validator->passes()){
+			$msg = '';
+			$status = 'OK';
+			//Si el usuario existen en los eliminados...
+			if( isset($operador) ){
+				//Se restaura operador y se actualiza
+				//$operador->restore();
+				$msg = 'Operador '.$operador->OPER_cedula.' se encuentra eliminado con código '.$operador->OPER_codigo.'.';
+				$status = 'ERR';
+			} else {
+				//Sino, se crea 
+				$msg = $this->storeOperador($data)['msg'];
+			}
+
+			return response()->json([
+						'status' => $status,
+						'msg' => $msg,
+						'csrfToken' => csrf_token(),
+					]);
+		} else {
+			return response()->json([
+				'status' => 'ERR',
+				'msg' => json_encode($validator->errors()->all(), JSON_UNESCAPED_UNICODE),
+				'csrfToken' => csrf_token(),
+			]);
+		}
+	}
+
 
 
 }

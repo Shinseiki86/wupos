@@ -30,6 +30,20 @@ class Operador extends ModelWithSoftDeletes
         'OPER_fechamodificado',
     ];
     
+
+    public static function rules($id = 0){
+        return [
+            //'OPER_codigo' => ['required', 'numeric', 'digits_between:1,3', static::unique($id,'OPER_cedula')],
+            'OPER_cedula' => ['required', 'numeric', 'digits_between:1,15', static::unique($id,'OPER_cedula')],
+            'OPER_nombre' => ['required', 'string', 'max:100'],
+            'OPER_apellido' => ['required', 'string', 'max:100'],
+            'REGI_id' => ['required', 'numeric'],
+            'ESOP_id' => ['required', 'numeric'],
+        ];
+    }
+
+
+
     public function regional()
     {
         $foreingKey = 'REGI_id';
