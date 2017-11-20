@@ -7,7 +7,7 @@
 			  <option value="10" ng-selected="pageSize==10">10</option>
 			  <option value="25" ng-selected="pageSize==25">25</option>
 			  <option value="100" ng-selected="pageSize==100">100</option>
-			  <option value="-1" ng-selected="pageSize==-1">Todos</option>
+			  <option value="0" ng-selected="pageSize==0">Todos</option>
 			</select>
 		</div>
 	</div>
