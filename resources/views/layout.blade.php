@@ -46,7 +46,7 @@
 		<script type="text/javascript">
 			$(function () {
 				$('.table>tbody').removeClass('hide');
-				$('.table>tfoot').addClass('hide');
+				//$('.table>tfoot').addClass('hide');
 
 				tooltips = $('[data-tooltip="tooltip"]');
 				if(tooltips.length > 0)

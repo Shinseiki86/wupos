@@ -187,14 +187,13 @@
 
 					<!-- carga botón de Borrar -->
 					{{ Form::button('<i class="fa fa-trash" aria-hidden="true"></i>',[
-							'class'=>'btn btn-xs btn-danger',
-							'data-toggle'=>'modal',
-							'data-id'=>'{% certificado.CERT_id %}',
-							'data-descripcion'=>'{% certificado.CERT_codigo %}',
-							'data-action'=>'{% "certificados/" + certificado.CERT_id %}',
-							'data-target'=>'#pregModalDelete',
-						])
-					}}
+						'class'=>'btn btn-xs btn-danger',
+						'data-toggle'=>'modal',
+						'data-id'=>'{% certificado.CERT_id %}',
+						'data-descripcion'=>'{% certificado.CERT_codigo %}',
+						'data-action'=>'{% "certificados/" + certificado.CERT_id %}',
+						'data-target'=>'#pregModalDelete',
+					])}}
 
 				</td>
 			</tr>
