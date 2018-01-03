@@ -191,7 +191,7 @@
 						'data-toggle'=>'modal',
 						'data-id'=>'{% certificado.CERT_id %}',
 						'data-descripcion'=>'{% certificado.CERT_codigo %}',
-						'data-action'=>'{% "certificados/" + certificado.CERT_id %}',
+						'data-action'=>'{% "'.($papelera ? '':'certificados/').'"+ certificado.CERT_id %}',
 						'data-target'=>'#pregModalDelete',
 					])}}
 

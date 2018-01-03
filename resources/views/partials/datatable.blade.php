@@ -49,7 +49,7 @@
 					sPrevious: 'Anterior'
 				}
 			},
-			dom: "<'row' <'col-sm-2' f> <'col-sm-10 text-right' B> >"
+			dom: "<'col-sm-2' f> <'col-sm-offset-9' B>"
 					 +"<rt>"
 					 +"<'row'<'form-inline'"
 					 +" <'col-sm-6 col-md-6 col-lg-6'l>"

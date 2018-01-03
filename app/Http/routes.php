@@ -40,7 +40,7 @@ Route::group(['as' => 'certificados.', 'prefix' => 'certificados'], function () 
 	Route::get('{CERT_id}/restore', 'CertificadoController@restore');
 	Route::get('papelera', 'CertificadoController@indexOnlyTrashed');
 	Route::delete('papelera/vaciar', 'CertificadoController@vaciarPapelera');
-	Route::get('certificados/export/{ext}','ExportarInfoController@exportCertificados');
+	Route::get('export/{ext}','ExportarInfoController@exportCertificados');
 });
 
 //Operadores
