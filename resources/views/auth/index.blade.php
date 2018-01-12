@@ -41,7 +41,7 @@
 
 				<!-- Botón Ver (show) -->
 				<a class="btn btn-success btn-xs" href="{{ URL::to('usuarios/'.$usuario->USER_id) }}">
-					<span class="glyphicon glyphicon-eye-open"></span> Ver
+					<span class="glyphicon glyphicon-eye-open"></span>
 				</a><!-- Fin Botón Ver (show) -->
 
 				<!-- Botón Contraseña (sendResetLinkEmail) 
@@ -51,16 +51,16 @@
 
 				<!-- Botón Contraseña (showResetForm) -->
 				<a class="btn btn-warning btn-xs" href="{{ URL::to('password/reset?USER_id='.$usuario->USER_id) }}">
-					<i class="fa fa-btn fa-key" aria-hidden="true"></i> Contraseña
+					<i class="fa fa-btn fa-key" aria-hidden="true"></i>
 				</a><!-- Fin Botón Contraseña (showResetForm) -->
 
 				<!-- Botón Editar (edit) -->
 				<a class="btn btn-info btn-xs" href="{{ URL::to('usuarios/'.$usuario->USER_id.'/edit') }}">
-					<i class="fa fa-pencil-square-o" aria-hidden="true"></i> Editar
+					<i class="fa fa-pencil-square-o" aria-hidden="true"></i>
 				</a><!-- Fin Botón Editar (edit) -->
 
 				<!-- Botón Borrar (destroy) -->
-				{{ Form::button('<i class="fa fa-user-times" aria-hidden="true"></i> Borrar',[
+				{{ Form::button('<i class="fa fa-user-times" aria-hidden="true"></i>',[
 						'class'=>'btn btn-xs btn-danger',
 						'data-toggle'=>'modal',
 						'data-target'=>'#pregModal'.$usuario -> USER_id ])
