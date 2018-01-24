@@ -265,7 +265,7 @@ class OperadorController extends Controller
 	}
 
 	protected function getCodigoOperadorDisp($REGI_id){
-		$allCodigos = range(0, 999);
+		$allCodigos = range(1, 999);
 
 		$asingCodigos = array_column(
 			Operador::orderBy('OPER_codigo')
