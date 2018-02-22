@@ -80,12 +80,12 @@
 
 					@if(!$papelera)
 					<!-- Cargar botón Editar -->
-					<a class="btn btn-xs btn-info" href="{% 'operadores/' + operador.OPER_id + '/edit' %}">
+					<a class="btn btn-xs btn-info" href="{% operador.OPER_id + '/edit' %}">
 						<i class="fa fa-pencil-square-o" aria-hidden="true"></i>
 					</a>
 					@else
 					<!-- Cargar botón Restaurar -->
-					<a class="btn btn-xs btn-warning" href="{% 'operadores/' + operador.OPER_id + '/restore' %}">
+					<a class="btn btn-xs btn-warning" href="{% operador.OPER_id + '/restore' %}">
 						<i class="fa fa-undo" aria-hidden="true"></i> <span class="hidden-xs">Restaurar</span>
 					</a>
 					@endif
