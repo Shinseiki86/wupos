@@ -55,19 +55,11 @@ Route::group(['as' => 'operadores.', 'prefix' => 'operadores'], function () {
 });
 
 
-/*
-
-//Pregunta
-Route::resource('encuestas/{ENCU_id}/pregs', 'PreguntaController');
-Route::resource('encuestas/{ENCU_id}/pregs/ordenar', 'PreguntaController@ordenar');
-
-//Respuesta
-Route::resource('encuestas/{ENCU_id}/resps', 'RespuestaController');
-Route::get('encuestas/{ENCU_id}/preview', 'RespuestaController@index')->name('preview');
-
-
-//Menu
-Route::get('menu', 'MenuController@index');
+//Zabbix
+Route::group(['as' => 'zabbix.', 'prefix' => 'zabbix'], function () {
+	Route::get('servers', 'ZabbixController@indexServers')->name('servers');
+	Route::get('redes', 'ZabbixController@indexRedes')->name('redes');
+});
 
 
 //https://laravel.com/docs/5.3/routing#route-group-prefixes
@@ -76,4 +68,3 @@ Route::group(['prefix' => 'admin'], function () {
 		// Matches The "/admin/users" URL
 	});
 });
-*/

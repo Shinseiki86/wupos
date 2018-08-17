@@ -10,7 +10,8 @@
         "styde/html": "~1.0",
         "maatwebsite/excel": "^2.1",
         "doctrine/dbal": "^2.5",
-        "kyslik/column-sortable": "5.2.*"
+        "kyslik/column-sortable": "5.2.*",
+        "becker/laravel-zabbix-api": "^0.3.0"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

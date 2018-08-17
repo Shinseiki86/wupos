@@ -160,6 +160,7 @@ return [
         Styde\Html\HtmlServiceProvider::class,
         Maatwebsite\Excel\ExcelServiceProvider::class,
         Kyslik\ColumnSortable\ColumnSortableServiceProvider::class,
+        Becker\Zabbix\ZabbixServiceProvider::class,
     ],
 
     /*

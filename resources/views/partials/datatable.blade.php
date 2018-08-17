@@ -22,6 +22,7 @@
 			bScrollCollapse: true,
 			//rowReorder: {selector: 'td:nth-child(2)'},
 			rowReorder: false,
+			aaSorting: [],
 			responsive: true,
 			select: false,
 			stateSave: false,
