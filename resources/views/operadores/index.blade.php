@@ -80,7 +80,7 @@
 
 					@if(!$papelera)
 					<!-- Cargar botón Editar -->
-					<a class="btn btn-xs btn-info" href="{% operador.OPER_id + '/edit' %}">
+					<a class="btn btn-xs btn-info" href="{% 'operadores/'+operador.OPER_id + '/edit' %}">
 						<i class="fa fa-pencil-square-o" aria-hidden="true"></i>
 					</a>
 					@else

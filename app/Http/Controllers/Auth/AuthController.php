@@ -118,7 +118,7 @@ class AuthController extends Controller
 		] : [
 			//'num_documento' => 'required|numeric|unique:USERS',
 			'name' => 'required|max:255',
-			'username' => 'required|max:15|unique:USERS',
+			'username' => 'required|max:20|unique:USERS',
 			'email' => 'required|email|max:255|unique:USERS',
 			'password' => 'required|min:6|confirmed',
 			'ROLE_id' => 'required',
