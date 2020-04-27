@@ -27,7 +27,7 @@
 				<li class="list-group-item">
 					<div class="row">
 						<div class="col-lg-4"><strong>Regional:</strong></div>
-						<div class="col-lg-8">{{ $agencia -> regional -> REGI_nombre }}</div>
+						<div class="col-lg-8">{{ $agencia -> regional ? $agencia -> regional -> REGI_nombre : '' }}</div>
 					</div>
 				</li>
 
