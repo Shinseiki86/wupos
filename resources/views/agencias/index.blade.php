@@ -30,7 +30,7 @@
 			<tr class="{{ $agencia->AGEN_activa ? '' : 'danger' }}">
 				<td style="width:100px;">{{ $agencia -> AGEN_codigo }}</td>
 				<td>{{ $agencia -> AGEN_nombre }}</td>
-				<td>{{ $agencia -> regional -> REGI_nombre }}</td>
+				<td>{{ $agencia -> regional ? $agencia -> regional -> REGI_nombre : '' }}</td>
 				<td style="width:100px;">{{ $agencia -> AGEN_cuentawu }}</td>
 				<td>
 					<!-- Botón Ver (show) -->

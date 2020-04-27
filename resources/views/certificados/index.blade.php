@@ -180,7 +180,7 @@
 					</a>
 					@else
 					<!-- Cargar botón Restaurar -->
-					<a class="btn btn-xs btn-warning" href="{% 'certificados/' + certificado.CERT_id + '/restore' %}">
+					<a class="btn btn-xs btn-warning" href="{% certificado.CERT_id + '/restore' %}">
 						<i class="fa fa-undo" aria-hidden="true"></i>
 					</a>
 					@endif

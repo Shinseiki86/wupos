@@ -19,7 +19,7 @@
 			'data-toggle'=>'modal',
 			'data-id'=>'{% papelera %}',
 			'data-descripcion'=>'registros en la papelera',
-			'data-action'=>'certificados/papelera/vaciar',
+			'data-action'=>'papelera/vaciar',
 			'data-target'=>'#pregModalDelete',
 		])
 	}}

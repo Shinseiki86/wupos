@@ -9,7 +9,7 @@
 		<div class="form-group{{ $errors->has('OPER_codigo') ? ' has-error' : '' }}">
 			{{ Form::label('OPER_codigo', 'Código Operador', ['class'=>'col-md-4 control-label', 'for'=>'OPER_codigo']) }}
 			<div class="col-md-6">
-			{{ Form::number('OPER_codigo', old('OPER_codigo'), [ 'class'=>'form-control', 'maxlength'=>'3', 'readonly' ]) }}
+			{{ Form::number('OPER_codigo', old('OPER_codigo'), [ 'class'=>'form-control', 'maxlength'=>'3', '' ]) }}
 				@if ($errors->has('OPER_codigo'))
 					<span class="help-block">
 						<strong>{{ $errors->first('OPER_codigo') }}</strong>
