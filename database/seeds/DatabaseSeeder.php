@@ -11,10 +11,20 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        $this->call(ParametrizacionTableSeeder::class);
         $this->call(UsersTableSeeder::class);
-        $this->call(EstadosOperadoresTableSeeder::class);
-        
+        $this->call(PermissionsTableSeeder::class);
+        $this->call(MenuTableSeeder::class);
+        $this->call(ParametersGlobalTableSeeder::class);
+        $this->call(ReportsTableSeeder::class);
 
+        $this->call(TiposEstadosTableSeeder::class);
+
+        // // ** pruebas **
+        //$this->call(EncuestasTableSeeder::class);
+        // $this->call(EncuestaCalidadUniajcSeeder::class);
+        // $this->call(EncuestaDocenteSeeder::class);
+
+
+        $this->command->info('---FIN');
     }
 }

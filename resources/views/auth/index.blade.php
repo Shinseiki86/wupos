@@ -1,103 +1,90 @@
-@extends('layout')
+@extends('layouts.menu')
 @section('title', '/ Usuarios Locales')
+@include('widgets.datatable.datatable-export')
 
-@section('content')
-
-	<h1 class="page-header">Usuarios Locales</h1>
-	<div class="row well well-sm">
-
-		<div id="btn-create" class="pull-right">
-			<a class='btn btn-primary' role='button' href="{{ URL::to('roles') }}">
-				<i class="fa fa-male" aria-hidden="true"></i> <i class="fa fa-female" aria-hidden="true"></i> Roles
+@section('page_heading')
+	<div class="row">
+		<div id="titulo" class="col-xs-8 col-md-6 col-lg-6">
+			Usuarios Locales
+		</div>
+		<div id="btns-top" class="col-xs-4 col-md-6 col-lg-6 text-right">
+			
+			<a class='btn btn-primary' role='button' href="{{ URL::to('/register') }}" data-tooltip="tooltip" title="Crear Nuevo" name="create">
+				<i class="fas fa-user-plus" aria-hidden="true"></i>
 			</a>
-			<a class='btn btn-primary' role='button' href="{{ URL::to('register') }}">
-				<i class="fa fa-user-plus" aria-hidden="true"></i> Nuevo Usuario
-			</a>
+
 		</div>
 	</div>
+@endsection
+
+@section('section')
 	
-<table class="table table-striped">
-	<thead>
-		<tr>
-			<th class="">ID</th>
-			<th class="">Nombre</th>
-			<th class="">Login</th>
-			<th class="">Rol</th>
-			<th class="hidden-xs">Creado por</th>
-			<th style="width:230px;">Acciones</th>
-		</tr>
-	</thead>
-	<tbody>
+	<table class="table table-striped" id="tabla">
+		<thead>
+			<tr class="active">
+				<th class="col-md-4 all">Nombre</th>
+				<th class="col-md-1 all">Usuario</th>
+				<th class="col-md-1">Cedula</th>
+				<th class="col-md-2">Email</th>
+				<th class="col-md-1 all">Roles</th>
+				<th class="col-md-1">Creado</th>
+				<th class="col-md-1">Modificado</th>
+				<th class="col-md-1 all notFilter"></th>
+			</tr>
+		</thead>
+		<tbody>
 
+			@foreach($usuarios as $usuario)
+			<tr>
+				<td>{{ $usuario->name }}</td>
+				<td>{{ $usuario->username }}</td>
+				<td>{{ $usuario->cedula }}</td>
+				<td>{{ $usuario->email }}</td>
+				<td>
+					<i class="fas fa-address-card" aria-hidden="true" data-tooltip="tooltip" data-placement="bottom" data-container="body" title="{{ $usuario->roles->implode('display_name', ', ') }}"></i>
+					{{ $usuario->roles->count() }} 
+				</td>
+				<td>{{ $usuario->USER_CREADOPOR }}</td>
+				<td>{{ $usuario->USER_MODIFICADOPOR }}</td>
+				<td>
+					{{-- <!-- Botón Ver (show) -->
+					<a class="btn btn-success btn-xs" href="{{ URL::to('usuarios/'.$usuario->id) }}">
+						<span class="glyphicon glyphicon-eye-open"></span> <span class="hidden-xs">Ver</span>
+					</a><!-- Fin Botón Ver (show) --> --}}
 
-		@foreach($usuarios as $usuario)
-		<tr>
-			<td>{{ $usuario -> USER_id }}</td>
-			<td>{{ $usuario -> name }}</td>
-			<td>{{ $usuario -> username }}</td>
-			<td>{{ $usuario -> rol -> ROLE_descripcion }}</td>
-			<td class="hidden-xs">{{ $usuario -> USER_creadopor }}</td>
-			<td>
+					{{-- <!-- Botón Contraseña (sendResetLinkEmail) -->
+					<a class="btn btn-warning btn-xs" href="{{ URL::to('password/email/'.$usuario->id) }}">
+						<i class="fas fa-envelope" aria-hidden="true"></i> <span class="hidden-xs">Contraseña</span>
+					</a><!-- Fin Botón Contraseña (sendResetLinkEmail) --> --}}
 
-				<!-- Botón Ver (show) -->
-				<a class="btn btn-success btn-xs" href="{{ URL::to('usuarios/'.$usuario->USER_id) }}">
-					<span class="glyphicon glyphicon-eye-open"></span>
-				</a><!-- Fin Botón Ver (show) -->
+					<!-- Botón Contraseña (showResetForm) -->
+					<a class="btn btn-warning btn-xs" href="{{ URL::to('password/reset?id='.$usuario->id) }}" data-tooltip="tooltip" title="Cambiar Contraseña">
+						<i class="fas fa-key" aria-hidden="true"></i>
+					</a>
 
-				<!-- Botón Contraseña (sendResetLinkEmail) 
-				<a class="btn btn-warning btn-xs" href="{{ URL::to('password/email/'.$usuario->USER_id) }}">
-					<i class="fa fa-btn fa-envelope" aria-hidden="true"></i> Contraseña
-				</a>--><!-- Fin Botón Contraseña (sendResetLinkEmail) -->
+					<!-- Botón Editar (edit) -->
+					<a class="btn btn-info btn-xs" href="{{ URL::to('auth/usuarios/'.$usuario->id.'/edit') }}" data-tooltip="tooltip" title="Editar">
+						<i class="fas fa-edit" aria-hidden="true"></i>
+					</a>
 
-				<!-- Botón Contraseña (showResetForm) -->
-				<a class="btn btn-warning btn-xs" href="{{ URL::to('password/reset?USER_id='.$usuario->USER_id) }}">
-					<i class="fa fa-btn fa-key" aria-hidden="true"></i>
-				</a><!-- Fin Botón Contraseña (showResetForm) -->
+	                <!-- carga botón de borrar -->
+	                {{ Form::button('<i class="fas fa-user-times" aria-hidden="true"></i>',[
+	                    'class'=>'btn btn-xs btn-danger btn-delete',
+	                    'data-toggle'=>'modal',
+						'name'=>'delete',
+						'data-id'=>$usuario->id,
+	                    'data-modelo'=> 'Usuario',
+	                    'data-descripcion'=> $usuario->username,
+	                    'data-action'=>'usuarios/'.$usuario->id,
+	                    'data-target'=>'#pregModalDelete',
+	                    'data-tooltip'=>'tooltip',
+	                    'title'=>'Borrar',
+	                ])}}
+				</td>
+			</tr>
+			@endforeach
+		</tbody>
+	</table>
 
-				<!-- Botón Editar (edit) -->
-				<a class="btn btn-info btn-xs" href="{{ URL::to('usuarios/'.$usuario->USER_id.'/edit') }}">
-					<i class="fa fa-pencil-square-o" aria-hidden="true"></i>
-				</a><!-- Fin Botón Editar (edit) -->
-
-				<!-- Botón Borrar (destroy) -->
-				{{ Form::button('<i class="fa fa-user-times" aria-hidden="true"></i>',[
-						'class'=>'btn btn-xs btn-danger',
-						'data-toggle'=>'modal',
-						'data-target'=>'#pregModal'.$usuario -> USER_id ])
-						}}
-
-				<!-- Mensaje Modal. Bloquea la pantalla mientras se procesa la solicitud -->
-				<div class="modal fade" id="pregModal{{ $usuario -> USER_id }}" role="dialog" tabindex="-1" >
-					<div class="modal-dialog">
-						<div class="modal-content">
-							<div class="modal-header">
-								<h4 class="modal-title">¿Borrar?</h4>
-							</div>
-							<div class="modal-body">
-								<p>
-									<i class="fa fa-exclamation-triangle"></i> ¿Desea borrar el usuario {{ $usuario -> username }}?
-								</p>
-							</div>
-							<div class="modal-footer">
-									{{ Form::open( ['url' => 'usuarios/'.$usuario->USER_id, 'class' => 'pull-right'] ) }}
-										{{ Form::hidden('_method', 'DELETE') }}
-										{{ Form::button(' NO ', ['class'=>'btn btn-xs btn-success', 'type'=>'button','data-dismiss'=>'modal']) }}
-										{{ Form::button('<i class="fa fa-trash" aria-hidden="true"></i> SI',[
-											'class'=>'btn btn-xs btn-danger',
-											'type'=>'submit',
-										]) }}
-									{{ Form::close() }}
-							</div>
-				  		</div>
-					</div>
-				</div><!-- Fin Botón Borrar (destroy) -->
-
-			</td>
-		</tr>
-		@endforeach
-	</tbody>
-</table>
-
-
-	@include('partials/datatable') <!-- Script para tablas -->	
+	@include('widgets.modals.modal-delete')
 @endsection

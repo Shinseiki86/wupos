@@ -1,69 +1,105 @@
 <?php
     
 use Illuminate\Database\Seeder;
+use App\Models\User;
+use App\Models\Role;
 
-    class UsersTableSeeder extends Seeder {
+class UsersTableSeeder extends Seeder {
 
-        public function run() {
+    private $rolOwner;
+    private $rolAdmin;
+    private $rolEditor;
 
-            $this->command->info('--- Creación de Usuarios prueba');
-            //Admin
-            \DB::table('USERS')->insert( array(
-                'name' => 'Admin',
-                'username' => 'admin',
-                'email' => 'admin@correo.com',
-                'password'  => \Hash::make('123'),
-                'ROLE_id' => Wupos\Rol::where('ROLE_rol','admin')->get()->first()->ROLE_id,
-                'USER_creadopor' => 'SYSTEM',
-                'USER_fechacreado' => \Carbon\Carbon::now()->toDateTimeString(),
-            ));
+    public function run() {
 
-            //Editores
-            \DB::table('USERS')->insert( array(
-                'name' => 'Editor 1 de prueba',
-                'username' => 'editor1',
-                'email' => 'editor1@correo.com',
-                'password'  => \Hash::make('123'),
-                'ROLE_id' => Wupos\Rol::where('ROLE_rol','editor')->get()->first()->ROLE_id,
-                'USER_creadopor' => 'admin',
-                'USER_fechacreado' => \Carbon\Carbon::now()->toDateTimeString(),
-            ));
-            \DB::table('USERS')->insert( array(
-                'name' => 'Editor 2 de prueba',
-                'username' => 'editor2',
-                'email' => 'editor2@correo.com',
-                'password'  => \Hash::make('123'),
-                'ROLE_id' => Wupos\Rol::where('ROLE_rol','editor')->get()->first()->ROLE_id,
-                'USER_creadopor' => 'admin',
-                'USER_fechacreado' => \Carbon\Carbon::now()->toDateTimeString(),
-            ));
+        $pass = '123';
 
-            //Usuarios
-            \DB::table('USERS')->insert( array(
-                'name' => 'Usuario 1 de prueba',
-                'username' => 'usuario1',
-                'email' => 'usuario1@correo.com',
-                'password'  => \Hash::make('123'),
-                'ROLE_id' => Wupos\Rol::where('ROLE_rol','user')->get()->first()->ROLE_id,
-                'USER_creadopor' => 'admin',
-                'USER_fechacreado' => \Carbon\Carbon::now()->toDateTimeString(),
-            ));
-            \DB::table('USERS')->insert( array(
-                'name' => 'Usuario 2 de prueba',
-                'username' => 'usuario2',
-                'email' => 'usuario2@correo.com',
-                'password'  => \Hash::make('123'),
-                'ROLE_id' => Wupos\Rol::where('ROLE_rol','user')->get()->first()->ROLE_id,
-                'USER_creadopor' => 'admin',
-                'USER_fechacreado' => \Carbon\Carbon::now()->toDateTimeString(),
-            ));
+        //*********************************************************************
+        $this->command->info('--- Seeder Creación de Roles');
+
+        $this->rolOwner = Role::create([
+            'name'         => 'owner',
+            'display_name' => 'Project Owner',
+            'description'  => 'User is the owner of a given project.',
+        ]);
+        $this->rolAdmin = Role::create([
+            'name'         => 'admin',
+            'display_name' => 'Administrador',
+            'description'  => 'User is allowed to manage and edit other users.',
+        ]);
+        $this->rolConsultas = Role::create([
+            'name'         => 'consultas',
+            'display_name' => 'Consultas',
+            'description'  => 'Usuario solo para consultas.',
+        ]);
+        $rolAtila = Role::create([
+            'name'         => 'atila',
+            'display_name' => 'Atila',
+            'description'  => 'Usuario de Atila para gestionar Certificados',
+        ]);
+        $rolSeg = Role::create([
+            'name'         => 'seguridad',
+            'display_name' => 'Seguridad',
+            'description'  => 'Usuaro para gestionar Operadores',
+        ]);
 
 
-            //5 usuarios faker
-            //$USERS = factory(Wupos\User::class)->times(5)->create();
+        //*********************************************************************
+        $this->command->info('--- Seeder Creación de Usuarios prueba');
 
-            $this->command->info('--- Fin Creación de Usuarios prueba');
-        }
+        //Admin
+        $admin = User::firstOrcreate( [
+            'name' => 'Administrador',
+            'cedula' => 1,
+            'username' => 'admin',
+            'email' => 'admin@mail.com',
+            'password'  => \Hash::make($pass),
+        ]);
+        $admin->attachRole($this->rolAdmin);
+
+        //Owner
+        /*$owner = User::create( [
+            'name' => 'Owner',
+            'cedula' => 2,
+            'username' => 'owner',
+            'email' => 'owner@mail.com',
+            'password'  => \Hash::make($pass),
+        ]);
+        $owner->attachRoles([$this->rolAdmin, $this->rolOwner]);*/
+        
+        //Editores
+        $consulta = User::create( [
+            'name' => 'Consulta 1 de prueba',
+            'cedula' => 444444444,
+            'username' => 'consulta1',
+            'email' => 'consulta@test.com',
+            'password'  => \Hash::make($pass),
+            'USER_CREADOPOR'  => 'PRUEBAS'
+        ]);
+        $consulta->attachRole($this->rolConsultas);
 
 
+        $atila = User::create( [
+            'name' => 'Atila de prueba',
+            'cedula' => 6666666666,
+            'username' => 'atila',
+            'email' => 'atila@test.com',
+            'password'  => \Hash::make($pass),
+            'USER_CREADOPOR'  => 'PRUEBAS'
+        ]);
+        $atila->attachRole($rolAtila);
+
+        $seg = User::create( [
+            'name' => 'Seguridad prueba',
+            'cedula' => 7777777777,
+            'username' => 'seg',
+            'email' => 'seg@test.com',
+            'password'  => \Hash::make($pass),
+            'USER_CREADOPOR'  => 'PRUEBAS'
+        ]);
+        $seg->attachRole($rolSeg);
+
+        //5 usuarios faker
+        //$users = factory(App\User::class)->times(5)->create();
     }
+}

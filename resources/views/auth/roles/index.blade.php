@@ -1,83 +1,76 @@
-@extends('layout')
+@extends('layouts.menu')
 @section('title', '/ Roles')
+@include('widgets.datatable.datatable-export')
 
-@section('content')
-
-	<h1 class="page-header">Roles</h1>
-	<div class="row well well-sm">
-
-		<div id="btn-create" class="pull-right">
-			<a class='btn btn-primary' role='button' href="{{ URL::to('roles/create') }}">
-				<i class="fa fa-plus" aria-hidden="true"></i> Nuevo Rol
+@section('page_heading')
+	<div class="row">
+		<div id="titulo" class="col-xs-8 col-md-6 col-lg-6">
+			Roles
+		</div>
+		<div id="btns-top" class="col-xs-4 col-md-6 col-lg-6 text-right">
+			<a class='btn btn-primary' role='button' href="{{ URL::to('auth/roles/create') }}" data-tooltip="tooltip" title="Crear Nuevo" name="create">
+				<i class="fas fa-plus" aria-hidden="true"></i>
 			</a>
 		</div>
 	</div>
-	
-<table class="table table-striped">
-	<thead>
-		<tr>
-			<th class="col-md-2">ID</th>
-			<th class="col-md-2">Descripción</th>
-			<th class="col-md-2">Creado por</th>
-			<th class="col-md-2">Acciones</th>
+@endsection
 
-		</tr>
-	</thead>
-	<tbody>
+@section('section')
 
+	<table class="table table-striped" id="tabla">
+		<thead>
+			<tr>
+				<th class="col-md-1">Nombre</th>
+				<th class="col-md-3 all">Display</th>
+				<th class="col-md-1 all">Permisos</th>
+				<th class="col-md-1">Creado</th>
+				<th class="col-md-1">Modificado</th>
+				<th class="col-md-1 all notFilter"></th>
+			</tr>
+		</thead>
 
-		@foreach($roles as $rol)
-		<tr>
-			<td>{{ $rol -> ROLE_id }}</td>
-			<td>{{ $rol -> ROLE_descripcion }}</td>
-			<td>{{ $rol -> ROLE_creadopor }}</td>
-			<td>
+		<tbody>
 
-				<!-- Botón Editar (edit) -->
-				<a class="btn btn-small btn-info btn-xs" href="{{ URL::to('roles/'.$rol->ROLE_id.'/edit') }}">
-					<i class="fa fa-pencil-square-o" aria-hidden="true"></i> Editar
-				</a><!-- Fin Botón Editar (edit) -->
+			@foreach($roles as $rol)
+			<tr>
+				<td>{{ $rol->name }}</td>
+				<td>
+					{{ $rol->display_name }}
+					@if($rol->description)
+					<i class="fas fa-question-circle" aria-hidden="true" data-tooltip="tooltip" data-container="body" title="{{ $rol->description }}"></i>
+					@endif
+				</td>
+				<td>
+					<i class="fas fa-address-card" aria-hidden="true" data-tooltip="tooltip" data-placement="bottom" data-container="body" title="{{ $rol->permissions->implode('display_name', ', ') }}"></i>
+					{{ $rol->permissions->count() }} 
+				</td>
+				<td>{{ datetime($rol->created_at, true) }}</td>
+				<td>{{ datetime($rol->updated_at, true) }}</td>
+				<td>
 
-				<!-- Botón Borrar (destroy) -->
-				{{ Form::button('<i class="fa fa-trash" aria-hidden="true"></i> Borrar',[
-						'class'=>'btn btn-xs btn-danger',
+					<!-- Botón Editar (edit) -->
+					<a class="btn btn-small btn-info btn-xs" href="{{ URL::to('auth/roles/'.$rol->id.'/edit') }}" data-tooltip="tooltip" title="Editar">
+						<i class="fas fa-edit" aria-hidden="true"></i>
+					</a>
+
+					<!-- carga botón de borrar -->
+					{{ Form::button('<i class="fas fa-trash" aria-hidden="true"></i>',[
+						'class'=>'btn btn-xs btn-danger btn-delete',
 						'data-toggle'=>'modal',
-						'data-target'=>'#pregModal'.$rol -> ROLE_id ])
-						}}
+						'data-id'=> $rol->id,
+						'data-modelo'=> 'Rol',
+						'data-descripcion'=> $rol->display_name,
+						'data-action'=> 'roles/'.$rol->id,
+						'data-target'=>'#pregModalDelete',
+						'data-tooltip'=>'tooltip',
+						'title'=>'Borrar',
+					])}}
 
-				<!-- Mensaje Modal. Bloquea la pantalla mientras se procesa la solicitud -->
-				<div class="modal fade" id="pregModal{{ $rol -> ROLE_id }}" role="dialog" tabindex="-1" >
-					<div class="modal-dialog">
-						<div class="modal-content">
-							<div class="modal-header">
-								<h4 class="modal-title">¿Borrar?</h4>
-							</div>
-							<div class="modal-body">
-								<p>
-									<i class="fa fa-exclamation-triangle"></i> ¿Desea borrar el rol {{ $rol -> ROLE_descripcion }}?
-								</p>
-							</div>
-							<div class="modal-footer">
-									{{ Form::open(array('url' => 'roles/'.$rol->ROLE_id, 'class' => 'pull-right')) }}
-										{{ Form::hidden('_method', 'DELETE') }}
-										{{ Form::button(' NO ', ['class'=>'btn btn-xs btn-success', 'type'=>'button','data-dismiss'=>'modal']) }}
-										{{ Form::button('<i class="fa fa-trash" aria-hidden="true"></i> SI',[
-											'class'=>'btn btn-xs btn-danger',
-											'type'=>'submit',
-											'data-toggle'=>'modal',
-											'data-backdrop'=>'static',
-											'data-target'=>'#msgModal',
-										]) }}
-									{{ Form::close() }}
-							</div>
-				  		</div>
-					</div>
-				</div><!-- Fin Botón Borrar (destroy) -->
+				</td>
+			</tr>
+			@endforeach
+		</tbody>
+	</table>
 
-			</td>
-		</tr>
-		@endforeach
-	</tbody>
-</table>
-
+	@include('widgets.modals.modal-delete')
 @endsection

@@ -1,0 +1,1 @@
+{{ Form::password( $name, ['class'=>'form-control'] + (isset($options)?$options:[]) )}}

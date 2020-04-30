@@ -1,6 +1,6 @@
 <?php
 
-namespace Wupos\Console;
+namespace App\Console;
 
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
@@ -13,7 +13,7 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
-        // Commands\Inspire::class,
+        Commands\FinishEncuestas::class,
         Commands\DropTables::class,
     ];
 
@@ -24,8 +24,21 @@ class Kernel extends ConsoleKernel
      * @return void
      */
     protected function schedule(Schedule $schedule)
+    {		
+        $schedule->command('encuestas:close')
+                ->everyMinute()
+                ->withoutOverlapping();
+    }
+
+    /**
+     * Register the commands for the application.
+     *
+     * @return void
+     */
+    protected function commands()
     {
-        // $schedule->command('inspire')
-        //          ->hourly();
+        $this->load(__DIR__.'/Commands');
+
+        require base_path('routes/console.php');
     }
 }

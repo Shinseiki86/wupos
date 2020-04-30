@@ -1,16 +1,15 @@
-# Don't listing directory
-	#Options -Indexes
-	#Options -MultiViews
-	IndexIgnore *
-	#ErrorDocument 403 /public/index.php
-	
-#Redirect
-	#RewriteEngine on
-	#RewriteCond %{REQUEST_URI} /+[^\.]+$
-	#RewriteRule ^(.+[^/])$ %{REQUEST_URI}/public [R=301,L]
+<IfModule mod_rewrite.c>
+    <IfModule mod_negotiation.c>
+        Options -MultiViews
+    </IfModule>
 
-# Follow symbolic links
-	#Options +FollowSymLinks
+    RewriteEngine On
 
-# Default handler
-	#DirectoryIndex /public/index.php
+    # Redirect Trailing Slashes...
+    RewriteRule ^(.*)/$ /$1 [L,R=301]
+
+    # Handle Front Controller...
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteCond %{REQUEST_FILENAME} !-f
+	RewriteRule ^(.*)$ public/$1 [L]
+</IfModule>

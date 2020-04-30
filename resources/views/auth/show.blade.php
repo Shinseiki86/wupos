@@ -34,21 +34,21 @@
 						<div class="form-group">
 							{{ Form::label('role', 'Rol', [ 'class' => 'col-md-4 control-label' ]) }}
 							<div class="col-md-6">
-								<p class="form-control-static">{{ $usuario->rol->ROLE_descripcion }}</p>
+								<p class="form-control-static">{{ $usuario->rol->ROLE_DESCRIPCION }}</p>
 							</div>
 						</div>
 
 						<div class="form-group">
-							{{ Form::label('USER_creadopor', 'Creado por', [ 'class' => 'col-md-4 control-label' ]) }}
+							{{ Form::label('USER_CREADOPOR', 'Creado por', [ 'class' => 'col-md-4 control-label' ]) }}
 							<div class="col-md-6">
-								<p class="form-control-static">{{ $usuario->USER_creadopor }}</p>
+								<p class="form-control-static">{{ $usuario->USER_CREADOPOR }}</p>
 							</div>
 						</div>
 
 						<div class="form-group">
-							{{ Form::label('USER_fechacreado', 'Creado el', [ 'class' => 'col-md-4 control-label' ]) }}
+							{{ Form::label('USER_FECHACREADO', 'Creado el', [ 'class' => 'col-md-4 control-label' ]) }}
 							<div class="col-md-6">
-								<p class="form-control-static">{{ $usuario->USER_fechacreado }}</p>
+								<p class="form-control-static">{{ $usuario->USER_FECHACREADO }}</p>
 							</div>
 						</div>
 
@@ -58,7 +58,7 @@
 							
 								<br>
 								<a class="btn btn-warning" role="button" href="{{ URL::to('usuarios/') }}">
-									<i class="fa fa-arrow-left" aria-hidden="true"></i> Regresar
+									<i class="fas fa-arrow-left" aria-hidden="true"></i> Regresar
 								</a>
 
 							</div>

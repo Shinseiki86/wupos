@@ -2,7 +2,7 @@
 @section('title', '/ Ayuda')
 
 @section('head')
-	{!! Html::script('assets/js/PDFObject/pdfobject.min.js') !!}
+	{{-- Html::script('assets/js/PDFObject/pdfobject.min.js') !!}
 	<style>
 		.pdfobject-container {
 			width: 800px;
@@ -16,6 +16,7 @@
 		.success { color: #4F8A10; background-color: #DFF2BF; }
 		.fail { color: #D8000C; background-color: #FFBABA; }
 	</style>
+	--}}
 @parent
 @endsection
 
@@ -25,21 +26,22 @@
 
 @section('content')
 
-	<h1 class="page-header">Help!</h1>
+	<h1 class="page-header">Ayuda</h1>
 
-	<div class="pull-left">
+	<div class="col-xs-12 pull-center">
 		<div class="panel panel-info" >
-			<div class="panel-heading">¡Ayuda!</div>
-			<div class="panel-body">
-				En esta sección se documentará información sobre la app.<br>
-				<div id="pdfRenderer"></div>
+			<div class="panel-heading">Manual de usuario</div>
+			<div class="panel-body embed-responsive embed-responsive-4by3">
+				<br>
+				{{--<div id="pdfRenderer"></div>
 				<script>
 					var options = {
 						pdfOpenParams: {
 							pagemode: "bookmarks",
 							navpanes: 1,
-							toolbar: 0,
-							statusbar: 0,
+							toolbar: 1,
+							statusbar: 1,
+							messages: 1,
 							view: "FitV"
 						},
 						fallbackLink: '<div class="alert alert-warning">El navegador no soporta jsPDF.<br>Por favor descargar el pdf para su visualización.<br><a href="[url]" class="alert-link">Descargar Manual</a></div>'
@@ -49,7 +51,16 @@
 						"#pdfRenderer",
 						options
 					);
-				</script>
+				</script>--}}
+				<object class="embed-responsive-item" data="{{$urlManualPdf}}" type="application/pdf"> 
+					<p>
+						<div class="alert alert-info">
+							El navegador no tiene funcionalidad para cargar archivos PDF.<br>
+							Por favor descargar el PDF para su visualización.<br>
+							<a href="{{$urlManualPdf}}" class="info-link">Descargar Manual</a>
+						</div>
+					</p>  
+				</object>
 			</div>
 		</div>
 	</div>

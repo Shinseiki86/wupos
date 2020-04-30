@@ -1,8 +1,8 @@
-@extends('errors/error')
+@extends('layouts.error')
 
-@section('content')
+@section('page_heading','Error 403: Forbidden.')
+@section('section')
 	<div class="title">
-		<strong>Error 403: Forbidden.</strong><br>
 		El usuario no tiene permisos para acceder al recurso.
 	</div>
 @endsection

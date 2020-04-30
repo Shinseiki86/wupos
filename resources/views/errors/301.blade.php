@@ -1,8 +1,8 @@
-@extends('errors/error')
+@extends('layouts.error')
 
-@section('content')
+@section('page_heading','Error 301: Moved Permanently.')
+@section('section')
 	<div class="title">
-		<strong>Error 301: Moved Permanently.</strong><br>
 		El servidor responde, pero el recurso solicitado ha sido movido a otra dirección permanentemente.
 	</div>
 @endsection

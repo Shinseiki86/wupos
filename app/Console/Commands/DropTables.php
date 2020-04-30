@@ -1,6 +1,6 @@
 <?php
 
-namespace Wupos\Console\Commands;
+namespace App\Console\Commands;
 
 use DB;
 use Illuminate\Console\Command;
@@ -22,16 +22,6 @@ class DropTables extends Command
     protected $description = 'Borra todas las tablas de la base de datos actual.';
 
     /**
-     * Create a new command instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
-    /**
      * Execute the console command.
      *
      * @return mixed
@@ -39,12 +29,16 @@ class DropTables extends Command
     public function handle()
     {
 
-        if (!$this->confirm('¿Borrar todas las tablas? [y|N]'))
+        if (!$this->confirm('¿Borrar todas las tablas? [y|N]')){
             exit('Comando "DropTables" cancelado.');
+        }
 
-        switch (env('DB_CONNECTION')) {
+        $conn   = env('DB_CONNECTION');
+        $db     = env('DB_DATABASE');
+        $schema = env('DB_SCHEMA');
+        switch ($conn) {
                 case 'mysql':
-                $colname = 'Tables_in_' . env('DB_DATABASE');
+                $colname = 'Tables_in_' . $db;
                 $tables = DB::select('SHOW TABLES');
                 foreach($tables as $table) {
                     $droplist[] = $table->$colname;
@@ -56,16 +50,16 @@ class DropTables extends Command
                 DB::statement("DROP TABLE $droplist");
                 DB::statement('SET FOREIGN_KEY_CHECKS = 1');//turn referential integrity back on
                 DB::commit();
-                $this->comment(PHP_EOL."Todas las tablas fueron borradas en ".env('DB_DATABASE').PHP_EOL);
+                $this->comment(PHP_EOL."Todas las tablas fueron borradas en ".$db.PHP_EOL);
                 break;
             case 'pgsql':
-                DB::statement('DROP SCHEMA '.env('DB_SCHEMA').' CASCADE');
-                DB::statement('CREATE SCHEMA '.env('DB_SCHEMA'));
+                DB::statement('DROP SCHEMA '.$schema.' CASCADE');
+                DB::statement('CREATE SCHEMA '.$schema);
                 DB::commit();
-                $this->comment(PHP_EOL."Todas las tablas fueron borradas en ".env('DB_DATABASE').'.'.env('DB_SCHEMA').PHP_EOL);
+                $this->comment(PHP_EOL."Todas las tablas fueron borradas en ".$db.'.'.$schema.PHP_EOL);
                 break;
             default:
-                $this->comment(PHP_EOL."DB no soportada\nDetectado: ".env('DB_CONNECTION').PHP_EOL);
+                $this->comment(PHP_EOL."DB no soportada\nDetectado: ".$conn.PHP_EOL);
                 break;
         }
 

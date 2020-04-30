@@ -1,8 +1,9 @@
-@extends('errors/error')
+@extends('layouts.error')
 
-@section('content')
+@section('page_heading','Error 503: Service Unavailable.')
+@section('section')
 	<div class="title">
-		<strong>Error 503: Service Unavailable.</strong><br>
 		El servidor no puede responder a la petición del navegador porque está congestionado o está realizando tareas de mantenimiento.
 	</div>
+	{{ isset($errorMsg) ? dump($errorMsg) : '' }}
 @endsection

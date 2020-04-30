@@ -1,8 +1,8 @@
-@extends('errors/error')
+@extends('layouts.error')
 
-@section('content')
+@section('page_heading','Error 404: Not Found.')
+@section('section')
 	<div class="title">
-		<strong>Error 404: Not Found.</strong><br>
 		La página no existe.
 	</div>
 @endsection

@@ -1,27 +1,13 @@
-@extends('layout')
-@section('title', '/ Crear Rol')
+@extends('layouts.menu')
+@section('title', '/ Rol Crear')
 
-@section('content')
+@section('page_heading', 'Crear Rol')
 
-	<h1 class="page-header">Nuevo Rol</h1>
+@section('section')
+{{ Form::open(['route' => 'auth.roles.store', 'class' => 'form-horizontal']) }}
 
-	@include('partials/errors')
-	
-	{{ Form::open(['url' => 'roles', 'class' => 'form-horizontal']) }}
+	<!-- Elementos del formulario -->
+	@rinclude('form-inputs')
 
-	  	<div class="form-group">
-			{{ Form::label('ROLE_descripcion', 'Descripción') }} 
-			{{ Form::text('ROLE_descripcion', old('ROLE_descripcion'), [ 'class' => 'form-control', 'max' => '255', 'required' ]) }}
-		</div>
-
-		<!-- Botones -->
-		<div class="text-right">
-			{{ Form::button('<i class="fa fa-exclamation" aria-hidden="true"></i> Reset', ['class'=>'btn btn-warning', 'type'=>'reset']) }}
-			<a class="btn btn-warning" role="button" href="{{ URL::to('roles') }}">
-				<i class="fa fa-arrow-left" aria-hidden="true"></i> Regresar
-			</a>
-			{{ Form::button('<i class="fa fa-floppy-o" aria-hidden="true"></i> Guardar', ['class'=>'btn btn-primary', 'type'=>'submit']) }}
-		</div>
-
-	{{ Form::close() }}
+{{ Form::close() }}
 @endsection

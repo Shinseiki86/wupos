@@ -1,70 +1,60 @@
-@extends('layout')
+@extends ('layouts.plane')
 
-@section('content')
+@push('head')
+<style type="text/css">
+	html, body {height: 100%;}
+	body { 
+		background: url('{{ get_logo() }}') no-repeat fixed center;
+	}
+	.panel { 
+		background: rgba(255, 255, 255, 0.91);
+	}
+	.container {
+		margin-top: 0px !important;
+		height: 100%;
+		width: 100%;
+		display: table;
+	}
+	.row {
+		display: table-cell;
+		height: 100%;
+		vertical-align: middle;
+	}
+</style>
+@endpush
+
+@section('body')
 <div class="container">
 	<div class="row">
-		<div class="col-md-8 col-md-offset-2">
+		<div class="col-xs-12 col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3">
 			<div class="panel panel-default">
-				<div class="panel-heading">Cambiar Contraseña</div>
-
 				<div class="panel-body">
+					@if (session('status'))
+						<div class="alert alert-success">
+							{{ session('status') }}
+						</div>
+					@endif
 
-					@include('partials/errors')
-
-					<form class="form-horizontal" role="form" method="POST" action="{{ url('/password/reset') }}">
-						{{ csrf_field() }}
+					{{ Form::open(['url'=>'password/reset', 'class' => 'form-horizontal']) }}
 
 						<input type="hidden" name="token" value="{{ $token }}">
 
-						<div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
-							<label for="email" class="col-md-4 control-label">E-Mail</label>
+						@include('widgets.forms.input', ['type'=>'email', 'name'=>'email', 'value'=>$email, 'label'=>'E-Mail', 'options'=>['readonly'] ])
 
-							<div class="col-md-6">
-								<input id="email" type="email" class="form-control" name="email" value="{{ $email or old('email') }}" readonly>
-
-								@if ($errors->has('email'))
-									<span class="help-block">
-										<strong>{{ $errors->first('email') }}</strong>
-									</span>
-								@endif
-							</div>
-						</div>
-
-						<div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}">
-							<label for="password" class="col-md-4 control-label">Contraseña</label>
-
-							<div class="col-md-6">
-								<input id="password" type="password" class="form-control" name="password">
-
-								@if ($errors->has('password'))
-									<span class="help-block">
-										<strong>{{ $errors->first('password') }}</strong>
-									</span>
-								@endif
-							</div>
-						</div>
-
-						<div class="form-group{{ $errors->has('password_confirmation') ? ' has-error' : '' }}">
-							<label for="password-confirm" class="col-md-4 control-label">Confirmar Contraseña</label>
-							<div class="col-md-6">
-								<input id="password-confirm" type="password" class="form-control" name="password_confirmation">
-
-								@if ($errors->has('password_confirmation'))
-									<span class="help-block">
-										<strong>{{ $errors->first('password_confirmation') }}</strong>
-									</span>
-								@endif
-							</div>
-						</div>
+						@include('widgets.forms.input', ['type'=>'password', 'name'=>'password', 'label'=>'Nueva Contraseña' ])
+						@include('widgets.forms.input', ['type'=>'password', 'name'=>'password_confirmation', 'label'=>'Confirmar Contraseña' ])
 
 						<div class="form-group">
-							<div class="col-md-6 col-md-offset-4">
+							<div class="col-xs-8 col-xs-offset-4 text-right">
+								<a class="btn btn-warning" role="button" href="{{ URL::previous() }}" data-tooltip="tooltip" title="Regresar">
+									<i class="fas fa-arrow-left" aria-hidden="true"></i>
+								</a>
 								<button type="submit" class="btn btn-primary">
-									<i class="fa fa-btn fa-refresh"></i> Cambiar Contraseña
+									<i class="fas fa-refresh"></i> Cambiar Contraseña
 								</button>
 							</div>
 						</div>
-					</form>
+					{{ Form::close() }}
 				</div>
 			</div>
 		</div>
