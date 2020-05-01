@@ -37,25 +37,39 @@ class OperadorController extends Controller
 	public function getData()
 	{
 		$model = new $this->class;
-		$query = Operador::with('regional','estado')
-				->join('REGIONALES', 'REGIONALES.REGI_ID', '=', 'OPERADORES.REGI_ID')
+
+		$OPER_NOMBRECOMPLETO = expression_concat([
+			'OPER_NOMBRE',
+			'OPER_APELLIDO'
+		], 'OPER_NOMBRECOMPLETO', 'OPERADORES');
+
+		$query = Operador::join('REGIONALES', 'REGIONALES.REGI_ID', '=', 'OPERADORES.REGI_ID')
 				->join('ESTADOSOPERADORES', 'ESTADOSOPERADORES.ESOP_ID', '=', 'OPERADORES.ESOP_ID')
 				->select([
 					'OPER_ID',
 					'OPER_CODIGO',
 					'OPER_CEDULA',
-					'OPER_NOMBRE',
-					'OPER_APELLIDO',
-					'REGI_CODIGO',
-					'ESOP_DESCRIPCION',
+					$OPER_NOMBRECOMPLETO,
+					'REGIONALES.REGI_NOMBRE',
+					'ESTADOSOPERADORES.ESOP_DESCRIPCION',
 				]);
-				dd($query->get()->first()->regional);
 
 		return Datatables::eloquent($query)
 			->addColumn('action', function($row) use ($model) {
 				return parent::buttonEdit($row, $model).
-					parent::buttonDelete($row, $model, 'OPER_CEDULA');
-			}, false)->make(true);
+					parent::buttonDelete( $row, 'OPER_NOMBRECOMPLETO');
+			}, false)
+			->filterColumn('OPER_NOMBRECOMPLETO', function($query, $keyword) {
+
+				$OPER_NOMBRECOMPLETO = expression_concat([
+					'OPER_NOMBRE',
+					'OPER_APELLIDO'
+				], null, 'OPERADORES');
+
+                $sql = $OPER_NOMBRECOMPLETO." like ?";
+                $query->whereRaw($sql, ["%{$keyword}%"]);
+            })
+			->make(true);
 	}
 
 
@@ -66,7 +80,6 @@ class OperadorController extends Controller
 	 */
 	private function getArrays()
 	{
-		//Se crea un array con los países disponibles
 		$arrRegionales = model_to_array(Regional::class, 'REGI_NOMBRE');
 		$arrEstados = model_to_array(EstadoOperador::class, 'ESOP_DESCRIPCION');
 		return compact('arrRegionales','arrEstados');

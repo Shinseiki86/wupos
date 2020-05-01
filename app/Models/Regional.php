@@ -9,6 +9,7 @@ class Regional extends ModelWithSoftDeletes
 	//Nombre de la tabla en la base de datos
 	protected $table = 'REGIONALES';
     protected $primaryKey = 'REGI_ID';
+	protected $filterKey  = 'REGI_NOMBRE';
 
 	//Traza: Nombre de campos en la tabla para auditoría de cambios
 	const CREATED_AT = 'REGI_FECHACREADO';
@@ -38,7 +39,7 @@ class Regional extends ModelWithSoftDeletes
 
 
 	/**
-	 * Retorna el total de respuestas que han realizado a la encuesta.
+	 * Retorna el total de agencias por regional
 	 *
 	 * @param  void
 	 * @return integer

@@ -1,5 +1,5 @@
 @extends('layouts.menu')
-@section('title', '/ Estados')
+@section('title', '/ Operadores')
 
 @section('page_heading')
 	<div class="row">
@@ -22,7 +22,6 @@
 				<th class="col-xs-1 all">Código</th>
 				<th class="col-xs-1 all">Cédula</th>
 				<th class="col-xs-3">Nombre</th>
-				<th class="col-xs-3">Apellido</th>
 				<th class="col-xs-1 all">Regional</th>
 				<th class="col-xs-1 all">Estado</th>
 				<th class="col-xs-1 all notFilter"></th>
@@ -35,9 +34,8 @@
 	@include('widgets.datatable.datatable-ajax', ['urlAjax'=>route('wu.operadores.getData'), 'columns'=>[
 		'OPER_CODIGO',
 		'OPER_CEDULA',
-		'OPER_NOMBRE',
-		'OPER_APELLIDO',
-		'regional.REGI_CODIGO',
-		'ESOP_DESCRIPCION',
+		'OPER_NOMBRECOMPLETO',
+		'REGIONALES.REGI_NOMBRE',
+		'ESTADOSOPERADORES.ESOP_DESCRIPCION',
 	]])	
 @endsection

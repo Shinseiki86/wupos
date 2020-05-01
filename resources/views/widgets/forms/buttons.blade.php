@@ -7,7 +7,7 @@
 		</a>
 		@endif
 
-		@if(isset($reset) and $reset=false)
+		@if(isset($reset) and !$reset)
 		@else
 		{{ Form::button('<i class="fas fa-undo" aria-hidden="true"></i> Reset', [
 			'class'=>'btn btn-warning',

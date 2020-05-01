@@ -26,8 +26,8 @@ class RouteServiceProvider extends ServiceProvider
         $num = '[0-9]+';
         Route::patterns([
             'MENU_ID'     =>$num,
-            'preguntatipo'=>$num,
-            'encuesta'    =>$num,
+            'regional'    =>$num,
+            'agencia'    =>$num,
         ]);
         parent::boot();
     }

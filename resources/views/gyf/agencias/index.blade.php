@@ -22,9 +22,9 @@
 				<th class="col-xs-1 all">Código</th>
 				<th class="col-xs-6 all">Nombre</th>
 				<th class="col-xs-2 all">Cuenta WU</th>
-				<th class="col-xs-1">Regional</th>
-				<th class="col-xs-3">Nombre Regional</th>
+				<th class="col-xs-3">Regional</th>
 				<th class="col-xs-1 all">Activa</th>
+				<th class="col-xs-1 all notFilter">Certificados</th>
 				<th class="col-xs-2">Creado por</th>
 				<th class="col-xs-1 all notFilter"></th>
 			</tr>
@@ -37,9 +37,9 @@
 		'AGEN_CODIGO',
 		'AGEN_NOMBRE',
 		'AGEN_CUENTAWU',
-		'REGI_CODIGO',
 		'REGI_NOMBRE',
-		'is_active',
+		'AGEN_ACTIVA',
+		'count_certificados',
 		'AGEN_CREADOPOR',
 	]])	
 @endsection

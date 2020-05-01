@@ -10,7 +10,7 @@ class Operador extends ModelWithSoftDeletes
 	//Nombre de la tabla en la base de datos
 	protected $table = 'OPERADORES';
     protected $primaryKey = 'OPER_ID';
-	protected $filterKey  = 'OPER_NOMBRE';
+	protected $filterKey  = 'OPER_CEDULA';
 
 	//Traza: Nombre de campos en la tabla para auditoría de cambios
 	const CREATED_AT = 'OPER_FECHACREADO';

@@ -17,6 +17,6 @@
 
 
 	<!-- Botones -->
-	@include('widgets.forms.buttons', ['url' => 'gyf/operadores'])
+	@include('widgets.forms.buttons', ['url' => 'wu/operadores'])
 
 </div>

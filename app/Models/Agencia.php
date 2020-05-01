@@ -18,7 +18,7 @@ class Agencia extends ModelWithSoftDeletes
 	const DELETED_AT = 'AGEN_FECHAELIMINADO';
 	protected $dates = ['AGEN_FECHACREADO', 'AGEN_FECHAMODIFICADO', 'AGEN_FECHAELIMINADO'];
 
-	protected $appends = ['is_active',];
+	protected $appends = ['count_certificados'];
 
 	protected $fillable = [
 		'AGEN_CODIGO',
@@ -51,14 +51,15 @@ class Agencia extends ModelWithSoftDeletes
 		return $this->belongsTo(Regional::class, $foreingKey);
 	}
 
+
 	/**
-	 * Retorna el total de respuestas que han realizado a la encuesta.
+	 * Retorna el total de certificados por agencia
 	 *
 	 * @param  void
 	 * @return integer
 	 */
-	public function getIsActiveAttribute()
+	public function getCountCertificadosAttribute()
 	{
-		return $this->AGEN_ACTIVA ? 'SI' : 'NO';
+		return $this->certificados->count();
 	}
 }

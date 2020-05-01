@@ -21,7 +21,7 @@
 			<tr>
 				<th class="col-xs-1">Código</th>
 				<th class="col-xs-6">Nombre</th>
-				<th class="col-xs-2">Agencias</th>
+				<th class="col-xs-2 notFilter">Agencias</th>
 				<th class="col-xs-2">Creado por</th>
 				<th class="col-xs-1 all notFilter"></th>
 			</tr>

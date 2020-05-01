@@ -45,7 +45,7 @@ class RegionalController extends Controller
 		return Datatables::eloquent($query)
 			->addColumn('action', function($row) use ($model) {
 				return parent::buttonEdit($row, $model).
-					parent::buttonDelete($row, $model, 'REGI_nombre');
+					parent::buttonDelete($row, 'REGI_NOMBRE');
 			}, false)->make(true);
 	}
 

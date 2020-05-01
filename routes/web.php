@@ -74,6 +74,9 @@
 		Route::resource('operadores', 'OperadorController', ['parameters'=>['operadores'=>'operador']]);
 		Route::get('operadores.getData', 'OperadorController@getData')->name('operadores.getData');
 
+		Route::resource('certificados', 'CertificadoController',['except'=> ['show']]);
+		Route::get('certificados.getData', 'CertificadoController@getData')->name('certificados.getData');
+		Route::get('certificados/filterAgencia', 'CertificadoController@filterAgencia')->name('certificados.filterAgencia');
 		//Route::delete('{OPER_id}/pendBorrar', 'OperadorController@cambiarEstado');
 		//Route::get('{OPER_id}/restore', 'OperadorController@restore');
 		//Route::delete('papelera/vaciar', 'OperadorController@vaciarPapelera');
@@ -82,7 +85,6 @@
 		//Route::get('export/{ESOP_id}','ExportarInfoController@exportOperadores');
 
 		/*//Certificados
-		Route::resource('certificados', 'CertificadoController', ['parameters'=>['certificados' => 'CERT_id']]);
 		Route::group(['as' => 'certificados.', 'prefix' => 'certificados'], function () {
 			Route::get('{CERT_id}/restore', 'CertificadoController@restore');
 			Route::get('papelera', 'CertificadoController@indexOnlyTrashed');
