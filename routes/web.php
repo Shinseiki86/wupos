@@ -71,12 +71,21 @@
 //WU
 	Route::group(['prefix'=>'wu', 'as'=>'wu.', 'namespace'=>'Wu'], function() {
 		//Operadores
-		Route::resource('operadores', 'OperadorController', ['parameters'=>['operadores'=>'operador']]);
-		Route::get('operadores.getData', 'OperadorController@getData')->name('operadores.getData');
+		Route::resource('operadores', 'OperadorController', ['parameters'=>['operadores'=>'operador'], 'except'=>['show']]);
+		Route::group(['prefix'=>'operadores', 'as'=>'operadores.'], function() {
+			Route::get('getData', 'OperadorController@getData')->name('getData');
+			Route::get('trash', 'OperadorController@index')->defaults('trash', true)->name('trash');
+			Route::put('trash/{operador}', 'OperadorController@restore')->name('restore');
+			Route::delete('trash/{operador}', 'OperadorController@delete')->name('delete');
+			Route::post('trash', 'OperadorController@emptyTrash')->name('emptyTrash');
+		});
 
-		Route::resource('certificados', 'CertificadoController',['except'=> ['show']]);
-		Route::get('certificados.getData', 'CertificadoController@getData')->name('certificados.getData');
-		Route::get('certificados/filterAgencia', 'CertificadoController@filterAgencia')->name('certificados.filterAgencia');
+		Route::resource('certificados', 'CertificadoController', ['except'=>['show']]);
+		Route::group(['prefix'=>'certificados', 'as'=>'certificados.'], function() {
+			Route::get('getData', 'CertificadoController@getData')->name('getData');
+			Route::get('trash', 'CertificadoController@index')->defaults('trash', true)->name('trash');
+			Route::get('filterAgencia', 'CertificadoController@filterAgencia')->name('filterAgencia');
+		});
 		//Route::delete('{OPER_id}/pendBorrar', 'OperadorController@cambiarEstado');
 		//Route::get('{OPER_id}/restore', 'OperadorController@restore');
 		//Route::delete('papelera/vaciar', 'OperadorController@vaciarPapelera');

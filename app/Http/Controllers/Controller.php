@@ -407,7 +407,7 @@ class Controller extends BaseController
 		],null,false);
 	}
 
-	protected function buttonDelete($model, $modelDescrip)
+	protected function buttonDelete($model, $modelDescrip, $force=false)
 	{
 		if(\Entrust::can([$this->nameClass.'-delete'])){
 			return \Form::button('<i class="fas fa-trash-alt fa-fw" aria-hidden="true"></i>',[
@@ -416,10 +416,28 @@ class Controller extends BaseController
 				'data-id'=> $model->getKey(),
 				'data-modelo'=> str_upperspace(class_basename($model)),
 				'data-descripcion'=> $model->$modelDescrip,
-				'data-action'=> route( $this->route.'.destroy', [ $model->getKeyName() => $model->getKey() ]),
+				'data-action'=> route( $this->route.'.destroy', [ $model->getKeyName() => $model->getKey() , 'force'=>$force]),
 				'data-target'=>'#pregModalDelete',
 				'data-tooltip'=>'tooltip',
 				'title'=>'Borrar',
+			]);
+		}
+		return '';
+	}
+
+	protected function buttonRestore($model, $modelDescrip)
+	{
+		if(\Entrust::can([$this->nameClass.'-restore'])){
+			return \Form::button('<i class="fas fa-undo-alt fa-fw" aria-hidden="true"></i>',[
+				'class'=>'btn btn-xs btn-warning btn-restore',
+				'data-toggle'=>'modal',
+				'data-id'=> $model->getKey(),
+				'data-modelo'=> str_upperspace(class_basename($model)),
+				'data-descripcion'=> $model->$modelDescrip,
+				'data-action'=> route( $this->route.'.restore', [ $model->getKeyName() => $model->getKey() ]),
+				'data-target'=>'#pregModalDelete',
+				'data-tooltip'=>'tooltip',
+				'title'=>'Restaurar',
 			]);
 		}
 		return '';

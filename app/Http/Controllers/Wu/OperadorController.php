@@ -24,10 +24,11 @@ class OperadorController extends Controller
 	 *
 	 * @return Response
 	 */
-	public function index()
+	public function index($trash=false)
 	{
-		return view($this->route.'.index');
+		return view($this->route.'.index', compact('trash'));
 	}
+
 
 	/**
 	 * Retorna json para Datatable.
@@ -36,6 +37,7 @@ class OperadorController extends Controller
 	 */
 	public function getData()
 	{
+		$trash = request()->get('trash') ? true : false;
 		$model = new $this->class;
 
 		$OPER_NOMBRECOMPLETO = expression_concat([
@@ -54,10 +56,19 @@ class OperadorController extends Controller
 					'ESTADOSOPERADORES.ESOP_DESCRIPCION',
 				]);
 
+		if($trash){
+			$query = $query->onlyTrashed();
+		}
+
 		return Datatables::eloquent($query)
-			->addColumn('action', function($row) use ($model) {
-				return parent::buttonEdit($row, $model).
-					parent::buttonDelete( $row, 'OPER_NOMBRECOMPLETO');
+			->addColumn('action', function($row) use ($model,$trash) {
+
+				if($trash){
+					return parent::buttonRestore($row, $model) . parent::buttonDelete( $row, 'OPER_NOMBRECOMPLETO', true);
+				} else {
+					return parent::buttonEdit($row, $model) . parent::buttonDelete( $row, 'OPER_NOMBRECOMPLETO');
+				}
+
 			}, false)
 			->filterColumn('OPER_NOMBRECOMPLETO', function($query, $keyword) {
 
