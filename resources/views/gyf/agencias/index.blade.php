@@ -32,7 +32,7 @@
 		<tbody></tbody>
 	</table>
 
-	@include('widgets.modals.modal-delete')
+	@include('widgets.modals.modal-withAction')
 	@include('widgets.datatable.datatable-ajax', ['urlAjax'=>route('gyf.agencias.getData'), 'columns'=>[
 		'AGEN_CODIGO',
 		'AGEN_NOMBRE',

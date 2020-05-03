@@ -51,7 +51,7 @@
 					{{ Form::token() }}
 					{{ Form::hidden('_method', 'DELETE') }}
 					{{ Form::hidden('nameModel', '') }}
-					{{ Form::button('<i class="fa fa-trash" aria-hidden="true"></i> SI ',[
+					{{ Form::button('<i class="fa fa-trash-alt" aria-hidden="true"></i> SI ',[
 						'class'=>'btn btn-xs btn-danger',
 						'type'=>'submit',
 						'data-toggle'=>'modal',

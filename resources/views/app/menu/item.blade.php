@@ -8,16 +8,19 @@
 			<i class="fas fa-edit" aria-hidden="true"></i>
 		</a>
 		<!-- carga botón de borrar -->
-		{{ Form::button('<i class="fas fa-trash" aria-hidden="true"></i>',[
-			'class'=>'btn btn-xs btn-danger btn-delete',
-			'data-toggle'=>'modal',
-			'data-id'=> $item['MENU_ID'],
-			'data-modelo'=> 'Menú',
+		{{ Form::button('<i class="fas fa-trash-alt" aria-hidden="true"></i>',[
+			'class'       =>'btn btn-xs btn-danger btn-delete',
+			'data-toggle' =>'modal',
+			'data-class'  =>'danger',
+			'data-id'     => $item['MENU_ID'],
+			'data-model'  => 'Menú',
 			'data-descripcion'=> $item['MENU_LABEL'],
-			'data-action'=> 'menu/'.$item['MENU_ID'],
-			'data-target'=>'#pregModalDelete',
+			'data-method' => 'DELETE',
+			'data-action' => 'menu/'.$item['MENU_ID'],
+			'data-target' =>'#pregModalAction',
 			'data-tooltip'=>'tooltip',
-			'title'=>'Borrar',
+			'data-title'  =>'Borrar',
 		])}}
 	</div>
 </div>
+

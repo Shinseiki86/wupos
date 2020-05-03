@@ -71,14 +71,16 @@
 	                {{ Form::button('<i class="fas fa-user-times" aria-hidden="true"></i>',[
 	                    'class'=>'btn btn-xs btn-danger btn-delete',
 	                    'data-toggle'=>'modal',
+						'data-class' =>'danger',
 						'name'=>'delete',
 						'data-id'=>$usuario->id,
-	                    'data-modelo'=> 'Usuario',
+	                    'data-model'=> 'Usuario',
 	                    'data-descripcion'=> $usuario->username,
+						'data-method' => 'DELETE',
 	                    'data-action'=>'usuarios/'.$usuario->id,
-	                    'data-target'=>'#pregModalDelete',
+	                    'data-target'=>'#pregModalAction',
 	                    'data-tooltip'=>'tooltip',
-	                    'title'=>'Borrar',
+	                    'data-title'  =>'Borrar',
 	                ])}}
 				</td>
 			</tr>
@@ -86,5 +88,5 @@
 		</tbody>
 	</table>
 
-	@include('widgets.modals.modal-delete')
+	@include('widgets.modals.modal-withAction')
 @endsection

@@ -34,6 +34,7 @@ class Controller extends BaseController
 			$this->middleware('permission:'.$this->nameClass.'-create', ['only' => ['create', 'store']]);
 			$this->middleware('permission:'.$this->nameClass.'-edit',   ['only' => ['edit', 'update']]);
 			$this->middleware('permission:'.$this->nameClass.'-delete', ['only' => ['destroy']]);
+			//$this->middleware('permission:'.$this->nameClass.'-restore', ['only' => ['restore','emptyTrash', 'trash']]);
 		}
 	}
 
@@ -335,31 +336,93 @@ class Controller extends BaseController
 	 * @param  string  $redirect
 	 * @return Response
 	 */
-	protected function destroyModel($id, $redirect=null)
+	protected function destroyModel($id, $softDelete=true, $redirect=null)
 	{
 		// Se obtiene el registro
 		$class = get_model($this->class);
-		$model = $class::findOrFail($id);
-
-		$prefix = strtoupper(substr($class::CREATED_AT, 0, 4));
-		$created_by = $prefix.'_CREADOPOR';
+		$model = $softDelete ? $class::findOrFail($id) : $class::onlyTrashed()->findOrFail($id);
 
 		$nameClass = str_upperspace(class_basename($model));
 
-		//Si el registro fue creado por SYSTEM, no se puede borrar.
-		if($model->$created_by == 'SYSTEM'){
-			flash_modal( $nameClass.' '.$id.' no se puede borrar (Creado por SYSTEM).', 'danger' );
-		} else {
+		if($softDelete){
+			$prefix = strtoupper(substr($class::CREATED_AT, 0, 4));
+			$created_by = $prefix.'_CREADOPOR';
 
-			$relations = $model->relationships('HasMany');
+			//Si el registro fue creado por SYSTEM, no se puede borrar.
+			if($model->$created_by == 'SYSTEM'){
+				flash_modal( $nameClass.' '.$id.' no se puede borrar (Creado por SYSTEM).', 'danger' );
+			} else {
 
-			if(!$this->validateRelations($nameClass, $relations)){
-				$model->delete();
-				flash_alert( $nameClass.' '.$id.' eliminado exitosamente.', 'success' );
+				$relations = $model->relationships('HasMany');
+
+				if(!$this->validateRelations($nameClass, $relations)){
+					$model->delete();
+					flash_alert( $nameClass.' '.$id.' eliminado exitosamente.', 'success' );
+				}
 			}
+		} else {
+			$model->forceDelete();
+			flash_alert( $nameClass.' '.$id.' fue eliminado del sistema exitosamente.', 'warning' );
 		}
-		return redirect()->route(isset($redirect) ? $redirect : $this->route.'.index')->send();
+
+		return redirect()->route(isset($redirect) ? $redirect : $this->route.($softDelete ? '.index' : '.trash'))->send();
 	}
+
+
+	/**
+	 * Elimina un registro en la base de datos.
+	 *
+	 * @param  int  $id
+	 * @return Response
+	 */
+	public function forceDelete($id, $showMsg=true){
+		return $this->destroyModel($id, false);
+	}
+	
+
+	/**
+	 * Elimina todos los registros borrados de la base de datos.
+	 *
+	 * @param  int  $OPER_ID
+	 * @return Response
+	 */
+	protected function emptyTrash($showMsg=true)
+	{
+		$class = get_model($this->class);
+		$models = $class::onlyTrashed();
+
+		$count = $models->get()->count();
+		$models->forceDelete();
+
+		// redirecciona al index de controlador
+		if($showMsg){
+			flash_alert( '¡'.$count.' registros de '.str_upperspace(class_basename($class)).' eliminados exitosamente!', 'success' );
+			return redirect()->back();
+		}
+	}
+
+
+	/**
+	 * Restaura un registro eliminado de la base de datos.
+	 *
+	 * @param  int  $id
+	 * @return Response
+	 */
+	protected function restore($id, $showMsg=True)
+	{
+		// Se obtiene el registro
+		$class = get_model($this->class);
+		$model = $class::onlyTrashed()->findOrFail($id);
+
+		$nameClass = str_upperspace(class_basename($class));
+
+		$model->restore();
+		//$model->history()->restore();
+		flash_alert($nameClass.' '.$id.' restaurado exitosamente!' , 'success' );
+		return redirect()->back();
+		//return redirect()->route(isset($redirect) ? $redirect : $this->route.'.index', ['trash'=>true])->send();
+	}
+
 
 	protected function validateRelations($nameClass, $relations)
 	{
@@ -407,19 +470,21 @@ class Controller extends BaseController
 		],null,false);
 	}
 
-	protected function buttonDelete($model, $modelDescrip, $force=false)
+	protected function buttonDelete($model, $modelDescrip, $softDelete=true)
 	{
 		if(\Entrust::can([$this->nameClass.'-delete'])){
 			return \Form::button('<i class="fas fa-trash-alt fa-fw" aria-hidden="true"></i>',[
-				'class'=>'btn btn-xs btn-danger btn-delete',
-				'data-toggle'=>'modal',
-				'data-id'=> $model->getKey(),
-				'data-modelo'=> str_upperspace(class_basename($model)),
+				'class'       =>'btn btn-xs btn-danger btn-delete',
+				'data-toggle' =>'modal',
+				'data-class'  =>'danger',
+				'data-id'     => $model->getKey(),
+				'data-model'  => str_upperspace(class_basename($model)),
 				'data-descripcion'=> $model->$modelDescrip,
-				'data-action'=> route( $this->route.'.destroy', [ $model->getKeyName() => $model->getKey() , 'force'=>$force]),
-				'data-target'=>'#pregModalDelete',
+				'data-method' => 'DELETE',
+				'data-action' => route( $this->route.($softDelete ? '.destroy' : '.forceDelete'), [ $model->getKeyName() => $model->getKey() ]),
+				'data-target' =>'#pregModalAction',
 				'data-tooltip'=>'tooltip',
-				'title'=>'Borrar',
+				'data-title'  =>'Borrar',
 			]);
 		}
 		return '';
@@ -429,15 +494,17 @@ class Controller extends BaseController
 	{
 		if(\Entrust::can([$this->nameClass.'-restore'])){
 			return \Form::button('<i class="fas fa-undo-alt fa-fw" aria-hidden="true"></i>',[
-				'class'=>'btn btn-xs btn-warning btn-restore',
-				'data-toggle'=>'modal',
-				'data-id'=> $model->getKey(),
-				'data-modelo'=> str_upperspace(class_basename($model)),
+				'class'       =>'btn btn-xs btn-warning btn-restore',
+				'data-toggle' =>'modal',
+				'data-class'  =>'warning',
+				'data-id'     => $model->getKey(),
+				'data-model'  => str_upperspace(class_basename($model)),
 				'data-descripcion'=> $model->$modelDescrip,
-				'data-action'=> route( $this->route.'.restore', [ $model->getKeyName() => $model->getKey() ]),
-				'data-target'=>'#pregModalDelete',
+				'data-method' => 'PUT',
+				'data-action' => route( $this->route.'.restore', [ $model->getKeyName() => $model->getKey() ]),
+				'data-target' =>'#pregModalAction',
 				'data-tooltip'=>'tooltip',
-				'title'=>'Restaurar',
+				'data-title'  =>'Restaurar',
 			]);
 		}
 		return '';

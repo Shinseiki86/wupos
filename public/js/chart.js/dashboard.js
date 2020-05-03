@@ -43,6 +43,7 @@ function newChart($route, $title, $nameX, $nameY, $idCanvas, $type){
 			console.log('Error ajax: '+$e);
 		}
 	});
+	$('#type_'+$idCanvas).val($type).removeAttr('disabled');
 }
 
 function buildChart($title, $labels, $data, $colors, $idCanvas, $type){
@@ -194,14 +195,39 @@ var drawLabelPie = function (obj) {
 //Retorna json con las opcines para construir el gráfico según el tipo.
 var getOptionsChart = function ($type) {
 	switch($type){
-		case 'bar':
+		case 'line':
 			return {
 				animation: {
-					duration: 0,
+					/*duration: 0,*/
 					onComplete: function () {
 						// render the value of the chart above the bar
 						var ctx = this.chart.ctx;
-						Chart.helpers.fontString(Chart.defaults.global.defaultFontSize, 'normal', Chart.defaults.global.defaultFontFamily);
+						ctx.fillStyle = this.chart.config.options.defaultFontColor;
+						ctx.textAlign = 'center';
+						ctx.textBaseline = 'bottom';
+						this.data.datasets.forEach(function (dataset) {
+							drawLabelBar(ctx, dataset);
+						});
+					}
+				},
+				maintainAspectRatio: false,
+				responsive: true,
+				title: {
+					display: true,
+					fontSize: 20,
+					padding: 30
+				},
+				legend: {display: false}
+			};
+		break;
+
+		case 'bar':
+			return {
+				animation: {
+					/*duration: 0,*/
+					onComplete: function () {
+						// render the value of the chart above the bar
+						var ctx = this.chart.ctx;
 						ctx.fillStyle = this.chart.config.options.defaultFontColor;
 						ctx.textAlign = 'center';
 						ctx.textBaseline = 'bottom';
@@ -245,7 +271,7 @@ var getOptionsChart = function ($type) {
 					labels: {fontSize: 16}
 				},
 				animation: {
-					duration: 0,
+					/*duration: 0,*/
 					onComplete: function(){ drawLabelPie(this); }
 				}
 			};
@@ -259,6 +285,7 @@ var getChartData = function ($labels, $data, $colors, $idCanvas, $type){
 	var $datasets = [];
 	window.chartData[$idCanvas] = [];
 
+	//Json para barras
 	$labels.forEach(function ($label, $index) {
 		$colors.push(getColor($index));
 		$datasets.push( {
@@ -272,8 +299,21 @@ var getChartData = function ($labels, $data, $colors, $idCanvas, $type){
 		labels:  [''],
 		datasets: $datasets
 	};
-	
 
+	//Json para lineas
+	window.chartData[$idCanvas]['line'] = {
+		labels: $labels,
+		datasets: [{
+			label: 'Registros',
+			fill: false,
+			borderColor:     $colors,
+			backgroundColor: $colors,
+			data: $data,
+		}]
+	};
+
+
+	//Json para torta
 	if($colors.length === 0){
 		$labels.forEach(function ($label, $index) {
 			$colors.push(getColor($index));
@@ -294,7 +334,8 @@ var getChartData = function ($labels, $data, $colors, $idCanvas, $type){
 //Muestra mensaje cuando no hay datos para construir el gráfico.
 Chart.plugins.register({
 	afterDraw: function(chart) {
-		if (chart.data.datasets[0].data.length === 0) {
+		//console.log(chart.chart.canvas.id);
+		if (chart.data.datasets.length === 0 || chart.data.datasets[0].data.length === 0) {
 			// No data is present
 			var ctx = chart.chart.ctx;
 			var width = chart.chart.width;

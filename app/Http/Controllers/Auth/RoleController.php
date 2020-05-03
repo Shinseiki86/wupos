@@ -109,7 +109,7 @@ class RoleController extends Controller
 	 */
 	public function getUsuariosPorRol()
 	{
-		$data = Role::join('role_user', 'role_user.user_id', '=', 'roles.id')
+		$data = Role::join('role_user', 'role_user.role_id', '=', 'roles.id')
 			->select([
 				'display_name as Rol',
 				\DB::raw('COUNT("user_id") as count')

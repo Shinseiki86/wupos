@@ -49,7 +49,7 @@
 		<?php $nameModel = class_basename($collect->first()); ?>
 		<div role="tabpanel" class="tab-pane" id="{{$nameModel}}">
 			<!-- botón de eliminar registros -->
-			{{ Form::button('<i class="fa fa-trash" aria-hidden="true"></i> Vaciar <span class="hidden-xs">Tabla</span>',[
+			{{ Form::button('<i class="fa fa-trash-alt" aria-hidden="true"></i> Vaciar <span class="hidden-xs">Tabla</span>',[
 					'class'=>'btn btn-danger',
 					'data-toggle'=>'modal',
 					'data-modelo'=> $nameModel,

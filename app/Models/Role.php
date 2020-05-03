@@ -29,9 +29,6 @@ class Role extends EntrustRole implements AuditableContract
 	//Constantes para referenciar los roles primarios
 	const OWNER 	= 1;
 	const ADMIN 	= 2;
-	const EDITOR	= 3;
-	const DOCENTE	= 4;
-	const ESTUDIANTE= 5;
 
 	public static function rules($id = 0){
 		return [

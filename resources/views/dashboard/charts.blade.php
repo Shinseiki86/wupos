@@ -12,10 +12,43 @@
 	</div>
 @endsection
 
+
+@php 
+	$charts = [[
+		'title' => 'Usuarios x Rol',
+		'chart' =>[
+			'url'   => 'getDashboardUsuariosPorRol',
+			'title' =>'Usuarios activos por rol',
+			'columnX' =>'Rol',
+			'columnY' =>'count',
+			'type' =>'pie',
+		]],[
+		'title'    => 'Certificados x Regional',
+		'column'   => 'col-xs-12 col-sd-12 col-lg-8',
+		'chart' =>[
+			'url'      => 'wu/getCertificadosPorRegional',
+			'title' =>'Certificados por Regional',
+			'columnX' =>'Regional',
+			'columnY' =>'count',
+			'type' =>'bar',
+		]],[
+		'title'    => 'Operadores x Regional',
+		'column'   => 'col-xs-12 col-sd-12 col-lg-12',
+		'chart' =>[
+			'url'      => 'wu/getOperadoresPorRegional',
+			'title' =>'Operadores por Regional',
+			'columnX' =>'Regional',
+			'columnY' =>'count',
+			'type' =>'bar',
+		]]
+	];
+@endphp
+
+
 @section('section')
-
-	@include('widgets.charts.panelchart', ['idCanvas' => 'chart1', 'title' => 'Usuarios x Rol' ])
-
+	@foreach($charts as $i => $chart)
+		@include('widgets.charts.panelchart', $chart+['id'=>$i+1])
+	@endforeach
 @endsection
 
 @push('scripts')
@@ -25,16 +58,8 @@
 	<script type="text/javascript">
 		$(function () {
 
-			//función newChart para crear gráfico en los panelchart.
-			newChart(
-				'getDashboardUsuariosPorRol',
-				'Usuarios x Rol',
-				'Rol',
-				'count',
-				'chart1',
-				'bar'
-			);
-
+			//funciones newChart para crear gráfico en los panelchart.
+			@stack('jsDashboard')
 
 			//Se habilitan selectores para cambiar el tipo de gráfico
 			$('.typeChart').removeClass('disabled');

@@ -54,23 +54,25 @@
 					</a>
 
 					<!-- carga botón de borrar -->
-					{{ Form::button('<i class="fas fa-trash" aria-hidden="true"></i>',[
+					{{ Form::button('<i class="fas fa-trash-alt" aria-hidden="true"></i>',[
 						'class'=>'btn btn-xs btn-danger btn-delete',
-						'data-toggle'=>'modal',
-						'data-id'=> $rol->id,
-						'data-modelo'=> 'Rol',
+						'data-toggle' =>'modal',
+						'data-class'  =>'danger',
+						'data-id'     => $rol->id,
+						'data-model'  => 'Rol',
 						'data-descripcion'=> $rol->display_name,
-						'data-action'=> 'roles/'.$rol->id,
-						'data-target'=>'#pregModalDelete',
+						'data-method' => 'DELETE',
+						'data-action' => 'roles/'.$rol->id,
+						'data-target' =>'#pregModalAction',
 						'data-tooltip'=>'tooltip',
-						'title'=>'Borrar',
+						'data-title'  =>'Borrar',
 					])}}
-
+					
 				</td>
 			</tr>
 			@endforeach
 		</tbody>
 	</table>
 
-	@include('widgets.modals.modal-delete')
+	@include('widgets.modals.modal-withAction')
 @endsection

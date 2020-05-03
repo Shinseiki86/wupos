@@ -24,7 +24,7 @@
 	});
 
 	//Dashboard
-	Route::get('getDashboardUsuariosPorRol', 'Auth\RoleController@getUsuariosPorRol');
+	Route::get('getDashboardUsuariosPorRol', 'Auth\RoleController@getUsuariosPorRol')->name('dashboard.users.role');
 
 
 	//Página principal. Si el usuario es admin, se muestra el dashboard.
@@ -74,22 +74,34 @@
 		Route::resource('operadores', 'OperadorController', ['parameters'=>['operadores'=>'operador'], 'except'=>['show']]);
 		Route::group(['prefix'=>'operadores', 'as'=>'operadores.'], function() {
 			Route::get('getData', 'OperadorController@getData')->name('getData');
-			Route::get('trash', 'OperadorController@index')->defaults('trash', true)->name('trash');
-			Route::put('trash/{operador}', 'OperadorController@restore')->name('restore');
-			Route::delete('trash/{operador}', 'OperadorController@delete')->name('delete');
-			Route::post('trash', 'OperadorController@emptyTrash')->name('emptyTrash');
+
+			Route::put('restore/{operador}', 'OperadorController@restore')->name('restore');
+			Route::group(['prefix'=>'trash', 'middleware'=>['permission:operador-restore']], function() {	
+				Route::get('/', 'OperadorController@index')->defaults('trash', true)->name('trash');
+				Route::delete('/{operador}', 'OperadorController@forceDelete')->name('forceDelete');
+				Route::post('/', 'OperadorController@emptyTrash')->name('emptyTrash');
+			});
 		});
 
 		Route::resource('certificados', 'CertificadoController', ['except'=>['show']]);
 		Route::group(['prefix'=>'certificados', 'as'=>'certificados.'], function() {
 			Route::get('getData', 'CertificadoController@getData')->name('getData');
-			Route::get('trash', 'CertificadoController@index')->defaults('trash', true)->name('trash');
 			Route::get('filterAgencia', 'CertificadoController@filterAgencia')->name('filterAgencia');
+
+			Route::put('restore/{certificado}', 'CertificadoController@restore')->name('restore');
+			Route::group(['prefix'=>'trash', 'middleware'=>['permission:certificado-restore']], function() {	
+				Route::get('/', 'CertificadoController@index')->defaults('trash', true)->name('trash');
+				Route::delete('/{certificado}', 'CertificadoController@forceDelete')->name('forceDelete');
+				Route::post('/', 'CertificadoController@emptyTrash')->name('emptyTrash');
+			});
+
 		});
-		//Route::delete('{OPER_id}/pendBorrar', 'OperadorController@cambiarEstado');
-		//Route::get('{OPER_id}/restore', 'OperadorController@restore');
-		//Route::delete('papelera/vaciar', 'OperadorController@vaciarPapelera');
-		//Route::get('papelera', 'OperadorController@indexOnlyTrashed')->name('trash');
+
+		//Dashboard
+		Route::get('getOperadoresPorRegional', 'OperadorController@getOperadoresPorRegional')->name('dashboard.operadores.regional');
+		Route::get('getCertificadosPorRegional', 'CertificadoController@getCertificadosPorRegional')->name('dashboard.certificados.regional');
+
+
 		//Route::post('createFromAjax', 'OperadorController@createFromAjax')->name('createFromAjax');
 		//Route::get('export/{ESOP_id}','ExportarInfoController@exportOperadores');
 

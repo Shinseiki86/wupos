@@ -43,16 +43,18 @@
 					</a>
 
 					<!-- carga botón de borrar -->
-					{{ Form::button('<i class="fas fa-trash" aria-hidden="true"></i>',[
+					{{ Form::button('<i class="fas fa-trash-alt" aria-hidden="true"></i>',[
 						'class'=>'btn btn-xs btn-danger btn-delete',
 						'data-toggle'=>'modal',
+						'data-class' =>'danger',
 						'data-id'=> $parametrogeneral->PGLO_ID,
 						'data-modelo'=> str_upperspace(class_basename($parametrogeneral)),
 						'data-descripcion'=> $parametrogeneral->PGLO_DESCRIPCION,
+						'data-method' => 'DELETE',
 						'data-action'=>'parametrosgenerales/'. $parametrogeneral->PGLO_ID,
-						'data-target'=>'#pregModalDelete',
+						'data-target'=>'#pregModalAction',
 						'data-tooltip'=>'tooltip',
-						'title'=>'Borrar',
+						'data-title'  =>'Borrar',
 					])}}
 				</td>
 			</tr>
@@ -60,5 +62,5 @@
 		</tbody>
 	</table>
 
-	@include('widgets.modals.modal-delete')
+	@include('widgets.modals.modal-withAction')
 @endsection

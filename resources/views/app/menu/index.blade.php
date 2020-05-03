@@ -51,5 +51,5 @@
 		</div>
 	</div>
 
-	@include('widgets.modals.modal-delete')
+	@include('widgets.modals.modal-withAction')
 @endsection

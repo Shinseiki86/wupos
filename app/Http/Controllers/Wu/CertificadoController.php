@@ -24,9 +24,9 @@ class CertificadoController extends Controller
 	 *
 	 * @return Response
 	 */
-	public function index()
+	public function index($trash=false)
 	{
-		return view($this->route.'.index');
+		return view($this->route.'.index', compact('trash'));
 	}
 
 	/**
@@ -36,7 +36,9 @@ class CertificadoController extends Controller
 	 */
 	public function getData()
 	{
+		$trash = request()->get('trash') ? true : false;
 		$model = new $this->class;
+
 		$query = Certificado::join('AGENCIAS', 'AGENCIAS.AGEN_ID', '=', 'CERTIFICADOS.AGEN_ID')
 						->join('REGIONALES', 'REGIONALES.REGI_ID', '=', 'AGENCIAS.REGI_ID')
 				->select([
@@ -52,13 +54,20 @@ class CertificadoController extends Controller
 					'CERT_FECHACREADO',
 					'CERT_MODIFICADOPOR',
 					'CERT_FECHAMODIFICADO',
+					'CERT_ELIMINADOPOR',
+					'CERT_FECHAELIMINADO',
 				]);
 
+		if($trash){
+			$query = $query->onlyTrashed();
+		}
+
 		return Datatables::eloquent($query)
-			->addColumn('action', function($row) use ($model) {
-				return parent::buttonEdit($row, $model).
-					parent::buttonDelete($row, 'CERT_CODIGO');
-			}, false)->make(true);
+			->addColumn('action', function($row) use ($model,$trash) {
+				return ( $trash ? parent::buttonRestore($row, $model) :  parent::buttonEdit($row, $model) ) .
+						parent::buttonDelete( $row, 'CERT_CODIGO', !$trash);
+			}, false)
+			->make(true);
 	}
 
 
@@ -133,11 +142,29 @@ class CertificadoController extends Controller
 		parent::destroyModel($CERT_ID);
 	}
 
-
-
 	public function filterAgencia(){
 		$regional = Regional::findOrFail(request()->get('id'));
-
 		return response()->json($regional->agencias);
+	}
+
+
+	/**
+	 * Dashboard: Cantidad de certificados activos por Regional.
+	 *
+	 * @return json
+	 */
+	public function getCertificadosPorRegional()
+	{
+		$data = Certificado::join('AGENCIAS', 'AGENCIAS.AGEN_ID', '=', 'CERTIFICADOS.AGEN_ID')
+						->join('REGIONALES', 'REGIONALES.REGI_ID', '=', 'AGENCIAS.REGI_ID')
+						//->where('AGEN_ACTIVA', true)
+						->select([
+							'REGI_NOMBRE as Regional',
+							\DB::raw('COUNT(1) as count')
+						])
+						->groupBy('REGI_NOMBRE')
+						->orderBy('count', 'desc')
+						->get();
+		return $data->toJson();
 	}
 }

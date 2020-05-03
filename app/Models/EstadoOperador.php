@@ -21,7 +21,7 @@ class EstadoOperador extends ModelWithSoftDeletes
     const PEND_CREAR    = 1;
     const CREADO        = 2;
     const PEND_ELIMINAR = 3;
-    const ELIMINADO     = 4;
+    //const ELIMINADO     = 4;
 
 	protected $fillable = [
 		'ESOP_DESCRIPCION',

@@ -29,7 +29,7 @@
 		<tbody></tbody>
 	</table>
 
-	@include('widgets.modals.modal-delete')
+	@include('widgets.modals.modal-withAction')
 	@include('widgets.datatable.datatable-ajax', ['urlAjax'=>route('gyf.regionales.getData'), 'columns'=>[
 			'REGI_CODIGO',
 			'REGI_NOMBRE',

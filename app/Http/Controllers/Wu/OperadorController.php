@@ -54,6 +54,12 @@ class OperadorController extends Controller
 					$OPER_NOMBRECOMPLETO,
 					'REGIONALES.REGI_NOMBRE',
 					'ESTADOSOPERADORES.ESOP_DESCRIPCION',
+					'OPER_CREADOPOR',
+					'OPER_FECHACREADO',
+					'OPER_MODIFICADOPOR',
+					'OPER_FECHAMODIFICADO',
+					'OPER_ELIMINADOPOR',
+					'OPER_FECHAELIMINADO',
 				]);
 
 		if($trash){
@@ -62,13 +68,8 @@ class OperadorController extends Controller
 
 		return Datatables::eloquent($query)
 			->addColumn('action', function($row) use ($model,$trash) {
-
-				if($trash){
-					return parent::buttonRestore($row, $model) . parent::buttonDelete( $row, 'OPER_NOMBRECOMPLETO', true);
-				} else {
-					return parent::buttonEdit($row, $model) . parent::buttonDelete( $row, 'OPER_NOMBRECOMPLETO');
-				}
-
+				return ( $trash ? parent::buttonRestore($row, $model) :  parent::buttonEdit($row, $model) ) .
+						parent::buttonDelete( $row, 'OPER_NOMBRECOMPLETO', !$trash);
 			}, false)
 			->filterColumn('OPER_NOMBRECOMPLETO', function($query, $keyword) {
 
@@ -77,9 +78,9 @@ class OperadorController extends Controller
 					'OPER_APELLIDO'
 				], null, 'OPERADORES');
 
-                $sql = $OPER_NOMBRECOMPLETO." like ?";
-                $query->whereRaw($sql, ["%{$keyword}%"]);
-            })
+				$sql = $OPER_NOMBRECOMPLETO." like ?";
+				$query->whereRaw($sql, ["%{$keyword}%"]);
+			})
 			->make(true);
 	}
 
@@ -186,6 +187,24 @@ class OperadorController extends Controller
 	}
 
 
-
+	/**
+	 * Dashboard: Cantidad de operadores activos por Regional.
+	 *
+	 * @return json
+	 */
+	public function getOperadoresPorRegional()
+	{
+		$data = Operador::join('REGIONALES', 'REGIONALES.REGI_ID', '=', 'OPERADORES.REGI_ID')
+						//->join('ESTADOSOPERADORES', 'ESTADOSOPERADORES.ESOP_ID', '=', 'OPERADORES.ESOP_ID')
+						->where('ESOP_ID', EstadoOperador::CREADO)
+						->select([
+							'REGI_NOMBRE as Regional',
+							\DB::raw('COUNT(1) as count')
+						])
+						->groupBy('REGI_NOMBRE')
+						->orderBy('count', 'desc')
+						->get();
+		return $data->toJson();
+	}
 
 }
