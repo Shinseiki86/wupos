@@ -9,7 +9,7 @@ $(document).ready(function(){
 			if(oldhtml){
 				var text = notFilter ? 'Buscar '+oldhtml : oldhtml;
 				var notFilter = $(this).hasClass('notFilter');
-				return '<input type="text" class="form-control input-sm" style="width:98%" title="'+text+'" placeholder="'+text+'" '+(notFilter?'disabled':'')+' />';
+				return '<input type="search" class="form-control input-sm" style="width:98%" title="'+text+'" placeholder="'+text+'" '+(notFilter?'disabled':'')+' />';
 			}
 		})
 		.css('padding','8px 0px');
@@ -17,5 +17,6 @@ $(document).ready(function(){
 	$('#tabla').append(
 		$('<tfoot/>').append( tfoot )
 	)
+
 });
 </script>

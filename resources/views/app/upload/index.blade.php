@@ -3,7 +3,7 @@
 
 @section('page_heading')
 	<div class="row">
-		<div id="titulo" class="col-xs-8 col-md-6 col-lg-6">
+		<div id="title" class="col-xs-8 col-md-6 col-lg-6">
 			Carga masiva de datos
 		</div>
 	</div>
