@@ -2,8 +2,7 @@
 
 use Illuminate\Database\Seeder;
 
-use App\Models\PreguntaTipo;
-use App\Models\EncuestaEstado;
+use App\Models\EstadoOperador;
 
 class TiposEstadosTableSeeder extends Seeder
 {
@@ -17,19 +16,17 @@ class TiposEstadosTableSeeder extends Seeder
 		$this->command->info('---Tipos y estados iniciales');
 
 
-		/*$this->command->info('------ preg_tipos');
-		$preg_tipos = [
-			'Abierta',
-			'SI/NO',
-			'Escala',
-			'Elección única',
-			'Elección múltiple',
+		$this->command->info('------ EstadoOperador');
+		$estadosOperador = [
+			'ACTIVO',
+			'INACTIVO',
 		];
-		foreach($preg_tipos as $tipo){
-			PreguntaTipo::create([
-				'PRTI_DESCRIPCION' => $tipo
+		foreach($estadosOperador as $estado){
+			EstadoOperador::create([
+				'ESOP_DESCRIPCION' => $estado,
+				'ESOP_CREADOPOR' => 'INIT',
 			]);
-		}*/
+		}
 
 
 	}

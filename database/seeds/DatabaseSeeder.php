@@ -19,11 +19,6 @@ class DatabaseSeeder extends Seeder
 
         $this->call(TiposEstadosTableSeeder::class);
 
-        // // ** pruebas **
-        //$this->call(EncuestasTableSeeder::class);
-        // $this->call(EncuestaCalidadUniajcSeeder::class);
-        // $this->call(EncuestaDocenteSeeder::class);
-
 
         $this->command->info('---FIN');
     }
