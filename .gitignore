@@ -1,5 +1,6 @@
 vendor/
 node_modules/
+storage/debugbar/
 
 # Laravel 4 specific
 bootstrap/compiled.php

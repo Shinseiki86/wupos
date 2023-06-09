@@ -19,11 +19,11 @@
 	<table class="table table-striped table-condensed">
 		<thead>
 			<tr>
-				<th class="col-md-1">ID</th>
-				<th class="col-md-1">Código</th>
-				<th class="col-md-6">Nombre</th>
-				<th class="col-md-2">Agencias</th>
-				<th class="col-md-2">Acciones</th>
+				<th class="col-xs-1">ID</th>
+				<th class="col-xs-1">Código</th>
+				<th class="col-xs-6">Nombre</th>
+				<th class="col-xs-2">Agencias</th>
+				<th class="col-xs-1 notFilter all">Acciones</th>
 			</tr>
 		</thead>
 		<tbody>

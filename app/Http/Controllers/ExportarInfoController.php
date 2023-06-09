@@ -108,6 +108,7 @@ class ExportarInfoController extends Controller {
 			$excel->sheet('Operadores', function($sheet) {
 
 				$columnas = [
+					'OPER_id',
 					'AGEN_cuentawu',
 					'OPER_codigo',
 					'OPER_cedula',
@@ -133,30 +134,37 @@ class ExportarInfoController extends Controller {
 							->where('AGENCIAS.AGEN_cuentawu', '!=', null)
 							->orderBy('REGI_nombre')
 							->orderBy('OPER_codigo')
-							->orderBy('AGEN_cuentawu');
+							->orderBy('AGEN_cuentawu')
+							->whereNull('OPER_fechaeliminado')
+							->get($columnas);
 
-				$sheet->fromArray($operExport->get($columnas)->toArray());
+				if($operExport->count()==0){
+					$msg = $this->ESOP_id == EstadoOperador::PEND_CREAR ? 'crear' : 'eliminar';
+					flash_alert( '¡No hay registros pendientes por '.$msg.'!', 'danger' );
+					return redirect()->back()->send();
+				}
+
+				$operArray = $operExport->map(function ($operador) {
+				    return collect($operador)->except('OPER_id')->toArray();
+				})->all();
+				$sheet->fromArray($operArray);
 				$sheet->freezeFirstRow();
 				$sheet->setAutoFilter();
 
 				if($this->cambiar_estado){
-					$operadores = Operador::where('OPERADORES.ESOP_id', $this->ESOP_id);
-					switch ($this->ESOP_id) {
-						case EstadoOperador::PEND_CREAR:
-							$operadores->update( ['ESOP_id' => EstadoOperador::CREADO] );
-							break;
-						case EstadoOperador::PEND_ELIMINAR:
-							foreach($operadores->get() as $operador){
-								$operador->delete();
-							}
-							break;
+					foreach($operExport as $operador){
+						if($this->ESOP_id == EstadoOperador::PEND_CREAR){
+							$operador->update( ['ESOP_id' => EstadoOperador::CREADO] );
+						} else if($this->ESOP_id == EstadoOperador::PEND_ELIMINAR){
+							$operador->delete();
+						}
 					}
 				}
 			});
 		})->export($ext);
 
-		flash_alert( '¡Datos exportados exitosamente!', 'success' );
-		return redirect()->refresh()->with('error_code', 1)->send();
+		//flash_alert( '¡Datos exportados exitosamente!', 'success' );
+		//return redirect()->refresh()->with('error_code', 1)->send();
 	}
 
 

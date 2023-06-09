@@ -34,7 +34,7 @@
 			<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
 			<strong>
 				<i class="fa fa-exclamation-circle fa-2x fa-pull-left" aria-hidden="true"></i>
-				{{ Session::get('alert-warning') }}
+				{{ Session::get('alert-danger') }}
 			</strong>
 		</div>
 	@endif

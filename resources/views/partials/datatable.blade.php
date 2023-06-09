@@ -23,7 +23,7 @@
 			//rowReorder: {selector: 'td:nth-child(2)'},
 			rowReorder: false,
 			aaSorting: [],
-			responsive: true,
+			//responsive: true,
 			select: false,
 			stateSave: false,
 			language: {

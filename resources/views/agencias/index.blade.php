@@ -18,11 +18,11 @@
 	<table id="tbIndex" class="table table-striped table-condensed">
 		<thead>
 			<tr>
-				<th>Código</th>
-				<th>Nombre</th>
-				<th>Regional</th>
-				<th>Cuenta WU</th>
-				<th class="notFilter">Acciones</th>
+				<th class="col-xs-1">Código</th>
+				<th class="col-xs-4">Nombre</th>
+				<th class="col-xs-4">Regional</th>
+				<th class="col-xs-2">Cuenta WU</th>
+				<th class="col-xs-1 notFilter all">Acciones</th>
 			</tr>
 		</thead>
 		<tbody>
