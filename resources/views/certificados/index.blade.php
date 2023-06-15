@@ -110,11 +110,10 @@
 
 <div ng-app="appWupos" ng-controller="CertificadosCtrl">
 	<h1 class="row page-header">
-		<div class="col-xs-12 col-sm-3">
+		<span id="titulo">
 			Certificados {{$papelera ? 'Eliminados' : ''}}
-		</div>
-
-		<div class="col-xs-12 col-sm-9 text-right">
+		</span>
+		<span id="btns-top" class="pull-right">
 			<div role="form" class="form form-inline">
 				<div class="input-group has-feedback">
 					<input type="text"
@@ -132,7 +131,7 @@
 				</div>
 				@include('certificados/index-Btns')
 			</div>
-		</div>
+		</span>
 	</h1>
 
 	@include('certificados/index-modalExport')

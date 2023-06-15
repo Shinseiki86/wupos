@@ -22,11 +22,10 @@
 <div ng-app="appWupos" ng-controller="OperadoresCtrl">
 
 	<h1 class="row page-header">
-		<div class="col-xs-12 col-sm-3">
+		<span id="titulo">
 			Operadores {{$papelera ? 'Eliminados' : ''}}
-		</div>
-
-		<div class="col-xs-12 col-sm-9 text-right">
+		</span>
+		<span id="btns-top" class="pull-right">
 			<div role="form" class="form form-inline">
 				<div class="input-group has-feedback">
 					<input type="text"
@@ -38,7 +37,7 @@
 				</div>
 				@include('operadores/index-Btns')
 			</div>
-		</div>
+		</span>
 	</h1>
 
 	@include('operadores/index-collapseFormFilters')
